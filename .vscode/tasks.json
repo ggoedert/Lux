@@ -1,0 +1,385 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Clean Engine Apple2 Debug",
+            "type": "shell",
+            "command": "make TARGET=Apple2 CONFIG=Debug clean",
+            "options": {
+                "cwd": "${workspaceRoot}/Engine"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Engine Apple2 Debug",
+            "type": "shell",
+            "command": "make TARGET=Apple2 CONFIG=Debug",
+            "options": {
+                "cwd": "${workspaceRoot}/Engine"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Rebuild Engine Apple2 Debug",
+            "type": "shell",
+            "command": "make TARGET=Apple2 CONFIG=Debug clean all",
+            "options": {
+                "cwd": "${workspaceRoot}/Engine"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean Engine Apple2 Size",
+            "type": "shell",
+            "command": "make TARGET=Apple2 CONFIG=Size clean",
+            "options": {
+                "cwd": "${workspaceRoot}/Engine"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Engine Apple2 Size",
+            "type": "shell",
+            "command": "make TARGET=Apple2 CONFIG=Size",
+            "options": {
+                "cwd": "${workspaceRoot}/Engine"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Rebuild Engine Apple2 Size",
+            "type": "shell",
+            "command": "make TARGET=Apple2 CONFIG=Size clean all",
+            "options": {
+                "cwd": "${workspaceRoot}/Engine"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean Engine Apple2 Speed",
+            "type": "shell",
+            "command": "make TARGET=Apple2 CONFIG=Speed clean",
+            "options": {
+                "cwd": "${workspaceRoot}/Engine"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Engine Apple2 Speed",
+            "type": "shell",
+            "command": "make TARGET=Apple2 CONFIG=Speed",
+            "options": {
+                "cwd": "${workspaceRoot}/Engine"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Rebuild Engine Apple2 Speed",
+            "type": "shell",
+            "command": "make TARGET=Apple2 CONFIG=Speed clean all",
+            "options": {
+                "cwd": "${workspaceRoot}/Engine"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean Engine Apple2e Debug",
+            "type": "shell",
+            "command": "make TARGET=Apple2e CONFIG=Debug clean",
+            "options": {
+                "cwd": "${workspaceRoot}/Engine"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Engine Apple2e Debug",
+            "type": "shell",
+            "command": "make TARGET=Apple2e CONFIG=Debug",
+            "options": {
+                "cwd": "${workspaceRoot}/Engine"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Rebuild Engine Apple2e Debug",
+            "type": "shell",
+            "command": "make TARGET=Apple2e CONFIG=Debug clean all",
+            "options": {
+                "cwd": "${workspaceRoot}/Engine"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean Engine Apple2e Size",
+            "type": "shell",
+            "command": "make TARGET=Apple2e CONFIG=Size clean",
+            "options": {
+                "cwd": "${workspaceRoot}/Engine"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Engine Apple2e Size",
+            "type": "shell",
+            "command": "make TARGET=Apple2e CONFIG=Size",
+            "options": {
+                "cwd": "${workspaceRoot}/Engine"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Rebuild Engine Apple2e Size",
+            "type": "shell",
+            "command": "make TARGET=Apple2e CONFIG=Size clean all",
+            "options": {
+                "cwd": "${workspaceRoot}/Engine"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean Engine Apple2e Speed",
+            "type": "shell",
+            "command": "make TARGET=Apple2e CONFIG=Speed clean",
+            "options": {
+                "cwd": "${workspaceRoot}/Engine"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Engine Apple2e Speed",
+            "type": "shell",
+            "command": "make TARGET=Apple2e CONFIG=Speed",
+            "options": {
+                "cwd": "${workspaceRoot}/Engine"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Rebuild Engine Apple2e Speed",
+            "type": "shell",
+            "command": "make TARGET=Apple2e CONFIG=Speed clean all",
+            "options": {
+                "cwd": "${workspaceRoot}/Engine"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean Test Apple2 Debug",
+            "type": "shell",
+            "command": "make TARGET=Apple2 CONFIG=Debug clean",
+            "options": {
+                "cwd": "${workspaceRoot}/Test"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Test Apple2 Debug",
+            "type": "shell",
+            "command": "make TARGET=Apple2 CONFIG=Debug",
+            "options": {
+                "cwd": "${workspaceRoot}/Test"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Rebuild Test Apple2 Debug",
+            "type": "shell",
+            "command": "make TARGET=Apple2 CONFIG=Debug clean all",
+            "options": {
+                "cwd": "${workspaceRoot}/Test"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Test Apple2 Debug",
+            "type": "shell",
+            "command": "make TARGET=Apple2 CONFIG=Debug run",
+            "options": {
+                "cwd": "${workspaceRoot}/Test"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean Test Apple2 Size",
+            "type": "shell",
+            "command": "make TARGET=Apple2 CONFIG=Size clean",
+            "options": {
+                "cwd": "${workspaceRoot}/Test"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Test Apple2 Size",
+            "type": "shell",
+            "command": "make TARGET=Apple2 CONFIG=Size",
+            "options": {
+                "cwd": "${workspaceRoot}/Test"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Rebuild Test Apple2 Size",
+            "type": "shell",
+            "command": "make TARGET=Apple2 CONFIG=Size clean all",
+            "options": {
+                "cwd": "${workspaceRoot}/Test"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Test Apple2 Size",
+            "type": "shell",
+            "command": "make TARGET=Apple2 CONFIG=Size run",
+            "options": {
+                "cwd": "${workspaceRoot}/Test"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean Test Apple2 Speed",
+            "type": "shell",
+            "command": "make TARGET=Apple2 CONFIG=Speed clean",
+            "options": {
+                "cwd": "${workspaceRoot}/Test"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Test Apple2 Speed",
+            "type": "shell",
+            "command": "make TARGET=Apple2 CONFIG=Speed",
+            "options": {
+                "cwd": "${workspaceRoot}/Test"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Rebuild Test Apple2 Speed",
+            "type": "shell",
+            "command": "make TARGET=Apple2 CONFIG=Speed clean all",
+            "options": {
+                "cwd": "${workspaceRoot}/Test"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Test Apple2 Speed",
+            "type": "shell",
+            "command": "make TARGET=Apple2 CONFIG=Speed run",
+            "options": {
+                "cwd": "${workspaceRoot}/Test"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean Test Apple2e Debug",
+            "type": "shell",
+            "command": "make TARGET=Apple2e CONFIG=Debug clean",
+            "options": {
+                "cwd": "${workspaceRoot}/Test"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Test Apple2e Debug",
+            "type": "shell",
+            "command": "make TARGET=Apple2e CONFIG=Debug",
+            "options": {
+                "cwd": "${workspaceRoot}/Test"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Rebuild Test Apple2e Debug",
+            "type": "shell",
+            "command": "make TARGET=Apple2e CONFIG=Debug clean all",
+            "options": {
+                "cwd": "${workspaceRoot}/Test"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Test Apple2e Debug",
+            "type": "shell",
+            "command": "make TARGET=Apple2e CONFIG=Debug run",
+            "options": {
+                "cwd": "${workspaceRoot}/Test"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean Test Apple2e Size",
+            "type": "shell",
+            "command": "make TARGET=Apple2e CONFIG=Size clean",
+            "options": {
+                "cwd": "${workspaceRoot}/Test"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Test Apple2e Size",
+            "type": "shell",
+            "command": "make TARGET=Apple2e CONFIG=Size",
+            "options": {
+                "cwd": "${workspaceRoot}/Test"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Rebuild Test Apple2e Size",
+            "type": "shell",
+            "command": "make TARGET=Apple2e CONFIG=Size clean all",
+            "options": {
+                "cwd": "${workspaceRoot}/Test"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Test Apple2e Size",
+            "type": "shell",
+            "command": "make TARGET=Apple2e CONFIG=Size run",
+            "options": {
+                "cwd": "${workspaceRoot}/Test"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean Test Apple2e Speed",
+            "type": "shell",
+            "command": "make TARGET=Apple2e CONFIG=Speed clean",
+            "options": {
+                "cwd": "${workspaceRoot}/Test"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Test Apple2e Speed",
+            "type": "shell",
+            "command": "make TARGET=Apple2e CONFIG=Speed",
+            "options": {
+                "cwd": "${workspaceRoot}/Test"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Rebuild Test Apple2e Speed",
+            "type": "shell",
+            "command": "make TARGET=Apple2e CONFIG=Speed clean all",
+            "options": {
+                "cwd": "${workspaceRoot}/Test"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Test Apple2e Speed",
+            "type": "shell",
+            "command": "make TARGET=Apple2e CONFIG=Speed run",
+            "options": {
+                "cwd": "${workspaceRoot}/Test"
+            },
+            "problemMatcher": []
+        }
+  ]
+}
