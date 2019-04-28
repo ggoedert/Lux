@@ -72,8 +72,8 @@ Build/$(TARGET)/.: | Build/.
 Build/$(TARGET)/$(CONFIG)/.: | Build/$(TARGET)/.
 	mkdir Build\$(TARGET)\$(CONFIG)
 
-Build/$(TARGET)/$(CONFIG)/$(OUTPUT).dsk: | Build/$(TARGET)/$(CONFIG)/.
+Build/$(TARGET)/$(CONFIG)/$(OUTPUT).dsk: Build/$(TARGET)/$(CONFIG)/$(OUTPUT) | Build/$(TARGET)/$(CONFIG)/.
 	bzip2 -c -d ..\Resource\blank.dsk.bz2 > Build/$(TARGET)/$(CONFIG)/$(OUTPUT).dsk
 	java -jar D:\Apple\AppleCommander-win64-1.4.0.jar -n Build/$(TARGET)/$(CONFIG)/$(OUTPUT).dsk $(OUTPUT)
-	java -jar D:\Apple\AppleCommander-win64-1.4.0.jar -p Build/$(TARGET)/$(CONFIG)/$(OUTPUT).dsk loader.system sys < D:\cc65\target\apple2\util\loader.system
-	java -jar D:\Apple\AppleCommander-win64-1.4.0.jar -as Build/$(TARGET)/$(CONFIG)/$(OUTPUT).dsk loader < Build/$(TARGET)/$(CONFIG)/$(OUTPUT)
+	java -jar D:\Apple\AppleCommander-win64-1.4.0.jar -p Build/$(TARGET)/$(CONFIG)/$(OUTPUT).dsk startup.system sys < D:\cc65\target\apple2\util\loader.system
+	java -jar D:\Apple\AppleCommander-win64-1.4.0.jar -as Build/$(TARGET)/$(CONFIG)/$(OUTPUT).dsk startup < Build/$(TARGET)/$(CONFIG)/$(OUTPUT)
