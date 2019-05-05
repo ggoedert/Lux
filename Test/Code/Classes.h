@@ -29,4 +29,5 @@ DerivedB* DerivedB_New(char* name, int number);
 void DerivedB_Print(Base* this);
 void DerivedB_OtherPrint(Base* this);
 
+//Classes.h
 void DoClassesTest(void);
