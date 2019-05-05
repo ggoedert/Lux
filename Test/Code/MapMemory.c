@@ -1,46 +1,42 @@
+#include <stddef.h>
 #include <stdlib.h>
 
 #include <lEngine.h>
 
 #include "MapMemory.h"
 
-#define BMS 4 //memory block management size 
-#define _1KBLK (1024-BMS)
+#define BLK1K (0x400)           // 1k block size
+#define BLKOH (0x4)             // block management overhead for memory blocks
+#define RAWBLK1K (BLK1K-BLKOH)  // raw 1k sized memory block including memory management overhead
 
 void DoMapMemoryTest() {
-    char* ptr = (char*)0xffff;
-    char* lowptr = (char*)0xffff;
-    char* initptr = (char*)0xffff;
-    char* expect_ptr = (char*)0xffff;
-    short asize;
+    char* ptr = (char*)NULL;
+    char* initptr = (char*)NULL;
+    char* expect_ptr = (char*)NULL;
+    short misalign;
 
     LuxEcho("* Start Map Memory Test *\n");
 
     while(1) {
-        ptr = malloc(_1KBLK);
+        ptr = malloc(RAWBLK1K);
         if (!ptr)
             break;
-        ptr -= BMS;
+        ptr -= BLKOH;
 
         if (ptr != expect_ptr) {
-            if (initptr != (char*)0xffff)
+            if (initptr != (char*)NULL)
                 LuxEcho("%04x-%04x\n", initptr, expect_ptr-1);
             initptr = ptr;
         }
-        if (((int)ptr)&0x3ff) {
-            asize = 0x400-(((int)ptr)&0x3ff)-BMS;
-            expect_ptr = ((int)malloc(asize))+asize;
+        misalign = ((int)ptr)&(BLK1K-1);
+        if (misalign) {
+            misalign = RAWBLK1K-misalign;
+            expect_ptr = ((int)malloc(misalign))+misalign;
         }
         else
-            expect_ptr = ptr+1024;
-
-        /*if (lowptr == ((void*) 0xffff))
-            LuxEcho("%04x\n", ptr);
-        if (ptr < lowptr)
-            lowptr = ptr;*/
+            expect_ptr = ptr+BLK1K;
     }
     LuxEcho("%04x-%04x\n", initptr, expect_ptr-1);
-    //LuxEcho("%04x\n", lowptr);
 	
     LuxEcho("* End Map Memory Test *\n");
 }
