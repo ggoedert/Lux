@@ -10,7 +10,7 @@ endif
 
 OUTPUT = Test
 SOURCEDIR = Code
-CSOURCEFILES = hello.c
+CSOURCEFILES = Test.c Classes.c MapMemory.c
 COBJECTFILES = $(CSOURCEFILES:.c=.o)
 COBJECTS = $(addprefix Build/$(CONFIG)/, $(COBJECTFILES))
 

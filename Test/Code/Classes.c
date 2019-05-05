@@ -1,20 +1,9 @@
-#include <stdio.h>
 #include <stdlib.h>
 
 #include <lEngine.h>
-#include <lClass.h>
 
-//Base.h
-virtual_class(Base, (
-        char* m_name;
-    ), (
-        void (*Print)(Base* this);
-        void (*OtherPrint)(Base* this);
-    )
-);
-void Base_Constructor(Base* this, virtual_table(Base)* vtable, char* name);
-#define Base_Destructor(this)
-void Base_OtherPrint(Base* this);
+#include "Classes.h"
+
 //Base.c
 void Base_Constructor(Base* this, virtual_table(Base)* vtable, char* name) {
     this->vtable = vtable;
@@ -24,13 +13,6 @@ void Base_OtherPrint(Base* this) {
     LuxEcho("Base_OtherPrint - %s\n", this->m_name);
 }
 
-//DerivedA.h
-derived_class(DerivedA, Base,
-    char* m_otherName;
-);
-void DerivedA_Constructor(DerivedA* this, char* name, char* otherName);
-#define DerivedA_Destructor(this)
-void DerivedA_Print(Base* this);
 //DerivedA.c
 virtual_table(Base) virtual_table_instance(DerivedA) = {
     DerivedA_Print,
@@ -44,16 +26,6 @@ void DerivedA_Print(Base* this) {
     LuxEcho("DerivedA_Print - %s - %s\n", this->m_name, ((DerivedA*)this)->m_otherName);
 }
 
-//DerivedB.h
-derived_class(DerivedB, Base,
-    int m_number;
-);
-void DerivedB_Constructor(DerivedB* this, char* name, int number);
-#define DerivedB_Destructor(this)
-DerivedB* DerivedB_New(char* name, int number);
-#define DerivedB_Delete(this) do { DerivedB_Destructor(this); free(this); } while(0)
-void DerivedB_Print(Base* this);
-void DerivedB_OtherPrint(Base* this);
 //DerivedB.c
 virtual_table(Base) virtual_table_instance(DerivedB) = {
     DerivedB_Print,
@@ -76,17 +48,12 @@ void DerivedB_OtherPrint(Base* this) {
     LuxEcho("DerivedB_OtherPrint\n");
 }
 
-//main.c
-void main() {
+void DoClassesTest() {
     DerivedA aa;
     Base* bb_ptr;
-
-    LuxClrScr();
-	LuxEcho("%u bytes free.\n", _heapmemavail());
-
-    LuxEcho("Hello, world!\n");
     
-    LuxEcho("\n");
+    LuxEcho("* Start Classes Test *\n");
+
 	DerivedA_Constructor(&aa, "some guy", "other guy");
     bb_ptr = (Base*)DerivedB_New("Marvin", 42);
     aa.Base.vtable->Print((Base*)&aa);
@@ -95,6 +62,6 @@ void main() {
     bb_ptr->vtable->OtherPrint(bb_ptr);
     DerivedB_Destructor(&aa);
     DerivedB_Delete(bb_ptr);
-	
-    while(1);
+
+    LuxEcho("* End Classes Test *\n");
 }
