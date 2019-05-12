@@ -1,3 +1,4 @@
+#include <lDefs.h>
 #include <lClass.h>
 
 //Base.h
@@ -25,7 +26,7 @@ derived_class(DerivedB, Base,
 void DerivedB_Constructor(DerivedB* this, char* name, int number);
 #define DerivedB_Destructor(this)
 DerivedB* DerivedB_New(char* name, int number);
-#define DerivedB_Delete(this) do { DerivedB_Destructor(this); free(this); } while(0)
+#define DerivedB_Delete(this) do { DerivedB_Destructor(this); free(this); } while(false)
 void DerivedB_Print(Base* this);
 void DerivedB_OtherPrint(Base* this);
 

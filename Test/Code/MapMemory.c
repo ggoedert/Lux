@@ -25,7 +25,7 @@ void DoMapMemoryTest() {
 
         if (ptr != expect_ptr) {
             if (initptr != (char*)NULL)
-                LuxEcho("%04x-%04x\n", initptr, expect_ptr-1);
+                LuxEcho("$%04x-$%04x\n", initptr, expect_ptr-1);
             initptr = ptr;
         }
         misalign = ((int)ptr)&(BLK1K-1);
@@ -36,7 +36,7 @@ void DoMapMemoryTest() {
         else
             expect_ptr = ptr+BLK1K;
     }
-    LuxEcho("%04x-%04x\n", initptr, expect_ptr-1);
+    LuxEcho("$%04x-$%04x\n", initptr, expect_ptr-1);
 	
     LuxEcho("* End Map Memory Test *\n");
 }

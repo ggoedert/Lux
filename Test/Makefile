@@ -10,12 +10,17 @@ endif
 
 OUTPUT = Test
 SOURCEDIR = Code
-CSOURCEFILES = Test.c Classes.c MapMemory.c
+ASOURCEFILES =
+AOBJECTFILES = $(ASOURCEFILES:.s=.o)
+AOBJECTS = $(addprefix Build/$(CONFIG)/, $(AOBJECTFILES))
+CSOURCEFILES = Test.c Classes.c MapMemory.c Apple2Id.c
 COBJECTFILES = $(CSOURCEFILES:.c=.o)
 COBJECTS = $(addprefix Build/$(CONFIG)/, $(COBJECTFILES))
 
 LD = cl65
 LDFLAGS = -t apple2 -L ../Engine/Build/$(CONFIG)
+AS = ca65
+ASFLAGS = -t apple2
 CC = cl65 -c
 CFLAGS = -t apple2 -I Build/$(CONFIG) -I ../Engine/Code/Include
 ifeq ($(CONFIG), Debug)
@@ -32,7 +37,7 @@ install: all | Build/$(CONFIG)/$(OUTPUT).dsk
 
 .PHONY: run
 run: install
-	D:\Apple\AppleWin1.27.5.0\Applewin.exe -d1 $(CURDIR)/Build/$(CONFIG)/$(OUTPUT).dsk
+	D:\Apple\AppleWin\Applewin.exe -d1 $(CURDIR)/Build/$(CONFIG)/$(OUTPUT).dsk
 
 .PHONY: clean
 clean:
@@ -43,8 +48,11 @@ clean:
 prebuild: | Build/$(CONFIG)/.
 	$(MAKE) CONFIG=$(CONFIG) -C ../Engine
 
-Build/$(CONFIG)/$(OUTPUT): $(COBJECTS)
-	$(LD) $(LDFLAGS) -o $@ $(COBJECTS) Engine.lib
+Build/$(CONFIG)/$(OUTPUT): $(AOBJECTS) $(COBJECTS)
+	$(LD) $(LDFLAGS) -o $@ $(AOBJECTS) $(COBJECTS) Engine.lib
+
+$(AOBJECTS): Build/$(CONFIG)/%.o : $(SOURCEDIR)/%.s | prebuild
+	$(AS) $(ASFLAGS) -o $@ $<
 
 $(COBJECTS): Build/$(CONFIG)/%.o : $(SOURCEDIR)/%.c | prebuild
 	$(CC) $(CFLAGS) -o $@ $<

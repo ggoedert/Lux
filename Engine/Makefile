@@ -10,12 +10,17 @@ endif
 
 OUTPUT = Engine.lib
 SOURCEDIR = Code/Source
+ASOURCEFILES = Apple2Id.s
+AOBJECTFILES = $(ASOURCEFILES:.s=.o)
+AOBJECTS = $(addprefix Build/$(CONFIG)/, $(AOBJECTFILES))
 CSOURCEFILES = Engine.c
 COBJECTFILES = $(CSOURCEFILES:.c=.o)
 COBJECTS = $(addprefix Build/$(CONFIG)/, $(COBJECTFILES))
 
 AR = ar65
 ARFLAGS = a
+AS = ca65
+ASFLAGS = -t apple2
 CC = cl65 -c
 CFLAGS = -t apple2 -I Code/Include
 ifeq ($(CONFIG), Debug)
@@ -33,8 +38,11 @@ clean:
 	if exist Build/$(CONFIG)/. rmdir /S /Q Build\$(CONFIG)
 	if exist Build/. dir /b Build | >nul find /v "" || rmdir /S /Q Build
 
-Build/$(CONFIG)/$(OUTPUT): $(COBJECTS)
-	$(AR) $(ARFLAGS) $@ $(COBJECTS)
+Build/$(CONFIG)/$(OUTPUT): $(AOBJECTS) $(COBJECTS)
+	$(AR) $(ARFLAGS) $@ $(AOBJECTS) $(COBJECTS)
+
+$(AOBJECTS): Build/$(CONFIG)/%.o : $(SOURCEDIR)/%.s | Build/$(CONFIG)/.
+	$(AS) $(ASFLAGS) -o $@ $<
 
 $(COBJECTS): Build/$(CONFIG)/%.o : $(SOURCEDIR)/%.c | Build/$(CONFIG)/.
 	$(CC) $(CFLAGS) -o $@ $<
