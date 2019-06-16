@@ -1,5 +1,5 @@
-#ifndef L_CLASS_H
-#define L_CLASS_H
+#ifndef LUX_CLASS_H
+#define LUX_CLASS_H
 
 #define REM_ENCLOSE_(...) __VA_ARGS__
 #define REM_ENCLOSE(...) REM_ENCLOSE_ __VA_ARGS__

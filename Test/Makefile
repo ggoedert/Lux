@@ -13,7 +13,7 @@ SOURCEDIR = Code
 ASOURCEFILES =
 AOBJECTFILES = $(ASOURCEFILES:.s=.o)
 AOBJECTS = $(addprefix Build/$(CONFIG)/, $(AOBJECTFILES))
-CSOURCEFILES = Test.c Classes.c MapMemory.c Apple2Id.c
+CSOURCEFILES = Test.c Classes.c MapMemory.c
 COBJECTFILES = $(CSOURCEFILES:.c=.o)
 COBJECTS = $(addprefix Build/$(CONFIG)/, $(COBJECTFILES))
 
@@ -37,7 +37,7 @@ install: all | Build/$(CONFIG)/$(OUTPUT).dsk
 
 .PHONY: run
 run: install
-	D:\Apple\AppleWin\Applewin.exe -d1 $(CURDIR)/Build/$(CONFIG)/$(OUTPUT).dsk
+	C:\Apple\AppleWin\Applewin.exe -d1 $(CURDIR)/Build/$(CONFIG)/$(OUTPUT).dsk
 
 .PHONY: clean
 clean:
@@ -65,6 +65,6 @@ Build/$(CONFIG)/.: | Build/.
 
 Build/$(CONFIG)/$(OUTPUT).dsk: Build/$(CONFIG)/$(OUTPUT) | Build/$(CONFIG)/.
 	bzip2 -c -d ..\Resource\blank.dsk.bz2 > Build/$(CONFIG)/$(OUTPUT).dsk
-	java -jar D:\Apple\AppleCommander-win64-1.4.0.jar -n Build/$(CONFIG)/$(OUTPUT).dsk $(OUTPUT)
-	java -jar D:\Apple\AppleCommander-win64-1.4.0.jar -p Build/$(CONFIG)/$(OUTPUT).dsk startup.system sys < D:\cc65\target\apple2\util\loader.system
-	java -jar D:\Apple\AppleCommander-win64-1.4.0.jar -as Build/$(CONFIG)/$(OUTPUT).dsk startup < Build/$(CONFIG)/$(OUTPUT)
+	java -jar C:\Apple\AppleCommander-win64-1.4.0.jar -n Build/$(CONFIG)/$(OUTPUT).dsk $(OUTPUT)
+	java -jar C:\Apple\AppleCommander-win64-1.4.0.jar -p Build/$(CONFIG)/$(OUTPUT).dsk startup.system sys < C:\cc65\target\apple2\util\loader.system
+	java -jar C:\Apple\AppleCommander-win64-1.4.0.jar -as Build/$(CONFIG)/$(OUTPUT).dsk startup < Build/$(CONFIG)/$(OUTPUT)

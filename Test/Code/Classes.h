@@ -1,5 +1,5 @@
-#include <lDefs.h>
-#include <lClass.h>
+#include "LuxDefs.h"
+#include "LuxClass.h"
 
 //Base.h
 virtual_class(Base, (

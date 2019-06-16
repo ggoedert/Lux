@@ -1,7 +1,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-#include <lEngine.h>
+#include "LuxEngine.h"
 
 #include "MapMemory.h"
 
@@ -15,7 +15,7 @@ void DoMapMemoryTest() {
     char* expect_ptr = (char*)NULL;
     short misalign;
 
-    LuxEcho("* Start Map Memory Test *\n");
+    lux_Echo("* Start Map Memory Test *\n");
 
     while(1) {
         ptr = malloc(RAWBLK1K);
@@ -25,7 +25,7 @@ void DoMapMemoryTest() {
 
         if (ptr != expect_ptr) {
             if (initptr != (char*)NULL)
-                LuxEcho("$%04x-$%04x\n", initptr, expect_ptr-1);
+                lux_Echo("$%04x-$%04x\n", initptr, expect_ptr-1);
             initptr = ptr;
         }
         misalign = ((int)ptr)&(BLK1K-1);
@@ -36,7 +36,7 @@ void DoMapMemoryTest() {
         else
             expect_ptr = ptr+BLK1K;
     }
-    LuxEcho("$%04x-$%04x\n", initptr, expect_ptr-1);
+    lux_Echo("$%04x-$%04x\n", initptr, expect_ptr-1);
 	
-    LuxEcho("* End Map Memory Test *\n");
+    lux_Echo("* End Map Memory Test *\n");
 }

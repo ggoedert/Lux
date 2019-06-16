@@ -1,6 +1,6 @@
 #include <stdlib.h>
 
-#include <lEngine.h>
+#include "LuxEngine.h"
 
 #include "Classes.h"
 
@@ -10,7 +10,7 @@ void Base_Constructor(Base* this, virtual_table(Base)* vtable, char* name) {
     this->m_name = name;    
 }
 void Base_OtherPrint(Base* this) {
-    LuxEcho("Base_OtherPrint - %s\n", this->m_name);
+    lux_Echo("Base_OtherPrint - %s\n", this->m_name);
 }
 
 //DerivedA.c
@@ -23,7 +23,7 @@ void DerivedA_Constructor(DerivedA* this, char* name, char* otherName) {
     this->m_otherName = otherName;
 }
 void DerivedA_Print(Base* this) {
-    LuxEcho("DerivedA_Print - %s - %s\n", this->m_name, ((DerivedA*)this)->m_otherName);
+    lux_Echo("DerivedA_Print - %s - %s\n", this->m_name, ((DerivedA*)this)->m_otherName);
 }
 
 //DerivedB.c
@@ -42,10 +42,10 @@ DerivedB* DerivedB_New(char* name, int number) {
     return new_ptr;
 }
 void DerivedB_Print(Base* this) {
-    LuxEcho("DerivedB_Print - %s - %d\n", this->m_name, ((DerivedB*)this)->m_number);
+    lux_Echo("DerivedB_Print - %s - %d\n", this->m_name, ((DerivedB*)this)->m_number);
 }
 void DerivedB_OtherPrint(Base* this) {
-    LuxEcho("DerivedB_OtherPrint\n");
+    lux_Echo("DerivedB_OtherPrint\n");
 }
 
 //Classes.c
@@ -53,7 +53,7 @@ void DoClassesTest() {
     DerivedA aa;
     Base* bb_ptr;
     
-    LuxEcho("* Start Classes Test *\n");
+    lux_Echo("* Start Classes Test *\n");
 
 	DerivedA_Constructor(&aa, "some guy", "other guy");
     bb_ptr = (Base*)DerivedB_New("Marvin", 42);
@@ -64,5 +64,5 @@ void DoClassesTest() {
     DerivedB_Destructor(&aa);
     DerivedB_Delete(bb_ptr);
 
-    LuxEcho("* End Classes Test *\n");
+    lux_Echo("* End Classes Test *\n");
 }
