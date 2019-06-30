@@ -85,110 +85,110 @@
             "problemMatcher": []
         },
         {
-            "label": "Clean Test Debug",
+            "label": "Clean TestSimple Debug",
             "type": "shell",
             "command": "make CONFIG=Debug clean",
             "options": {
-                "cwd": "${workspaceRoot}/Test"
+                "cwd": "${workspaceRoot}/Test/Simple"
             },
             "problemMatcher": []
         },
         {
-            "label": "Build Test Debug",
+            "label": "Build TestSimple Debug",
             "type": "shell",
             "command": "make CONFIG=Debug",
             "options": {
-                "cwd": "${workspaceRoot}/Test"
+                "cwd": "${workspaceRoot}/Test/Simple"
             },
             "problemMatcher": []
         },
         {
-            "label": "Rebuild Test Debug",
+            "label": "Rebuild TestSimple Debug",
             "type": "shell",
             "command": "make CONFIG=Debug clean all",
             "options": {
-                "cwd": "${workspaceRoot}/Test"
+                "cwd": "${workspaceRoot}/Test/Simple"
             },
             "problemMatcher": []
         },
         {
-            "label": "Run Test Debug",
+            "label": "Run TestSimple Debug",
             "type": "shell",
             "command": "make CONFIG=Debug run",
             "options": {
-                "cwd": "${workspaceRoot}/Test"
+                "cwd": "${workspaceRoot}/Test/Simple"
             },
             "problemMatcher": []
         },
         {
-            "label": "Clean Test Size",
+            "label": "Clean TestSimple Size",
             "type": "shell",
             "command": "make CONFIG=Size clean",
             "options": {
-                "cwd": "${workspaceRoot}/Test"
+                "cwd": "${workspaceRoot}/Test/Simple"
             },
             "problemMatcher": []
         },
         {
-            "label": "Build Test Size",
+            "label": "Build TestSimple Size",
             "type": "shell",
             "command": "make CONFIG=Size",
             "options": {
-                "cwd": "${workspaceRoot}/Test"
+                "cwd": "${workspaceRoot}/Test/Simple"
             },
             "problemMatcher": []
         },
         {
-            "label": "Rebuild Test Size",
+            "label": "Rebuild TestSimple Size",
             "type": "shell",
             "command": "make CONFIG=Size clean all",
             "options": {
-                "cwd": "${workspaceRoot}/Test"
+                "cwd": "${workspaceRoot}/Test/Simple"
             },
             "problemMatcher": []
         },
         {
-            "label": "Run Test Size",
+            "label": "Run TestSimple Size",
             "type": "shell",
             "command": "make CONFIG=Size run",
             "options": {
-                "cwd": "${workspaceRoot}/Test"
+                "cwd": "${workspaceRoot}/Test/Simple"
             },
             "problemMatcher": []
         },
         {
-            "label": "Clean Test Speed",
+            "label": "Clean TestSimple Speed",
             "type": "shell",
             "command": "make CONFIG=Speed clean",
             "options": {
-                "cwd": "${workspaceRoot}/Test"
+                "cwd": "${workspaceRoot}/Test/Simple"
             },
             "problemMatcher": []
         },
         {
-            "label": "Build Test Speed",
+            "label": "Build TestSimple Speed",
             "type": "shell",
             "command": "make CONFIG=Speed",
             "options": {
-                "cwd": "${workspaceRoot}/Test"
+                "cwd": "${workspaceRoot}/Test/Simple"
             },
             "problemMatcher": []
         },
         {
-            "label": "Rebuild Test Speed",
+            "label": "Rebuild TestSimple Speed",
             "type": "shell",
             "command": "make CONFIG=Speed clean all",
             "options": {
-                "cwd": "${workspaceRoot}/Test"
+                "cwd": "${workspaceRoot}/Test/Simple"
             },
             "problemMatcher": []
         },
         {
-            "label": "Run Test Speed",
+            "label": "Run TestSimple Speed",
             "type": "shell",
             "command": "make CONFIG=Speed run",
             "options": {
-                "cwd": "${workspaceRoot}/Test"
+                "cwd": "${workspaceRoot}/Test/Simple"
             },
             "problemMatcher": []
         },
@@ -197,7 +197,7 @@
             "type": "shell",
             "command": "make CONFIG=Debug clean",
             "options": {
-                "cwd": "${workspaceRoot}/TestEngine"
+                "cwd": "${workspaceRoot}/Test/Engine"
             },
             "problemMatcher": []
         },
@@ -206,7 +206,7 @@
             "type": "shell",
             "command": "make CONFIG=Debug",
             "options": {
-                "cwd": "${workspaceRoot}/TestEngine"
+                "cwd": "${workspaceRoot}/Test/Engine"
             },
             "problemMatcher": []
         },
@@ -215,7 +215,7 @@
             "type": "shell",
             "command": "make CONFIG=Debug clean all",
             "options": {
-                "cwd": "${workspaceRoot}/TestEngine"
+                "cwd": "${workspaceRoot}/Test/Engine"
             },
             "problemMatcher": []
         },
@@ -224,7 +224,7 @@
             "type": "shell",
             "command": "make CONFIG=Debug run",
             "options": {
-                "cwd": "${workspaceRoot}/TestEngine"
+                "cwd": "${workspaceRoot}/Test/Engine"
             },
             "problemMatcher": []
         },
@@ -233,7 +233,7 @@
             "type": "shell",
             "command": "make CONFIG=Size clean",
             "options": {
-                "cwd": "${workspaceRoot}/TestEngine"
+                "cwd": "${workspaceRoot}/Test/Engine"
             },
             "problemMatcher": []
         },
@@ -242,7 +242,7 @@
             "type": "shell",
             "command": "make CONFIG=Size",
             "options": {
-                "cwd": "${workspaceRoot}/TestEngine"
+                "cwd": "${workspaceRoot}/Test/Engine"
             },
             "problemMatcher": []
         },
@@ -251,7 +251,7 @@
             "type": "shell",
             "command": "make CONFIG=Size clean all",
             "options": {
-                "cwd": "${workspaceRoot}/TestEngine"
+                "cwd": "${workspaceRoot}/Test/Engine"
             },
             "problemMatcher": []
         },
@@ -260,7 +260,7 @@
             "type": "shell",
             "command": "make CONFIG=Size run",
             "options": {
-                "cwd": "${workspaceRoot}/TestEngine"
+                "cwd": "${workspaceRoot}/Test/Engine"
             },
             "problemMatcher": []
         },
@@ -269,7 +269,7 @@
             "type": "shell",
             "command": "make CONFIG=Speed clean",
             "options": {
-                "cwd": "${workspaceRoot}/TestEngine"
+                "cwd": "${workspaceRoot}/Test/Engine"
             },
             "problemMatcher": []
         },
@@ -278,7 +278,7 @@
             "type": "shell",
             "command": "make CONFIG=Speed",
             "options": {
-                "cwd": "${workspaceRoot}/TestEngine"
+                "cwd": "${workspaceRoot}/Test/Engine"
             },
             "problemMatcher": []
         },
@@ -287,7 +287,7 @@
             "type": "shell",
             "command": "make CONFIG=Speed clean all",
             "options": {
-                "cwd": "${workspaceRoot}/TestEngine"
+                "cwd": "${workspaceRoot}/Test/Engine"
             },
             "problemMatcher": []
         },
@@ -296,7 +296,7 @@
             "type": "shell",
             "command": "make CONFIG=Speed run",
             "options": {
-                "cwd": "${workspaceRoot}/TestEngine"
+                "cwd": "${workspaceRoot}/Test/Engine"
             },
             "problemMatcher": []
         },
@@ -305,7 +305,7 @@
             "type": "shell",
             "command": "make CONFIG=Debug clean",
             "options": {
-                "cwd": "${workspaceRoot}/TestOverlay"
+                "cwd": "${workspaceRoot}/Test/Overlay"
             },
             "problemMatcher": []
         },
@@ -314,7 +314,7 @@
             "type": "shell",
             "command": "make CONFIG=Debug",
             "options": {
-                "cwd": "${workspaceRoot}/TestOverlay"
+                "cwd": "${workspaceRoot}/Test/Overlay"
             },
             "problemMatcher": []
         },
@@ -323,7 +323,7 @@
             "type": "shell",
             "command": "make CONFIG=Debug clean all",
             "options": {
-                "cwd": "${workspaceRoot}/TestOverlay"
+                "cwd": "${workspaceRoot}/Test/Overlay"
             },
             "problemMatcher": []
         },
@@ -332,7 +332,7 @@
             "type": "shell",
             "command": "make CONFIG=Debug run",
             "options": {
-                "cwd": "${workspaceRoot}/TestOverlay"
+                "cwd": "${workspaceRoot}/Test/Overlay"
             },
             "problemMatcher": []
         },
@@ -341,7 +341,7 @@
             "type": "shell",
             "command": "make CONFIG=Size clean",
             "options": {
-                "cwd": "${workspaceRoot}/TestOverlay"
+                "cwd": "${workspaceRoot}/Test/Overlay"
             },
             "problemMatcher": []
         },
@@ -350,7 +350,7 @@
             "type": "shell",
             "command": "make CONFIG=Size",
             "options": {
-                "cwd": "${workspaceRoot}/TestOverlay"
+                "cwd": "${workspaceRoot}/Test/Overlay"
             },
             "problemMatcher": []
         },
@@ -359,7 +359,7 @@
             "type": "shell",
             "command": "make CONFIG=Size clean all",
             "options": {
-                "cwd": "${workspaceRoot}/TestOverlay"
+                "cwd": "${workspaceRoot}/Test/Overlay"
             },
             "problemMatcher": []
         },
@@ -368,7 +368,7 @@
             "type": "shell",
             "command": "make CONFIG=Size run",
             "options": {
-                "cwd": "${workspaceRoot}/TestOverlay"
+                "cwd": "${workspaceRoot}/Test/Overlay"
             },
             "problemMatcher": []
         },
@@ -377,7 +377,7 @@
             "type": "shell",
             "command": "make CONFIG=Speed clean",
             "options": {
-                "cwd": "${workspaceRoot}/TestOverlay"
+                "cwd": "${workspaceRoot}/Test/Overlay"
             },
             "problemMatcher": []
         },
@@ -386,7 +386,7 @@
             "type": "shell",
             "command": "make CONFIG=Speed",
             "options": {
-                "cwd": "${workspaceRoot}/TestOverlay"
+                "cwd": "${workspaceRoot}/Test/Overlay"
             },
             "problemMatcher": []
         },
@@ -395,7 +395,7 @@
             "type": "shell",
             "command": "make CONFIG=Speed clean all",
             "options": {
-                "cwd": "${workspaceRoot}/TestOverlay"
+                "cwd": "${workspaceRoot}/Test/Overlay"
             },
             "problemMatcher": []
         },
@@ -404,88 +404,88 @@
             "type": "shell",
             "command": "make CONFIG=Speed run",
             "options": {
-                "cwd": "${workspaceRoot}/TestOverlay"
+                "cwd": "${workspaceRoot}/Test/Overlay"
             },
             "problemMatcher": []
         },
         {
-            "label": "Clean MakeOverlayConfig Debug",
+            "label": "Clean UtilMakeConfig Debug",
             "type": "shell",
             "command": "make CONFIG=Debug clean",
             "options": {
-                "cwd": "${workspaceRoot}/MakeOverlayConfig"
+                "cwd": "${workspaceRoot}/Util/MakeConfig"
             },
             "problemMatcher": []
         },
         {
-            "label": "Build MakeOverlayConfig Debug",
+            "label": "Build UtilMakeConfig Debug",
             "type": "shell",
             "command": "make CONFIG=Debug",
             "options": {
-                "cwd": "${workspaceRoot}/MakeOverlayConfig"
+                "cwd": "${workspaceRoot}/Util/MakeConfig"
             },
             "problemMatcher": []
         },
         {
-            "label": "Rebuild MakeOverlayConfig Debug",
+            "label": "Rebuild UtilMakeConfig Debug",
             "type": "shell",
             "command": "make CONFIG=Debug clean all",
             "options": {
-                "cwd": "${workspaceRoot}/MakeOverlayConfig"
+                "cwd": "${workspaceRoot}/Util/MakeConfig"
             },
             "problemMatcher": []
         },
         {
-            "label": "Clean MakeOverlayConfig Size",
+            "label": "Clean UtilMakeConfig Size",
             "type": "shell",
             "command": "make CONFIG=Size clean",
             "options": {
-                "cwd": "${workspaceRoot}/MakeOverlayConfig"
+                "cwd": "${workspaceRoot}/Util/MakeConfig"
             },
             "problemMatcher": []
         },
         {
-            "label": "Build MakeOverlayConfig Size",
+            "label": "Build UtilMakeConfig Size",
             "type": "shell",
             "command": "make CONFIG=Size",
             "options": {
-                "cwd": "${workspaceRoot}/MakeOverlayConfig"
+                "cwd": "${workspaceRoot}/Util/MakeConfig"
             },
             "problemMatcher": []
         },
         {
-            "label": "Rebuild MakeOverlayConfig Size",
+            "label": "Rebuild UtilMakeConfig Size",
             "type": "shell",
             "command": "make CONFIG=Size clean all",
             "options": {
-                "cwd": "${workspaceRoot}/MakeOverlayConfig"
+                "cwd": "${workspaceRoot}/Util/MakeConfig"
             },
             "problemMatcher": []
         },
         {
-            "label": "Clean MakeOverlayConfig Speed",
+            "label": "Clean UtilMakeConfig Speed",
             "type": "shell",
             "command": "make CONFIG=Speed clean",
             "options": {
-                "cwd": "${workspaceRoot}/MakeOverlayConfig"
+                "cwd": "${workspaceRoot}/Util/MakeConfig"
             },
             "problemMatcher": []
         },
         {
-            "label": "Build MakeOverlayConfig Speed",
+            "label": "Build UtilMakeConfig Speed",
             "type": "shell",
             "command": "make CONFIG=Speed",
             "options": {
-                "cwd": "${workspaceRoot}/MakeOverlayConfig"
+                "cwd": "${workspaceRoot}/Util/MakeConfig"
             },
             "problemMatcher": []
         },
         {
-            "label": "Rebuild MakeOverlayConfig Speed",
+            "label": "Rebuild UtilMakeConfig Speed",
             "type": "shell",
             "command": "make CONFIG=Speed clean all",
             "options": {
-                "cwd": "${workspaceRoot}/MakeOverlayConfig"
+                "cwd": "${workspaceRoot}/Util/MakeConfig"
             },
             "problemMatcher": []
         }

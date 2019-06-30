@@ -8,7 +8,7 @@ ifeq (,$(filter $(CONFIG), Debug Size Speed))
 $(error Unknown CONFIG $(CONFIG), set either to Debug, Size or Speed. Omit to default to Size)
 endif
 
-MAKEOVERLAYCONFIG = ..\MakeOverlayConfig\Build\Speed\MakeOverlayConfig.exe
+MAKECONFIG = ..\..\Util\MakeConfig\Build\Speed\MakeConfig.exe
 APPLEWIN = C:\Apple\AppleWin\Applewin.exe
 APPLECOMMANDER = C:\Apple\AppleCommander-win64-1.5.0.jar
 LOADER_SYSTEM = C:\cc65\target\apple2\util\loader.system
@@ -61,12 +61,12 @@ clean:
 	if exist Build/. dir /b Build | >nul find /v "" || rmdir /S /Q Build
 
 prebuild: | Build/$(CONFIG)/.
-	$(MAKE) CONFIG=Speed -C ../MakeOverlayConfig
+	$(MAKE) CONFIG=Speed -C ../../Util/MakeConfig
 
 Build/$(CONFIG)/$(OUTPUT): $(AOBJECTS) $(COBJECTS)
-	$(MAKEOVERLAYCONFIG) -d Build/$(CONFIG)/$(OUTPUT) MENU LEVEL1 LEVEL2
+	$(MAKECONFIG) -d Build/$(CONFIG)/$(OUTPUT) MENU LEVEL1 LEVEL2
 	$(LD) $(LDFLAGS) -o $@ $(AOBJECTS) $(COBJECTS)
-	$(MAKEOVERLAYCONFIG) -f Build/$(CONFIG)/$(OUTPUT) MENU LEVEL1 LEVEL2
+	$(MAKECONFIG) -f Build/$(CONFIG)/$(OUTPUT) MENU LEVEL1 LEVEL2
 	$(LD) $(LDFLAGS) -o $@ $(AOBJECTS) $(COBJECTS)
 
 $(AOBJECTS): Build/$(CONFIG)/%.o : $(SOURCEDIR)/%.s | prebuild
@@ -91,7 +91,7 @@ Build/$(CONFIG)/.: | Build/.
 	mkdir Build\$(CONFIG)
 
 Build/$(CONFIG)/$(OUTPUT).dsk: Build/$(CONFIG)/$(OUTPUT) | Build/$(CONFIG)/.
-	bzip2 -c -d ..\Resource\blank.dsk.bz2 > Build/$(CONFIG)/$(OUTPUT).dsk
+	bzip2 -c -d ..\..\Resource\blank.dsk.bz2 > Build/$(CONFIG)/$(OUTPUT).dsk
 	java -jar $(APPLECOMMANDER) -n Build/$(CONFIG)/$(OUTPUT).dsk $(OUTPUT)
 	java -jar $(APPLECOMMANDER) -p Build/$(CONFIG)/$(OUTPUT).dsk startup.system sys < $(LOADER_SYSTEM)
 	java -jar $(APPLECOMMANDER) -as Build/$(CONFIG)/$(OUTPUT).dsk startup < Build/$(CONFIG)/$(OUTPUT)

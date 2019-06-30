@@ -8,9 +8,9 @@ ifeq (,$(filter $(CONFIG), Debug Size Speed))
 $(error Unknown CONFIG $(CONFIG), set either to Debug, Size or Speed. Omit to default to Size)
 endif
 
-OUTPUT = MakeOverlayConfig.exe
+OUTPUT = MakeConfig.exe
 SOURCEDIR = Code
-CPPSOURCEFILES = MakeOverlayConfig.cpp
+CPPSOURCEFILES = MakeConfig.cpp
 CPPOBJECTFILES = $(CPPSOURCEFILES:.cpp=.o)
 CPPOBJECTS = $(addprefix Build/$(CONFIG)/, $(CPPOBJECTFILES))
 
