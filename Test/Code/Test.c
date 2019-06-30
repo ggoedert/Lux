@@ -5,10 +5,15 @@
 #include "Classes.h"
 #include "MapMemory.h"
 
+void loadApplication(void);
+
 //main.c
 void main() {
-    lux_Start("Test", 42);
-	lux_Debug_Set(DEBUG_CONSOLE);
+    lux_Run("Test", 42, loadApplication);
+}
+
+void loadApplication() {
+	lux_Debug_SetMode(DEBUG_MODE_CONSOLE|DEBUG_MODE_FILE);
     lux_Screen_SetResolution(TEXT, false, false);
 
 	lux_Debug_Log("%u bytes free.", _heapmemavail());
@@ -30,5 +35,4 @@ void main() {
 
 	lux_Debug_Log("%u bytes free.", _heapmemavail());
 	lux_Debug_Log("end.");
-    while(true);
 }

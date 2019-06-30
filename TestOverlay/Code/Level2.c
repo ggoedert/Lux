@@ -1,0 +1,46 @@
+extern void log(char *msg);
+
+void foobar(void) {
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+    log("Calling from LEVEL2 overlay");
+}

@@ -3,8 +3,10 @@
 
 #include "LuxDefs.h"
 
-// version of the lux engine (major<<16)+minor
-#define luxVersion 0x0001
+// version of the lux engine
+#define luxVersionMajor     0x0000
+#define luxVersionMinor     0x0001
+#define luxVersion          (luxVersionMajor<<16)+luxVersionMinor
 
 // machine types
 enum {

@@ -5,6 +5,8 @@
 #include "LuxDebug.h"
 #include "LuxScreen.h"
 
-void lux_Start(char* name, int version);
+typedef void (*LoadApplication)(void);
+
+void lux_Run(char* name, int version, LoadApplication loadApplication);
 
 #endif

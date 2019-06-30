@@ -12,12 +12,12 @@ APPLEWIN = C:\Apple\AppleWin\Applewin.exe
 APPLECOMMANDER = C:\Apple\AppleCommander-win64-1.5.0.jar
 LOADER_SYSTEM = C:\cc65\target\apple2\util\loader.system
 
-OUTPUT = Test
+OUTPUT = TestEngine
 SOURCEDIR = Code
 ASOURCEFILES =
 AOBJECTFILES = $(ASOURCEFILES:.s=.o)
 AOBJECTS = $(addprefix Build/$(CONFIG)/, $(AOBJECTFILES))
-CSOURCEFILES = Test.c Classes.c MapMemory.c
+CSOURCEFILES = TestEngine.c
 COBJECTFILES = $(CSOURCEFILES:.c=.o)
 COBJECTS = $(addprefix Build/$(CONFIG)/, $(COBJECTFILES))
 ENGINELIB = ../Engine/Build/$(CONFIG)/Engine.lib
@@ -51,6 +51,7 @@ clean:
 	if exist ../Engine/Build/$(CONFIG)/. $(MAKE) CONFIG=$(CONFIG) clean -C ../Engine
 
 prebuild: | Build/$(CONFIG)/.
+	$(MAKE) -C ../MakeOverlayConfig
 	$(MAKE) CONFIG=$(CONFIG) -C ../Engine
 
 Build/$(CONFIG)/$(OUTPUT): $(AOBJECTS) $(COBJECTS) $(ENGINELIB)
