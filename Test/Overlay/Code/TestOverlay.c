@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 typedef char bool;
+#define nullptr NULL
 #define true 1
 #define false 0
 
@@ -25,7 +26,7 @@ bool loadOverlay(char* overlayFileName, void* overlayAddr) {
     FILE* overlayFile;
     int overlayFileSize;
     overlayFile = fopen(overlayFileName, "rb");
-    if (NULL == overlayFile)
+    if (nullptr == overlayFile)
         return false;
     fseek(overlayFile, 0L, SEEK_END);
     overlayFileSize = ftell(overlayFile);

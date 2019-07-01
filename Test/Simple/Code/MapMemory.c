@@ -10,12 +10,12 @@
 #define RAWBLK1K (BLK1K-BLKOH)  // raw 1k sized memory block including memory management overhead
 
 void DoMapMemoryTest() {
-    char* ptr = (char*)NULL;
-    char* initptr = (char*)NULL;
-    char* expect_ptr = (char*)NULL;
+    char* ptr = (char*)nullptr;
+    char* initptr = (char*)nullptr;
+    char* expect_ptr = (char*)nullptr;
     short misalign;
 
-    lux_Debug_Log("* Start Map Memory Test *");
+    Debug_Log("* Start Map Memory Test *");
 
     while(1) {
         ptr = malloc(RAWBLK1K);
@@ -24,8 +24,8 @@ void DoMapMemoryTest() {
         ptr -= BLKOH;
 
         if (ptr != expect_ptr) {
-            if (initptr != (char*)NULL)
-                lux_Debug_Log("$%04x-$%04x", initptr, expect_ptr-1);
+            if (initptr != (char*)nullptr)
+                Debug_Log("$%04x-$%04x", initptr, expect_ptr-1);
             initptr = ptr;
         }
         misalign = ((int)ptr)&(BLK1K-1);
@@ -36,7 +36,7 @@ void DoMapMemoryTest() {
         else
             expect_ptr = ptr+BLK1K;
     }
-    lux_Debug_Log("$%04x-$%04x", initptr, expect_ptr-1);
+    Debug_Log("$%04x-$%04x", initptr, expect_ptr-1);
 	
-    lux_Debug_Log("* End Map Memory Test *");
+    Debug_Log("* End Map Memory Test *");
 }

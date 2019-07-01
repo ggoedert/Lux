@@ -4,9 +4,10 @@
 
 #include <peekpoke.h> 
 
-#include "LuxEngine.h"
-
 #include "Screen.h"
+
+#include "LuxApplication.h"
+#include "LuxScreen.h"
 
 #define CLR80COL  0xC000    // disable 80-column store
 #define SET80COL  0xC001    // enable 80-column store
@@ -37,14 +38,14 @@ void maintoaux(unsigned src0, unsigned src1, unsigned dest0) {
 }
 #pragma optimize (pop)
 
-void lux_Screen_Init() {
-    if (lux_Application.machine < IIe)
-        lux_Screen_resolutions_Length = 5;
+void Screen_Init() {
+    if (application.machine < IIe)
+        Screen_resolutions_Length = 5;
     else
-        lux_Screen_resolutions_Length = 10;
+        Screen_resolutions_Length = 10;
     memset((void*)0x0400, 0xa0, 0x0400);
     memset((void*)0x2000, 0x00, 0x2000);
-    if (lux_Application.machine >= IIe) {
+    if (application.machine >= IIe) {
         POKE(SET80COL, 0);
         POKE(TXTPAGE2, 0);
         memset((void*)0x0400, 0xa0, 0x0400);
@@ -55,48 +56,48 @@ void lux_Screen_Init() {
     gotoy(22);
 }
 
-void lux_Screen_resolutions_Get(Lux_Resolution** lux_Screen_resolutions) {
-    *lux_Screen_resolutions = malloc(sizeof(Lux_Resolution)*lux_Screen_resolutions_Length);
-    (*lux_Screen_resolutions)[0].mode = TEXT;
-    (*lux_Screen_resolutions)[0].doubleRes = false;
-    (*lux_Screen_resolutions)[0].mixed = false;
-    (*lux_Screen_resolutions)[1].mode = GR;
-    (*lux_Screen_resolutions)[1].doubleRes = false;
-    (*lux_Screen_resolutions)[1].mixed = false;
-    (*lux_Screen_resolutions)[2].mode = GR;
-    (*lux_Screen_resolutions)[2].doubleRes = false;
-    (*lux_Screen_resolutions)[2].mixed = true;
-    (*lux_Screen_resolutions)[3].mode = HGR;
-    (*lux_Screen_resolutions)[3].doubleRes = false;
-    (*lux_Screen_resolutions)[3].mixed = false;
-    (*lux_Screen_resolutions)[4].mode = HGR;
-    (*lux_Screen_resolutions)[4].doubleRes = false;
-    (*lux_Screen_resolutions)[4].mixed = true;
-    if (lux_Application.machine >= IIe) {
-        (*lux_Screen_resolutions)[5].mode = TEXT;
-        (*lux_Screen_resolutions)[5].doubleRes = true;
-        (*lux_Screen_resolutions)[5].mixed = false;
-        (*lux_Screen_resolutions)[6].mode = GR;
-        (*lux_Screen_resolutions)[6].doubleRes = true;
-        (*lux_Screen_resolutions)[6].mixed = false;
-        (*lux_Screen_resolutions)[7].mode = GR;
-        (*lux_Screen_resolutions)[7].doubleRes = true;
-        (*lux_Screen_resolutions)[7].mixed = true;
-        (*lux_Screen_resolutions)[8].mode = HGR;
-        (*lux_Screen_resolutions)[8].doubleRes = true;
-        (*lux_Screen_resolutions)[8].mixed = false;
-        (*lux_Screen_resolutions)[9].mode = HGR;
-        (*lux_Screen_resolutions)[9].doubleRes = true;
-        (*lux_Screen_resolutions)[9].mixed = true;
+void Screen_resolutions_Get(Resolution** screen_resolutions) {
+    *screen_resolutions = malloc(sizeof(Resolution)*Screen_resolutions_Length);
+    (*screen_resolutions)[0].mode = TEXT;
+    (*screen_resolutions)[0].doubleRes = false;
+    (*screen_resolutions)[0].mixed = false;
+    (*screen_resolutions)[1].mode = GR;
+    (*screen_resolutions)[1].doubleRes = false;
+    (*screen_resolutions)[1].mixed = false;
+    (*screen_resolutions)[2].mode = GR;
+    (*screen_resolutions)[2].doubleRes = false;
+    (*screen_resolutions)[2].mixed = true;
+    (*screen_resolutions)[3].mode = HGR;
+    (*screen_resolutions)[3].doubleRes = false;
+    (*screen_resolutions)[3].mixed = false;
+    (*screen_resolutions)[4].mode = HGR;
+    (*screen_resolutions)[4].doubleRes = false;
+    (*screen_resolutions)[4].mixed = true;
+    if (application.machine >= IIe) {
+        (*screen_resolutions)[5].mode = TEXT;
+        (*screen_resolutions)[5].doubleRes = true;
+        (*screen_resolutions)[5].mixed = false;
+        (*screen_resolutions)[6].mode = GR;
+        (*screen_resolutions)[6].doubleRes = true;
+        (*screen_resolutions)[6].mixed = false;
+        (*screen_resolutions)[7].mode = GR;
+        (*screen_resolutions)[7].doubleRes = true;
+        (*screen_resolutions)[7].mixed = true;
+        (*screen_resolutions)[8].mode = HGR;
+        (*screen_resolutions)[8].doubleRes = true;
+        (*screen_resolutions)[8].mixed = false;
+        (*screen_resolutions)[9].mode = HGR;
+        (*screen_resolutions)[9].doubleRes = true;
+        (*screen_resolutions)[9].mixed = true;
     }
 }
 
-void lux_Screen_SetResolution(byte mode, bool doubleRes, bool mixed) {
+void Screen_SetResolution(byte mode, bool doubleRes, bool mixed) {
     switch(mode) {
         case TEXT:
             POKE(CLRHIRES, 0);
             POKE(SETTEXT, 0);
-            if (lux_Application.machine >= IIe) {
+            if (application.machine >= IIe) {
                 POKE(SETIOUDIS, 0);
                 POKE(CLRDHIRES, 0);
                 if (doubleRes) {
@@ -114,7 +115,7 @@ void lux_Screen_SetResolution(byte mode, bool doubleRes, bool mixed) {
             POKE(CLRHIRES, 0);
             POKE(CLRTEXT, 0);
             POKE(CLR80COL, 0);
-            if (lux_Application.machine >= IIe) {
+            if (application.machine >= IIe) {
                 POKE(SETIOUDIS, 0);
                 if (doubleRes) {
                     POKE(SETDHIRES, 0);
@@ -134,7 +135,7 @@ void lux_Screen_SetResolution(byte mode, bool doubleRes, bool mixed) {
             POKE(SETHIRES, 0);
             POKE(CLRTEXT, 0);
             POKE(CLR80COL, 0);
-            if (lux_Application.machine >= IIe) {
+            if (application.machine >= IIe) {
                 POKE(SETIOUDIS, 0);
                 if (doubleRes) {
                     POKE(SETDHIRES, 0);

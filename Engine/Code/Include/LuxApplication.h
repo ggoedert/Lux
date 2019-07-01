@@ -4,9 +4,9 @@
 #include "LuxDefs.h"
 
 // version of the lux engine
-#define luxVersionMajor     0x0000
-#define luxVersionMinor     0x0001
-#define luxVersion          (luxVersionMajor<<16)+luxVersionMinor
+#define luxVersionMajor     0x00
+#define luxVersionMinor     0x01
+#define luxVersion          ((luxVersionMajor<<8)+luxVersionMinor)
 
 // machine types
 enum {
@@ -18,14 +18,18 @@ enum {
     IIeCard     // Apple IIe Card for the Macintosh LC
 };
 
-class(Lux_Application) {
+class (Application,
     byte machine;       // the type of Apple II
     byte romlevel;      // which revision of the machine
     byte memory;        // how much memory (up to 128K)
     char* name;         // application name
     int version;        // application version number
-};
+);
 
-LUX_EXTERN Lux_Application lux_Application;
+typedef void (*LoadApplication)(void);
+
+void Application_Run(char* name, int version, LoadApplication loadApplication);
+
+LUX_EXTERN Application application;
 
 #endif

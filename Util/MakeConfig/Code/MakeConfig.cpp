@@ -4,7 +4,7 @@
 #include <sys/stat.h>
 
 int main(int argc, char* argv[]) {
-    char* command, *refFile, *refBaseFile;
+    char* command, *refFile;
     char tmpBuffer[256];
     FILE* outputFile;
     bool makeFull;
@@ -45,8 +45,7 @@ int main(int argc, char* argv[]) {
     }
     else
         numberOverlay = argc-3;
-    refBaseFile = strrchr(refFile, '/')+1;
-    sprintf(tmpBuffer, "%s.cfg", refBaseFile);
+    sprintf(tmpBuffer, "%s.cfg", refFile);
     outputFile = fopen(tmpBuffer, "w");
     if (makeFull)
         printf("Making FULL overlay config for: %s, overlays: %d, output: %s\n", refFile, numberOverlay, tmpBuffer);

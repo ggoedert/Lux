@@ -1,7 +1,7 @@
 #include "LuxDefs.h"
 
 //Base.h
-virtual_class(Base, (
+virtual_class (Base, (
         char* m_name;
     ), (
         void (*Print)(Base* this);
@@ -11,7 +11,7 @@ virtual_class(Base, (
 void Base_Constructor(Base* this, virtual_table(Base)* vtable, char* name);
 
 //DerivedA.h
-derived_class(DerivedA, Base,
+derived_class (DerivedA, Base,
     char* m_otherName;
 );
 void DerivedA_Constructor(DerivedA* this, char* name, char* otherName);
@@ -19,7 +19,7 @@ void DerivedA_Constructor(DerivedA* this, char* name, char* otherName);
 void DerivedA_Print(Base* this);
 
 //DerivedB.h
-derived_class(DerivedB, Base,
+derived_class (DerivedB, Base,
     int m_number;
 );
 void DerivedB_Constructor(DerivedB* this, char* name, int number);

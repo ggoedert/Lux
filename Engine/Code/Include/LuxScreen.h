@@ -6,15 +6,14 @@
 // graphics modes
 enum { TEXT, GR, HGR };
 
-class(Lux_Resolution) {
+class (Resolution,
     byte mode;
     bool doubleRes;
     bool mixed;
-};
+);
 
-LUX_EXTERN int lux_Screen_resolutions_Length;
-void lux_Screen_resolutions_Get(Lux_Resolution** lux_Screen_resolutions);
-
-void lux_Screen_SetResolution(byte mode, bool doubleRes, bool mixed);
+LUX_EXTERN byte Screen_resolutions_Length;
+void Screen_resolutions_Get(Resolution** screen_resolutions);
+void Screen_SetResolution(byte mode, bool doubleRes, bool mixed);
 
 #endif
