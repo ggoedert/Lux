@@ -18,12 +18,12 @@ extern void foobar(void);
 // Functions resident in an overlay can call back functions resident in the
 // main program at any time without any precautions. The function log() is
 // an example for such a function resident in the main program.
-void log(char* msg) {
+void log(char *msg) {
     printf("Log: %s\n", msg);
 }
 
-bool loadOverlay(char* overlayFileName, void* overlayAddr) {
-    FILE* overlayFile;
+bool loadOverlay(char *overlayFileName, void *overlayAddr) {
+    FILE *overlayFile;
     int overlayFileSize;
     overlayFile = fopen(overlayFileName, "rb");
     if (nullptr == overlayFile)
@@ -63,6 +63,6 @@ void main() {
         foobar();
     }
 
-	printf("%u bytes free.\n", _heapmemavail());
+    printf("%u bytes free.\n", _heapmemavail());
     while(true);
 }

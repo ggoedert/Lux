@@ -12,8 +12,8 @@ void Debug_SetMode(byte mode) {
     debugMode = mode;
 }
 
-void Debug_Log(const char* format, ...) {
-    FILE* logFile;
+void Debug_Log(const char *format, ...) {
+    FILE *logFile;
     va_list args;
     if (debugMode) {
         va_start(args, format);

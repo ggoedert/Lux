@@ -10,9 +10,10 @@
 #define true 1
 #define false 0
 
-// bool/byte types
+// type aliases
 typedef char bool;
 typedef unsigned char byte;
+typedef unsigned int word;
 
 // struct/class helper macros
 #define REM_ENCLOSE_(...) __VA_ARGS__
@@ -27,7 +28,7 @@ typedef unsigned char byte;
 #define virtual_class(C, V, VT)                            \
     typedef struct C C;                                    \
     typedef struct C##_vtable C##_vtable;                  \
-    struct C { const C##_vtable* vtable; REM_ENCLOSE(V) }; \
+    struct C { const C##_vtable *vtable; REM_ENCLOSE(V) }; \
     struct C##_vtable { REM_ENCLOSE(VT) }
 
 #define derived_class(C, B, ...)  \

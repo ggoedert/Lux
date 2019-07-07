@@ -8,6 +8,6 @@
 #define DEBUG_MODE_FILE    0x2
 
 void Debug_SetMode(byte mode);
-void Debug_Log(const char* format, ...);
+void Debug_Log(const char *format, ...);
 
 #endif

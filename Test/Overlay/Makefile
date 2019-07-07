@@ -38,7 +38,7 @@ LDFLAGS = -t apple2 -C Build/$(CONFIG)/$(OUTPUT).cfg
 AS = ca65
 ASFLAGS = -t apple2
 CC = cl65 -c
-CFLAGS = -t apple2 -I Build/$(CONFIG)
+CFLAGS = -t apple2
 ifeq ($(CONFIG), Debug)
 CFLAGS += -D _DEBUG -g
 else ifeq ($(CONFIG), Size)

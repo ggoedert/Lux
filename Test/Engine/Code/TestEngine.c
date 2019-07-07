@@ -12,20 +12,20 @@ void loadApplication(void);
 
 //main.c
 void main() {
-    _heapadd((void*)0x800, 0x1800);
+    _heapadd((void *)0x800, 0x1800);
     Application_Run("TestEngine", 1, loadApplication);
 }
 
 void loadApplication() {
-	Scene* miniGameScene;
+    Scene *miniGameScene;
     
     Debug_SetMode(DEBUG_MODE_CONSOLE);
     Screen_SetResolution(HGR, true, true);
 
     miniGameScene = SceneManager_CreateScene("MiniGame");
 
-    /*char *ptr=(char *)0x2000;
-    char col = 0x0;
+    /*byte *ptr=(byte *)0x2000;
+    byte col = 0x0;
     Debug_Log("application.machine: %u", application.machine);
     Debug_Log("application.machine: %u", application.machine);
     Debug_Log("application.machine: %u", application.machine);
@@ -36,12 +36,12 @@ void loadApplication() {
     Debug_Log("application.machine: %u", application.machine);
     Debug_Log("application.machine: %u", application.machine);
     Debug_Log("application.machine: %u", application.machine);*/
-    /* while (ptr<(char*)0x4000) {
+    /* while (ptr<(byte *)0x4000) {
         *ptr = 0xff;
         ptr++;
         col++;
     }*/
-	Debug_Log("%u bytes free.", _heapmemavail());
+    Debug_Log("%u bytes free.", _heapmemavail());
 
     //should keep track if we are really in DHGR
     //should do some scheduling function with stack with graphics commands that write to screen during vsync or something
@@ -56,10 +56,10 @@ void loadApplication() {
         POKE(TXTPAGE1, 0);
         POKE(CLR80COL, 0);
     }
-    memset((void*)0x2000, 0xff, 0x2000);
+    memset((void *)0x2000, 0xff, 0x2000);
     if (application.machine >= IIe) {
         POKE(SET80COL, 0);
         POKE(TXTPAGE2, 0);
-        memset((void*)0x2000, 0xff, 0x2000);
+        memset((void *)0x2000, 0xff, 0x2000);
     }
 }

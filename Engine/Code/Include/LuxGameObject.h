@@ -5,7 +5,7 @@
 #include "LuxScene.h"
 
 derived_class (GameObject, Object,
-    Scene* scene;
+    Scene *scene;
 );
 
 #endif

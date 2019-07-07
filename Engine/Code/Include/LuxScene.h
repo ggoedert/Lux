@@ -4,7 +4,7 @@
 #include "LuxDefs.h"
 
 class (Scene,
-    char* name;
+    char *name;
 );
 
 #endif

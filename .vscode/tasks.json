@@ -488,6 +488,87 @@
                 "cwd": "${workspaceRoot}/Util/MakeConfig"
             },
             "problemMatcher": []
+        },
+        {
+            "label": "Clean UtilPackageData Debug",
+            "type": "shell",
+            "command": "make CONFIG=Debug clean",
+            "options": {
+                "cwd": "${workspaceRoot}/Util/PackageData"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build UtilPackageData Debug",
+            "type": "shell",
+            "command": "make CONFIG=Debug",
+            "options": {
+                "cwd": "${workspaceRoot}/Util/PackageData"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Rebuild UtilPackageData Debug",
+            "type": "shell",
+            "command": "make CONFIG=Debug clean all",
+            "options": {
+                "cwd": "${workspaceRoot}/Util/PackageData"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean UtilPackageData Size",
+            "type": "shell",
+            "command": "make CONFIG=Size clean",
+            "options": {
+                "cwd": "${workspaceRoot}/Util/PackageData"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build UtilPackageData Size",
+            "type": "shell",
+            "command": "make CONFIG=Size",
+            "options": {
+                "cwd": "${workspaceRoot}/Util/PackageData"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Rebuild UtilPackageData Size",
+            "type": "shell",
+            "command": "make CONFIG=Size clean all",
+            "options": {
+                "cwd": "${workspaceRoot}/Util/PackageData"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean UtilPackageData Speed",
+            "type": "shell",
+            "command": "make CONFIG=Speed clean",
+            "options": {
+                "cwd": "${workspaceRoot}/Util/PackageData"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build UtilPackageData Speed",
+            "type": "shell",
+            "command": "make CONFIG=Speed",
+            "options": {
+                "cwd": "${workspaceRoot}/Util/PackageData"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Rebuild UtilPackageData Speed",
+            "type": "shell",
+            "command": "make CONFIG=Speed clean all",
+            "options": {
+                "cwd": "${workspaceRoot}/Util/PackageData"
+            },
+            "problemMatcher": []
         }
 	]
 }

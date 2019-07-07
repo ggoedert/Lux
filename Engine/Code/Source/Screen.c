@@ -26,37 +26,39 @@
 #define SETIOUDIS 0xC07E    // turn on IOUDis access for addresses $C058 to $C05F
 #define CLRIOUDIS 0xC07F    // turn off IOUDis access for addresses $C058 to $C05F
 
-#pragma optimize (push,off)
-void maintoaux(unsigned src0, unsigned src1, unsigned dest0) {
-    unsigned *src  = (unsigned *)0x3c;
-    unsigned *dest = (unsigned *)0x42;
-    src[0] = src0;
-    src[1] = src1;
-    dest[0] = dest0;
+#define STARTSOU  0x003C
+#define ENDSOU    0x003E
+#define DEST      0x0042
+#define AUXMOVE   0xC311    // C=0 Aux->Main, C=1 Main->Aux 
+#define MOVE      0xFE2C    // Main<->Main, *MUST* set Y=0 prior! 
+
+void auxmove(word start, word end, word dest) {
+    POKE(STARTSOU, start);
+    POKE(ENDSOU, end);
+    POKE(DEST, dest);
     asm("sec");
-    asm("jsr $c311");
+    asm("jsr %w", AUXMOVE);
 }
-#pragma optimize (pop)
 
 void Screen_Init() {
     if (application.machine < IIe)
         Screen_resolutions_Length = 5;
     else
         Screen_resolutions_Length = 10;
-    memset((void*)0x0400, 0xa0, 0x0400);
-    memset((void*)0x2000, 0x00, 0x2000);
+    memset((void *)0x0400, 0xa0, 0x0400);
+    memset((void *)0x2000, 0x00, 0x2000);
     if (application.machine >= IIe) {
         POKE(SET80COL, 0);
         POKE(TXTPAGE2, 0);
-        memset((void*)0x0400, 0xa0, 0x0400);
+        memset((void *)0x0400, 0xa0, 0x0400);
         POKE(TXTPAGE1, 0);
         POKE(CLR80COL, 0);
-        maintoaux(0x2000, 0x4000, 0x2000);
+        auxmove(0x2000, 0x3FFF, 0x2000);
     }
     gotoy(22);
 }
 
-void Screen_resolutions_Get(Resolution** screen_resolutions) {
+void Screen_resolutions_Get(Resolution **screen_resolutions) {
     *screen_resolutions = malloc(sizeof(Resolution)*Screen_resolutions_Length);
     (*screen_resolutions)[0].mode = TEXT;
     (*screen_resolutions)[0].doubleRes = false;

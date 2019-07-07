@@ -4,7 +4,7 @@
 #include "LuxDefs.h"
 
 class (Object,
-    char* name;
+    char *name;
 );
 
 #endif

@@ -27,7 +27,7 @@ LDFLAGS = -t apple2 --start-addr 0x4000
 AS = ca65
 ASFLAGS = -t apple2
 CC = cl65 -c
-CFLAGS = -t apple2 -I Build/$(CONFIG) -I ../../Engine/Code/Include
+CFLAGS = -t apple2 -I ../../Engine/Code/Include
 ifeq ($(CONFIG), Debug)
 CFLAGS += -D _DEBUG -g
 else ifeq ($(CONFIG), Size)

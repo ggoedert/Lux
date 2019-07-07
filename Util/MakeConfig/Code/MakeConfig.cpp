@@ -3,10 +3,10 @@
 #include <string.h>
 #include <sys/stat.h>
 
-int main(int argc, char* argv[]) {
-    char* command, *refFile;
+int main(int argc, char *argv[]) {
+    char *command, *refFile;
     char tmpBuffer[256];
-    FILE* outputFile;
+    FILE *outputFile;
     bool makeFull;
     struct stat st;
     int numberOverlay = 0, biggestOverlay = 0;
@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
     }
     makeFull = ('f' == command[1]);
     refFile = argv[2];
-    for (char* chPtr = strchr(refFile, '\\'); nullptr != chPtr; chPtr = strchr(chPtr, '\\'))
+    for (char *chPtr = strchr(refFile, '\\'); nullptr != chPtr; chPtr = strchr(chPtr, '\\'))
         *chPtr = '/';
     if (makeFull) {
         if (-1 == access(refFile, F_OK)) {

@@ -13,7 +13,7 @@ class (Resolution,
 );
 
 LUX_EXTERN byte Screen_resolutions_Length;
-void Screen_resolutions_Get(Resolution** screen_resolutions);
+void Screen_resolutions_Get(Resolution **screen_resolutions);
 void Screen_SetResolution(byte mode, bool doubleRes, bool mixed);
 
 #endif

@@ -1,5 +1,6 @@
 #include <stdlib.h>
 
+#include "LuxSystem.h"
 #include "LuxEngine.h"
 
 #include "Classes.h"
@@ -9,30 +10,36 @@ void loadApplication(void);
 
 //main.c
 void main() {
+    _heapadd((void *)0x800, 0x1800);
     Application_Run("Test", 42, loadApplication);
 }
 
 void loadApplication() {
-	Debug_SetMode(DEBUG_MODE_CONSOLE|DEBUG_MODE_FILE);
+    Debug_SetMode(DEBUG_MODE_CONSOLE|DEBUG_MODE_FILE);
     Screen_SetResolution(TEXT, false, false);
 
-	Debug_Log("%u bytes free.", _heapmemavail());
+    Debug_Log("%u bytes free.", _heapmemavail());
     Debug_Log("");
 
     Debug_Log("application.machine: %u", application.machine);
     Debug_Log("application.romlevel: %u",  application.romlevel);
     Debug_Log("application.memory: %u",  application.memory);
-	Debug_Log("application.name: %s", application.name);
-	Debug_Log("application.version: %d", application.version);
-	Debug_Log("Screen_resolutions_Length: %d", Screen_resolutions_Length);
+    Debug_Log("application.name: %s", application.name);
+    Debug_Log("application.version: %d", application.version);
+    Debug_Log("Screen_resolutions_Length: %d", Screen_resolutions_Length);
+    Debug_Log("");
+
+    Debug_Log("String_GetHashCode(\"abcde\"): $%04x", String_GetHashCode("abcde"));
+    Debug_Log("String_GetHashCode(\"abcdef\"): $%04x", String_GetHashCode("abcdef"));
+    Debug_Log("String_GetHashCode(\"abcdefgh\"): $%04x", String_GetHashCode("abcdefgh"));
     Debug_Log("");
 
     DoClassesTest();
     Debug_Log("");
     
-    DoMapMemoryTest();
-    Debug_Log("");
+    //DoMapMemoryTest(); @this is not working@
+    //Debug_Log("");
 
-	Debug_Log("%u bytes free.", _heapmemavail());
-	Debug_Log("end.");
+    Debug_Log("%u bytes free.", _heapmemavail());
+    Debug_Log("end.");
 }

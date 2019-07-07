@@ -22,13 +22,13 @@ class (Application,
     byte machine;       // the type of Apple II
     byte romlevel;      // which revision of the machine
     byte memory;        // how much memory (up to 128K)
-    char* name;         // application name
+    char *name;         // application name
     int version;        // application version number
 );
 
 typedef void (*LoadApplication)(void);
 
-void Application_Run(char* name, int version, LoadApplication loadApplication);
+void Application_Run(char *name, int version, LoadApplication loadApplication);
 
 LUX_EXTERN Application application;
 

@@ -9,4 +9,4 @@ typedef struct {
    byte memory;   // how much memory (up to 128K)
 } Apple2Id;
 
-void GetApple2Id(Apple2Id* apple2Id);
+void GetApple2Id(Apple2Id *apple2Id);
