@@ -18,22 +18,28 @@ typedef unsigned int word;
 // struct/class helper macros
 #define REM_ENCLOSE_(...) __VA_ARGS__
 #define REM_ENCLOSE(...) REM_ENCLOSE_ __VA_ARGS__
-#define virtual_table(C) const struct C##_vtable
-#define virtual_table_instance(C) g_##C##_vtable
+#define virtual_table(T) const struct T##_vtable
+#define virtual_table_instance(T) g_##T##_vtable
 
-#define class(C, ...)        \
-    typedef struct C C;      \
-    struct C { __VA_ARGS__ }
+#define class(T, ...)        \
+    typedef struct T T;      \
+    struct T { __VA_ARGS__ }
 
-#define virtual_class(C, V, VT)                            \
-    typedef struct C C;                                    \
-    typedef struct C##_vtable C##_vtable;                  \
-    struct C { const C##_vtable *vtable; REM_ENCLOSE(V) }; \
-    struct C##_vtable { REM_ENCLOSE(VT) }
+#define virtual_class(T, D, VT)                            \
+    typedef struct T T;                                    \
+    typedef struct T##_vtable T##_vtable;                  \
+    struct T { const T##_vtable *vtable; REM_ENCLOSE(D) }; \
+    struct T##_vtable { REM_ENCLOSE(VT) }
 
-#define derived_class(C, B, ...)  \
-    typedef struct C C;           \
-    struct C { B B; __VA_ARGS__ }
+#define derived_class(T, B, ...)  \
+    typedef struct T T;           \
+    struct T { B B; __VA_ARGS__ }
+
+#define derived_virtual_class(T, B, D, VT)                      \
+    typedef struct T T;                                         \
+    typedef struct T##_vtable T##_vtable;                       \
+    struct T { const T##_vtable *vtable; B B; REM_ENCLOSE(D) }; \
+    struct T##_vtable { REM_ENCLOSE(VT) }
 
 // extern macro for defining globals
 #ifndef LUX_DEFINE_GLOBALS

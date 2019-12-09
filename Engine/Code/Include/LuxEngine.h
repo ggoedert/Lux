@@ -4,7 +4,7 @@
 #include "LuxApplication.h"
 #include "LuxDebug.h"
 #include "LuxGameObject.h"
-#include "LuxObject.h"
+#include "LuxCustomBehaviour.h"
 #include "LuxScreen.h"
 
 #endif

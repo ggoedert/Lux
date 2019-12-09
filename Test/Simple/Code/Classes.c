@@ -7,10 +7,10 @@
 //Base.c
 void Base_Constructor(Base *this, virtual_table(Base) *vtable, char *name) {
     this->vtable = vtable;
-    this->m_name = name;    
+    this->name = name;    
 }
 void Base_OtherPrint(Base *this) {
-    Debug_Log("Base_OtherPrint - %s", this->m_name);
+    Debug_Log("Base_OtherPrint - %s", this->name);
 }
 
 //DerivedA.c
@@ -20,10 +20,10 @@ virtual_table(Base) virtual_table_instance(DerivedA) = {
 };
 void DerivedA_Constructor(DerivedA *this, char *name, char *otherName) {
     Base_Constructor(&this->Base, &virtual_table_instance(DerivedA), name);
-    this->m_otherName = otherName;
+    this->otherName = otherName;
 }
 void DerivedA_Print(Base *this) {
-    Debug_Log("DerivedA_Print - %s - %s", this->m_name, ((DerivedA *)this)->m_otherName);
+    Debug_Log("DerivedA_Print - %s - %s", this->name, ((DerivedA *)this)->otherName);
 }
 
 //DerivedB.c
@@ -33,7 +33,7 @@ virtual_table(Base) virtual_table_instance(DerivedB) = {
 };
 void DerivedB_Constructor(DerivedB *this, char *name, int number) {
     Base_Constructor(&this->Base, &virtual_table_instance(DerivedB), name);
-    this->m_number = number;
+    this->number = number;
 }
 DerivedB *DerivedB_New(char *name, int number) {
     DerivedB *new_ptr = (DerivedB *)malloc(sizeof(DerivedB));
@@ -42,7 +42,7 @@ DerivedB *DerivedB_New(char *name, int number) {
     return new_ptr;
 }
 void DerivedB_Print(Base *this) {
-    Debug_Log("DerivedB_Print - %s - %d", this->m_name, ((DerivedB *)this)->m_number);
+    Debug_Log("DerivedB_Print - %s - %d", this->name, ((DerivedB *)this)->number);
 }
 void DerivedB_OtherPrint(Base *this) {
     Debug_Log("DerivedB_OtherPrint");

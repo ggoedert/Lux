@@ -6,5 +6,9 @@
 class (Object,
     char *name;
 );
+void Object_Constructor(Object *this, char *name);
+void Object_Destructor(Object *this);
+Object *Object_New(char *name);
+void Object_Delete(Object *this);
 
 #endif

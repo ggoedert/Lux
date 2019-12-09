@@ -17,12 +17,8 @@ void main() {
 }
 
 void loadApplication() {
-    Scene *miniGameScene;
-    
     Debug_SetMode(DEBUG_MODE_CONSOLE);
     Screen_SetResolution(HGR, true, true);
-
-    miniGameScene = SceneManager_CreateScene("MiniGame");
 
     /*byte *ptr=(byte *)0x2000;
     byte col = 0x0;
