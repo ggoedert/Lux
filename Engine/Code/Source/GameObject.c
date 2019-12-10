@@ -1,15 +1,15 @@
 #include "LuxGameObject.h"
 #include "LuxComponent.h"
 
-void GameObject_Constructor(GameObject *this, char *name) {
-    Object_Constructor(&this->Object, name);
+void GameObject_Constructor(GameObject *this, word id) {
+    Object_Constructor(&this->Object, id);
     Stack_Constructor(&this->componentPtrs, sizeof(Component *));
 }
 
 void GameObject_Destructor(GameObject *this) {
 }
 
-GameObject *GameObject_New(char *name) {
+GameObject *GameObject_New(word id) {
     return nullptr;
 }
 

@@ -18,6 +18,7 @@ typedef unsigned int word;
 // struct/class helper macros
 #define REM_ENCLOSE_(...) __VA_ARGS__
 #define REM_ENCLOSE(...) REM_ENCLOSE_ __VA_ARGS__
+#define NONE REM_ENCLOSE(())
 #define virtual_table(T) const struct T##_vtable
 #define virtual_table_instance(T) g_##T##_vtable
 

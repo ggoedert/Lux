@@ -4,11 +4,11 @@
 #include "LuxDefs.h"
 
 class (Object,
-    char *name;
+    word id;
 );
-void Object_Constructor(Object *this, char *name);
+void Object_Constructor(Object *this, word id);
 void Object_Destructor(Object *this);
-Object *Object_New(char *name);
+Object *Object_New(word id);
 void Object_Delete(Object *this);
 
 #endif

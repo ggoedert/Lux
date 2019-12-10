@@ -9,7 +9,7 @@ derived_virtual_class (CustomBehaviour, Behaviour, (
 		void (*Update)(CustomBehaviour *this);
     )
 );
-void CustomBehaviour_Constructor(CustomBehaviour *this, virtual_table(CustomBehaviour) *vtable, char *name);
+void CustomBehaviour_Constructor(CustomBehaviour *this, virtual_table(CustomBehaviour) *vtable, word id);
 #define CustomBehaviour_Destructor Behaviour_Destructor
 //??CustomBehaviour *CustomBehaviour_New();
 //??void CustomBehaviour_Delete(CustomBehaviour *this);

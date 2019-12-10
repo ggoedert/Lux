@@ -33,7 +33,7 @@ void loadApplication() {
     Debug_Log("application.machine: %u", application.machine);
     Debug_Log("application.machine: %u", application.machine);*/
     /* while (ptr<(byte *)0x4000) {
-        *ptr = 0xff;
+        *ptr = 0xFF;
         ptr++;
         col++;
     }*/
@@ -52,10 +52,10 @@ void loadApplication() {
         POKE(TXTPAGE1, 0);
         POKE(CLR80COL, 0);
     }
-    memset((void *)0x2000, 0xff, 0x2000);
+    memset((void *)0x2000, 0xFF, 0x2000);
     if (application.machine >= IIe) {
         POKE(SET80COL, 0);
         POKE(TXTPAGE2, 0);
-        memset((void *)0x2000, 0xff, 0x2000);
+        memset((void *)0x2000, 0xFF, 0x2000);
     }
 }

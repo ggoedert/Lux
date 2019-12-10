@@ -45,12 +45,12 @@ void Screen_Init() {
         Screen_resolutions_Length = 5;
     else
         Screen_resolutions_Length = 10;
-    memset((void *)0x0400, 0xa0, 0x0400);
+    memset((void *)0x0400, 0xA0, 0x0400);
     memset((void *)0x2000, 0x00, 0x2000);
     if (application.machine >= IIe) {
         POKE(SET80COL, 0);
         POKE(TXTPAGE2, 0);
-        memset((void *)0x0400, 0xa0, 0x0400);
+        memset((void *)0x0400, 0xA0, 0x0400);
         POKE(TXTPAGE1, 0);
         POKE(CLR80COL, 0);
         auxmove(0x2000, 0x3FFF, 0x2000);

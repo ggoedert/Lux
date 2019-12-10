@@ -1,9 +1,8 @@
+#include "Scene.h"
+
+#include "LuxSystem.h"
 #include "LuxScene.h"
 
-void Scene_Constructor(Scene *this, virtual_table(Scene) *vtable, char *name) {
-    this->vtable = vtable;
-    this->name = name;
-}
-
-void Scene_Destructor(Scene *this) {
+void Scene_Init() {
+    Scene_id = 0xBF4C/*String_GetHashCode("Untitled")*/;
 }
