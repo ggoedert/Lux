@@ -3,7 +3,7 @@
 
 #include "LuxDefs.h"
 
-LUX_EXTERN char *Scene_id;
+LUX_EXTERN word Scene_id;
 typedef void (*Scene_Load)(word id);
 
 #endif
