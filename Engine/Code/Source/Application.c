@@ -1,7 +1,5 @@
 #define LUX_DEFINE_GLOBALS
 
-#include <stdlib.h>
-
 #include "Apple2Id.h"
 #include "Screen.h"
 #include "Scene.h"

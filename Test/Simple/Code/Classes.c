@@ -1,5 +1,3 @@
-#include <stdlib.h>
-
 #include "LuxEngine.h"
 
 #include "Classes.h"

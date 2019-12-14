@@ -1,6 +1,3 @@
-#include <stdlib.h>
-#include <string.h>
-
 #include "LuxStack.h"
 
 void Stack_Constructor(Stack *this, byte sizeOfItem) {

@@ -1,12 +1,8 @@
-#include <stdlib.h>
 #include <string.h>
-
-#include <apple2.h>
+#include <peekpoke.h>//@@need major cleanup@@ ??delthis??
 
 #include "LuxEngine.h"
 #include "LuxSceneManagement.h"
-
-#include <peekpoke.h>//@@need major cleanup@@ ??delthis??
 
 void loadApplication(void);
 

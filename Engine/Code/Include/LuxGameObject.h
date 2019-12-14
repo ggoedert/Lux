@@ -7,7 +7,6 @@
 derived_class (GameObject, Object,
     Stack componentPtrs;
 );
-GameObject *GameObject_New(word id);
-void GameObject_Delete(GameObject *this);
+class_new_delete_prototypes(GameObject, word id);
 
 #endif

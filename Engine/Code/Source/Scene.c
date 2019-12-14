@@ -8,7 +8,6 @@
 Stack gameObjectStack;
 
 void Scene_Init() {
-    Scene_id = 0xBF4C/*String_GetHashCode("Untitled")*/;
     Stack_Constructor(&gameObjectStack, sizeof(GameObject *));
 }
 

@@ -3,9 +3,9 @@
 
 #include "LuxGameObject.h"
 
-void Scene_Init();
-void Scene_Finalize();
+void Scene_Init(void);
+void Scene_Finalize(void);
 void Scene_RegisterGameObject(GameObject *gameObject);
-void Scene_Run();
+void Scene_Run(void);
 
 #endif

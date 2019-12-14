@@ -1,6 +1,3 @@
-#include <stdlib.h>
-#include <string.h>
-
 #include "SceneManager.h"
 #include "Scene.h"
 
@@ -16,6 +13,7 @@ Stack sceneManagerStack;
 
 void SceneManager_Init() {
     Stack_Constructor(&sceneManagerStack, sizeof(SceneManagerItem));
+    Scene_Init();
 }
 
 void SceneManager_IncludeScene(word sceneId, Scene_Load scene_Load) {
@@ -30,7 +28,8 @@ void SceneManager_LoadScene(word sceneId) {
         SceneManagerItem *sceneManagerItem = Stack_Get(&sceneManagerStack, i);
         if (sceneManagerItem->sceneId == sceneId) {
             Scene_Finalize();
-            sceneManagerItem->scene_Load(sceneId);
+            Scene_id = sceneId;
+            sceneManagerItem->scene_Load();
             break;
         }
     }
