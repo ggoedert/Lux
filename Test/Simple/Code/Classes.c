@@ -36,10 +36,10 @@ void DerivedB_Constructor(DerivedB *this, char *name, int number) {
     this->number = number;
 }
 DerivedB *DerivedB_New(char *name, int number) {
-    DerivedB *new_ptr = (DerivedB *)malloc(sizeof(DerivedB));
-    if (new_ptr)
-        DerivedB_Constructor(new_ptr, name, number);
-    return new_ptr;
+    DerivedB *this = (DerivedB *)malloc(sizeof(DerivedB));
+    if (this)
+        DerivedB_Constructor(this, name, number);
+    return this;
 }
 void DerivedB_Print(Base *this) {
     Debug_Log("DerivedB_Print - %s - %d", this->name, ((DerivedB *)this)->number);

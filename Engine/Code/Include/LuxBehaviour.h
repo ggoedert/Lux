@@ -3,10 +3,12 @@
 
 #include "LuxComponent.h"
 
-#define Behaviour Component
-#define Behaviour_Constructor Component_Constructor
-#define Behaviour_Destructor Component_Destructor
-#define Behaviour_New Component_New
-#define Behaviour_Delete Component_Delete
+derived_class (Behaviour, Component,
+    NONE
+);
+void Behaviour_Constructor(Behaviour *this, virtual_table(Component) *vtable);
+void Behaviour_Destructor(Behaviour *this);
+Behaviour *Behaviour_New(word id);
+void Behaviour_Delete(Behaviour *this);
 
 #endif

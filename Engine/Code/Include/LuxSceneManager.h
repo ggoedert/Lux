@@ -5,6 +5,5 @@
 
 void SceneManager_IncludeScene(word sceneId, Scene_Load scene_Load);
 void SceneManager_LoadScene(word sceneId);
-void SceneManager_Run();
 
 #endif

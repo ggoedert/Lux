@@ -26,20 +26,20 @@ typedef unsigned int word;
     typedef struct T T;      \
     struct T { __VA_ARGS__ }
 
+#define derived_class(T, B, ...)  \
+    typedef struct T T;           \
+    struct T { B B; __VA_ARGS__ }
+
 #define virtual_class(T, D, VT)                            \
     typedef struct T T;                                    \
     typedef struct T##_vtable T##_vtable;                  \
     struct T { const T##_vtable *vtable; REM_ENCLOSE(D) }; \
     struct T##_vtable { REM_ENCLOSE(VT) }
 
-#define derived_class(T, B, ...)  \
-    typedef struct T T;           \
-    struct T { B B; __VA_ARGS__ }
-
 #define derived_virtual_class(T, B, D, VT)                      \
     typedef struct T T;                                         \
     typedef struct T##_vtable T##_vtable;                       \
-    struct T { const T##_vtable *vtable; B B; REM_ENCLOSE(D) }; \
+    struct T { B B; const T##_vtable *vtable; REM_ENCLOSE(D) }; \
     struct T##_vtable { REM_ENCLOSE(VT) }
 
 // extern macro for defining globals

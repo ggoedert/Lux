@@ -2,10 +2,10 @@
 
 //Base.h
 virtual_class (Base, (
-		char *name;
+        char *name;
     ), (
-		void (*Print)(Base *this);
-		void (*OtherPrint)(Base *this);
+        void (*Print)(Base *this);
+        void (*OtherPrint)(Base *this);
     )
 );
 void Base_Constructor(Base *this, virtual_table(Base) *vtable, char *name);

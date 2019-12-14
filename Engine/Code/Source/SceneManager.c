@@ -24,14 +24,15 @@ void SceneManager_IncludeScene(word sceneId, Scene_Load scene_Load) {
     sceneManagerItem->scene_Load = scene_Load;
 }
 
-void SceneManager_Run() {
-    if (sceneManagerStack.count) {                          //SHOULD NOT NEED THIS, GAME SHOULD WORK EVEN WITHOUT A SCENE LOADED
-        SceneManagerItem *sceneManagerItem = Stack_Get(&sceneManagerStack, 0);
-        sceneManagerItem->scene_Load(sceneManagerItem->sceneId);
+void SceneManager_LoadScene(word sceneId) {
+    int i;
+    for (i=0; i<sceneManagerStack.count; i++) {
+        SceneManagerItem *sceneManagerItem = Stack_Get(&sceneManagerStack, i);
+        if (sceneManagerItem->sceneId == sceneId) {
+            Scene_Finalize();
+            sceneManagerItem->scene_Load(sceneId);
+            break;
+        }
     }
-    
-    /* ???
-	if (activeScene != nullptr)
-        activeScene->vtable->Run(activeScene);                                          //SHOULD NOT NEED THIS, RUN SHOULD ONLY GO THROGH THE LIST OF CURRENT GAMEOBJECTS
-	??? */
 }
+

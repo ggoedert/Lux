@@ -4,6 +4,7 @@
 
 #include "Apple2Id.h"
 #include "Screen.h"
+#include "Scene.h"
 #include "SceneManager.h"
 
 #include "LuxApplication.h"
@@ -24,5 +25,5 @@ void Application_Run(char *name, int version, LoadApplication loadApplication) {
 
     loadApplication();
     while(true)
-        SceneManager_Run();
+        Scene_Run();
 }
