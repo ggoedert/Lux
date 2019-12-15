@@ -54,28 +54,38 @@ typedef unsigned int word;
 #define class_delete_implementation(T)     void T##_Delete(T *this) { T##_Destructor(this); free(this); }
 
 #define class_constructor_destructor_prototypes(T, ...) \
-    class_constructor_prototype(T, __VA_ARGS__);       \
+    class_constructor_prototype(T, __VA_ARGS__);        \
     class_destructor_prototype(T)
 
 #define class_constructor_destructor_implementations(T, A, CI, DI) \
-    class_constructor_implementation(T, A, REM_ENCLOSE(CI))       \
+    class_constructor_implementation(T, A, REM_ENCLOSE(CI))        \
     class_destructor_implementation(T, REM_ENCLOSE(DI))
 
 #define class_new_delete_prototypes(T, ...) \
-    class_new_prototype(T, __VA_ARGS__);   \
+    class_new_prototype(T, __VA_ARGS__);    \
     class_delete_prototype(T)
 
 #define class_new_delete_implementations(T, ...) \
-    class_new_implementation(T, __VA_ARGS__)    \
+    class_new_implementation(T, __VA_ARGS__)     \
     class_delete_implementation(T)
 
-#define class_default_prototypes(T, ...)                    \
+#define class_default_prototypes(T, ...)                     \
     class_constructor_destructor_prototypes(T, __VA_ARGS__); \
     class_new_delete_prototypes(T, __VA_ARGS__)
 
-#define class_default_implementations(T, AD, A, CI, DI)        \
+#define class_default_implementations(T, AD, A, CI, DI)         \
     class_constructor_destructor_implementations(T, AD, CI, DI) \
     class_new_delete_implementations(T, AD, A)
+
+#define class_simple_default_implementations(T, B, A)  \
+    class_default_implementations(T, (NONE), (NONE),   \
+        (                                              \
+            B##_Constructor(&this->B, REM_ENCLOSE(A)); \
+        ),                                             \
+        (                                              \
+            B##_Destructor(&this->B);                  \
+        )                                              \
+    )
 
 // extern macro for defining globals
 #ifndef LUX_DEFINE_GLOBALS
