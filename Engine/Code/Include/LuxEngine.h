@@ -6,5 +6,7 @@
 #include "LuxGameObject.h"
 #include "LuxCustomBehaviour.h"
 #include "LuxScreen.h"
+#include "LuxVector2.h"
+#include "LuxTransform.h"
 
 #endif

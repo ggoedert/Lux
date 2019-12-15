@@ -31,6 +31,7 @@ void loadApplication() {
     Debug_Log("String_GetHashCode(\"abcdef\"): $%04x", String_GetHashCode("abcdef"));
     Debug_Log("String_GetHashCode(\"abcdefgh\"): $%04x", String_GetHashCode("abcdefgh"));
     Debug_Log("String_GetHashCode(\"Untitled\"): $%04x", String_GetHashCode("Untitled"));
+    Debug_Log("String_GetHashCode(\"CustomBehaviour\"): $%04x", String_GetHashCode("CustomBehaviour"));
     Debug_Log("");
 
     DoClassesTest();
