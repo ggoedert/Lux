@@ -5,27 +5,27 @@
 #include "LuxScene.h"
 #include "LuxCustomBehaviour.h"
 
-Stack gameObjectStack;
+List gameObjectList;
 
 void Scene_Init() {
-    Stack_Constructor(&gameObjectStack, sizeof(GameObject *));
+    List_Constructor(&gameObjectList, sizeof(GameObject *));
 }
 
 void Scene_Finalize() {
     int i;
-    for (i=0; i<gameObjectStack.count; i++) {
-        GameObject_Delete(*(GameObject **)Stack_Get(&gameObjectStack, i));
+    for (i=0; i<gameObjectList.count; i++) {
+        GameObject_Delete(*(GameObject **)List_Item(&gameObjectList, i));
     }
-    Stack_Clear(&gameObjectStack);
+    List_Clear(&gameObjectList);
 }
 
 void Scene_RegisterGameObject(GameObject *gameObject) {
-    *(GameObject **)Stack_Push(&gameObjectStack) = gameObject;
+    *(GameObject **)List_Add(&gameObjectList) = gameObject;
 }
 
 void Scene_Run() {
     int i;
-    for (i=0; i<gameObjectStack.count; i++) {
-        GameObject_Run(*(GameObject **)Stack_Get(&gameObjectStack, i));
+    for (i=0; i<gameObjectList.count; i++) {
+        GameObject_Run(*(GameObject **)List_Item(&gameObjectList, i));
     }
 }

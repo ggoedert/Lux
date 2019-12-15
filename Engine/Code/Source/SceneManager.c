@@ -2,30 +2,30 @@
 #include "Scene.h"
 
 #include "LuxSceneManager.h"
-#include "LuxStack.h"
+#include "LuxCollections.h"
 
 typedef struct {
     word sceneId;
     Scene_Load scene_Load;
 } SceneManagerItem;
 
-Stack sceneManagerStack;
+List sceneManagerList;
 
 void SceneManager_Init() {
-    Stack_Constructor(&sceneManagerStack, sizeof(SceneManagerItem));
+    List_Constructor(&sceneManagerList, sizeof(SceneManagerItem));
     Scene_Init();
 }
 
 void SceneManager_IncludeScene(word sceneId, Scene_Load scene_Load) {
-    SceneManagerItem *sceneManagerItem = Stack_Push(&sceneManagerStack);
+    SceneManagerItem *sceneManagerItem = List_Add(&sceneManagerList);
     sceneManagerItem->sceneId = sceneId;
     sceneManagerItem->scene_Load = scene_Load;
 }
 
 void SceneManager_LoadScene(word sceneId) {
     int i;
-    for (i=0; i<sceneManagerStack.count; i++) {
-        SceneManagerItem *sceneManagerItem = Stack_Get(&sceneManagerStack, i);
+    for (i=0; i<sceneManagerList.count; i++) {
+        SceneManagerItem *sceneManagerItem = List_Item(&sceneManagerList, i);
         if (sceneManagerItem->sceneId == sceneId) {
             Scene_Finalize();
             Scene_id = sceneId;

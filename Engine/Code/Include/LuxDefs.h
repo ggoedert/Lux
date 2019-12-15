@@ -49,7 +49,7 @@ typedef unsigned int word;
 #define class_destructor_implementation(T, ...)     void T##_Destructor(T *this) { __VA_ARGS__ }
 
 #define class_new_prototype(T, ...)        T *T##_New(__VA_ARGS__)
-#define class_new_implementation(T, AT, A) T *T##_New(REM_ENCLOSE(AT)) { T *this = (T *)malloc(sizeof(T)); if (this) T##_Constructor(this, REM_ENCLOSE(A)); return this; }
+#define class_new_implementation(T, AD, A) T *T##_New(REM_ENCLOSE(AD)) { T *this = (T *)malloc(sizeof(T)); if (this) T##_Constructor(this, REM_ENCLOSE(A)); return this; }
 #define class_delete_prototype(T)          void T##_Delete(T *this)
 #define class_delete_implementation(T)     void T##_Delete(T *this) { T##_Destructor(this); free(this); }
 
@@ -73,9 +73,9 @@ typedef unsigned int word;
     class_constructor_destructor_prototypes(T, __VA_ARGS__); \
     class_new_delete_prototypes(T, __VA_ARGS__)
 
-#define class_default_implementations(T, AT, A, CI, DI)        \
-    class_constructor_destructor_implementations(T, AT, CI, DI) \
-    class_new_delete_implementations(T, AT, A)
+#define class_default_implementations(T, AD, A, CI, DI)        \
+    class_constructor_destructor_implementations(T, AD, CI, DI) \
+    class_new_delete_implementations(T, AD, A)
 
 // extern macro for defining globals
 #ifndef LUX_DEFINE_GLOBALS

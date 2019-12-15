@@ -2,10 +2,10 @@
 #define LUX_GAME_OBJECT_H
 
 #include "LuxObject.h"
-#include "LuxStack.h"
+#include "LuxCollections.h"
 
 derived_class (GameObject, Object,
-    Stack componentPtrs;
+    List components;
 );
 class_new_delete_prototypes(GameObject, word id);
 

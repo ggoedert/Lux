@@ -9,14 +9,14 @@
 class_default_implementations(GameObject, (word id), (id),
     (
         Object_Constructor(&this->Object, id);
-        Stack_Constructor(&this->componentPtrs, sizeof(Component *));
+        List_Constructor(&this->components, sizeof(Component *));
         Scene_RegisterGameObject(this);
     ),
     (
         int i;
         Component *component;
-        for (i=0; i<this->componentPtrs.count; i++) {
-            component = *(Component **)Stack_Get(&this->componentPtrs, i);
+        for (i=0; i<this->components.count; i++) {
+            component = *(Component **)List_Item(&this->components, i);
             component->vtable->Delete(component);
         }
     )
@@ -25,8 +25,8 @@ class_default_implementations(GameObject, (word id), (id),
 void GameObject_Run(GameObject *this) {
     int i;
     CustomBehaviour *customBehaviour;
-    for (i=0; i<this->componentPtrs.count; i++) {
-        customBehaviour = *(CustomBehaviour **)Stack_Get(&this->componentPtrs, i);
+    for (i=0; i<this->components.count; i++) {
+        customBehaviour = *(CustomBehaviour **)List_Item(&this->components, i);
         customBehaviour->vtable->Update(customBehaviour);
     }
 }

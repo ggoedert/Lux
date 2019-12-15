@@ -3,19 +3,15 @@
 
 #include "LuxDefs.h"
 
-class (Stack,
-    byte sizeOfItem;
-    byte count;
-    byte capacity;
-    void *items;
-);
-void Stack_Constructor(Stack *this, byte sizeOfItem);
-#define Stack_Destructor(this) free((this)->items)
-Stack *Stack_New(byte sizeOfItem);
-void Stack_Delete(Stack *this);
-void *Stack_Push(Stack *this);
-void *Stack_Get(Stack *this, int index);
+#define Stack Collection
+    #define Stack_Constructor Collection_Constructor
+    #define Stack_Destructor Collection_Destructor
+    #define Stack_New Collection_New
+    #define Stack_Delete Collection_Delete
+#define Stack_SetCapacity Collection_SetCapacity
+#define Stack_Push Collection_Add
 void *Stack_Pop(Stack *this);
-#define Stack_Clear(this) (this)->count=0
+void *Stack_Peek(List *this);
+#define Stack_Clear(...) Collection_Clear(__VA_ARGS__)
 
 #endif
