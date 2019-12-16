@@ -2,10 +2,10 @@
 
 class_default_implementations(Component, (virtual_table(Component) *vtable), (vtable),
     (
-        Object_Constructor(&this->Object, -1);
         this->vtable = vtable;
+        this->customBehaviour = false;
     ),
     (
-        Object_Destructor(&this->Object);
+        NONE
     )
 )

@@ -1,11 +1,11 @@
 #ifndef LUX_COMPONENT_H
 #define LUX_COMPONENT_H
 
-#include "LuxObject.h"
+#include "LuxDefs.h"
 
-derived_virtual_class (Component, Object,
+virtual_class (Component,
     (
-        NONE
+        bool customBehaviour;
     ),
     (
         void (*Delete)(Component *this);

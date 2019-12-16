@@ -77,14 +77,14 @@ typedef unsigned int word;
     class_constructor_destructor_implementations(T, AD, CI, DI) \
     class_new_delete_implementations(T, AD, A)
 
-#define class_simple_default_implementations(T, B, A)  \
-    class_default_implementations(T, (NONE), (NONE),   \
-        (                                              \
-            B##_Constructor(&this->B, REM_ENCLOSE(A)); \
-        ),                                             \
-        (                                              \
-            B##_Destructor(&this->B);                  \
-        )                                              \
+#define derived_class_simple_default_implementations(T, B, A) \
+    class_default_implementations(T, (NONE), (NONE),          \
+        (                                                     \
+            B##_Constructor(&this->B, REM_ENCLOSE(A));        \
+        ),                                                    \
+        (                                                     \
+            B##_Destructor(&this->B);                         \
+        )                                                     \
     )
 
 // extern macro for defining globals

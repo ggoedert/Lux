@@ -1,12 +1,11 @@
 #ifndef LUX_GAME_OBJECT_H
 #define LUX_GAME_OBJECT_H
 
-#include "LuxObject.h"
 #include "LuxCollections.h"
 
-derived_class (GameObject, Object,
+class (GameObject,
     List components;
 );
-class_new_delete_prototypes(GameObject, word id);
+class_new_delete_prototypes(GameObject, NONE);
 
 #endif

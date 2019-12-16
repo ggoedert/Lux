@@ -13,7 +13,7 @@ SOURCEDIR = Code/Source
 ASOURCEFILES = Apple2Id.s
 AOBJECTFILES = $(ASOURCEFILES:.s=.o)
 AOBJECTS = $(addprefix Build/$(CONFIG)/, $(AOBJECTFILES))
-CSOURCEFILES = System.c Collection.c List.c Stack.c Debug.c Screen.c Vector2.c Object.c Component.c Transform.c Behaviour.c CustomBehaviour.c GameObject.c SceneManager.c Scene.c Application.c
+CSOURCEFILES = System.c Collection.c List.c Stack.c Debug.c Screen.c Vector2.c Component.c Transform.c Behaviour.c CustomBehaviour.c GameObject.c SceneManager.c Scene.c Application.c
 COBJECTFILES = $(CSOURCEFILES:.c=.o)
 COBJECTS = $(addprefix Build/$(CONFIG)/, $(COBJECTFILES))
 
