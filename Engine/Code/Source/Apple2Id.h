@@ -10,3 +10,5 @@ typedef struct {
 } Apple2Id;
 
 void GetApple2Id(Apple2Id *apple2Id);
+
+#endif
