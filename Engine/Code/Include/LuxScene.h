@@ -5,6 +5,4 @@
 
 typedef void (*Scene_Load)(void);
 
-LUX_DECLARE(Scene_Load, Scene_Loader, nullptr);
-
 #endif
