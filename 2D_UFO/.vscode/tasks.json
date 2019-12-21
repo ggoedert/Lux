@@ -1,0 +1,79 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Clean Debug",
+            "type": "shell",
+            "command": "make CONFIG=Debug clean",
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Debug",
+            "type": "shell",
+            "command": "make CONFIG=Debug",
+            "problemMatcher": []
+        },
+        {
+            "label": "Rebuild Debug",
+            "type": "shell",
+            "command": "make CONFIG=Debug clean all",
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Debug",
+            "type": "shell",
+            "command": "make CONFIG=Debug run",
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean Size",
+            "type": "shell",
+            "command": "make CONFIG=Size clean",
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Size",
+            "type": "shell",
+            "command": "make CONFIG=Size",
+            "problemMatcher": []
+        },
+        {
+            "label": "Rebuild Size",
+            "type": "shell",
+            "command": "make CONFIG=Size clean all",
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Size",
+            "type": "shell",
+            "command": "make CONFIG=Size run",
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean Speed",
+            "type": "shell",
+            "command": "make CONFIG=Speed clean",
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Speed",
+            "type": "shell",
+            "command": "make CONFIG=Speed",
+            "problemMatcher": []
+        },
+        {
+            "label": "Rebuild Speed",
+            "type": "shell",
+            "command": "make CONFIG=Speed clean all",
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Speed",
+            "type": "shell",
+            "command": "make CONFIG=Speed run",
+            "problemMatcher": []
+        }
+	]
+}
