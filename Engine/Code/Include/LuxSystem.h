@@ -2,7 +2,7 @@
 #define LUX_SYSTEM_H
 
 #include "LuxDefs.h"
-
-word String_GetHashCode(char *string);
+#include "LuxFloat.h"
+#include "LuxString.h"
 
 #endif

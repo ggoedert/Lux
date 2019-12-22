@@ -2,6 +2,7 @@
 
 #include "Apple2Id.h"
 #include "Screen.h"
+#include "Time.h"
 #include "Scene.h"
 
 #include "LuxApplication.h"
@@ -18,9 +19,12 @@ void Application_Run(char *name, int version, LoadApplication loadApplication) {
     if (application.memory > 48)
         _heapadd((void *)0xD000, 0x1000);
     Screen_Init();
+    Time_Init();
     Scene_Init();
 
     loadApplication();
-    while(true)
+    while(true) {
         Scene_Run();
+        Time_Run();
+    }
 }

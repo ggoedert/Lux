@@ -301,6 +301,114 @@
             "problemMatcher": []
         },
         {
+            "label": "Clean TestFloat Debug",
+            "type": "shell",
+            "command": "make CONFIG=Debug clean",
+            "options": {
+                "cwd": "${workspaceRoot}/Test/Float"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build TestFloat Debug",
+            "type": "shell",
+            "command": "make CONFIG=Debug",
+            "options": {
+                "cwd": "${workspaceRoot}/Test/Float"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Rebuild TestFloat Debug",
+            "type": "shell",
+            "command": "make CONFIG=Debug clean all",
+            "options": {
+                "cwd": "${workspaceRoot}/Test/Float"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run TestFloat Debug",
+            "type": "shell",
+            "command": "make CONFIG=Debug run",
+            "options": {
+                "cwd": "${workspaceRoot}/Test/Float"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean TestFloat Size",
+            "type": "shell",
+            "command": "make CONFIG=Size clean",
+            "options": {
+                "cwd": "${workspaceRoot}/Test/Float"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build TestFloat Size",
+            "type": "shell",
+            "command": "make CONFIG=Size",
+            "options": {
+                "cwd": "${workspaceRoot}/Test/Float"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Rebuild TestFloat Size",
+            "type": "shell",
+            "command": "make CONFIG=Size clean all",
+            "options": {
+                "cwd": "${workspaceRoot}/Test/Float"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run TestFloat Size",
+            "type": "shell",
+            "command": "make CONFIG=Size run",
+            "options": {
+                "cwd": "${workspaceRoot}/Test/Float"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean TestFloat Speed",
+            "type": "shell",
+            "command": "make CONFIG=Speed clean",
+            "options": {
+                "cwd": "${workspaceRoot}/Test/Float"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build TestFloat Speed",
+            "type": "shell",
+            "command": "make CONFIG=Speed",
+            "options": {
+                "cwd": "${workspaceRoot}/Test/Float"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Rebuild TestFloat Speed",
+            "type": "shell",
+            "command": "make CONFIG=Speed clean all",
+            "options": {
+                "cwd": "${workspaceRoot}/Test/Float"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run TestFloat Speed",
+            "type": "shell",
+            "command": "make CONFIG=Speed run",
+            "options": {
+                "cwd": "${workspaceRoot}/Test/Float"
+            },
+            "problemMatcher": []
+        },
+        {
             "label": "Clean TestOverlay Debug",
             "type": "shell",
             "command": "make CONFIG=Debug clean",

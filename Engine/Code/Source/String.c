@@ -1,4 +1,4 @@
-#include "LuxSystem.h"
+#include "LuxString.h"
 
 word String_GetHashCode(char *string) {
     word sum1 = 0;
