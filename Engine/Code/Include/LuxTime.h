@@ -1,11 +1,11 @@
 #ifndef LUX_TIME_H
 #define LUX_TIME_H
 
-#include "LuxDefs.h"
+#include "LuxTypes.h"
 #include "LuxFloat.h"
 
-word Time_deltaClock_Get(void);
-word Time_clock_Get(void);
+extern word Time_clock;
+extern word Time_deltaClock;
 void Time_Update(void);        // This is automatically called, but should also be manually called inside long functions, to properly detect hardware clock updates
 Float Time_ToTime(word clock);
 

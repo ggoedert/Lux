@@ -1,7 +1,7 @@
 #ifndef LUX_DEBUG_H
 #define LUX_DEBUG_H
 
-#include "LuxDefs.h"
+#include "LuxTypes.h"
 
 // debug modes
 #define DEBUG_MODE_CONSOLE 0x1

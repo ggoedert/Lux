@@ -1,5 +1,5 @@
-#ifndef LUX_DEFS_H
-#define LUX_DEFS_H
+#ifndef LUX_TYPES_H
+#define LUX_TYPES_H
 
 #include <stddef.h>
 #include <stdlib.h>

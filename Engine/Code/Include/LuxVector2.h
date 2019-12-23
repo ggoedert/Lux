@@ -1,7 +1,7 @@
 #ifndef LUX_VECTOR2_H
 #define LUX_VECTOR2_H
 
-#include "LuxDefs.h"
+#include "LuxTypes.h"
 
 class (Vector2,
     word x, y;

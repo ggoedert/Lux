@@ -1,7 +1,7 @@
 #ifndef LUX_APPLICATION_H
 #define LUX_APPLICATION_H
 
-#include "LuxDefs.h"
+#include "LuxTypes.h"
 
 // version of the lux engine
 #define luxVersionMajor     0x00

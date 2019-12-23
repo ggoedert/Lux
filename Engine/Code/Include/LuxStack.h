@@ -1,7 +1,7 @@
 #ifndef LUX_STACK_H
 #define LUX_STACK_H
 
-#include "LuxDefs.h"
+#include "LuxTypes.h"
 
 #define Stack Collection
     #define Stack_Constructor Collection_Constructor

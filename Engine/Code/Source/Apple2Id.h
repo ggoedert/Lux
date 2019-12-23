@@ -1,7 +1,7 @@
 #ifndef APPLE2ID_H
 #define APPLE2ID_H
 
-#include "LuxDefs.h"
+#include "LuxTypes.h"
 
 typedef struct {
     byte machine;  // the type of Apple II

@@ -1,7 +1,7 @@
 #ifndef LUX_LIST_H
 #define LUX_LIST_H
 
-#include "LuxDefs.h"
+#include "LuxTypes.h"
 
 #define List Collection
     #define List_Constructor Collection_Constructor

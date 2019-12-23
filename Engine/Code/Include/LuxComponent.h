@@ -3,7 +3,7 @@
 
 #include <stdbool.h>
 
-#include "LuxDefs.h"
+#include "LuxTypes.h"
 
 virtual_class (Component,
     (

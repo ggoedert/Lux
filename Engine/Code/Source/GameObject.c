@@ -26,9 +26,13 @@ class_default_implementations(GameObject, (NONE), (NONE),
 void GameObject_Run(GameObject *this) {
     int i;
     Component *component;
+    CustomBehaviour_Update_Type CustomBehaviour_Update;
     for (i=0; i<this->components.count; i++) {
         component = *(Component **)List_Item(&this->components, i);
-        if (component->customBehaviour)
-            ((CustomBehaviour *)component)->vtable->Update((CustomBehaviour *)component);
+        if (component->customBehaviour) {
+            CustomBehaviour_Update = ((CustomBehaviour *)component)->vtable->Update;
+            if (CustomBehaviour_Update)
+                CustomBehaviour_Update((CustomBehaviour *)component);
+        }
     }
 }

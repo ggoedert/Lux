@@ -1,7 +1,7 @@
 #ifndef LUX_COLLECTION_H
 #define LUX_COLLECTION_H
 
-#include "LuxDefs.h"
+#include "LuxTypes.h"
 
 class (Collection,
     byte sizeOfItem;
