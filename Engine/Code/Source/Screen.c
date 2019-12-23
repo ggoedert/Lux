@@ -8,6 +8,7 @@
 #include "LuxApplication.h"
 #include "LuxScreen.h"
 
+Resolution Screen_currentResolution;
 byte Screen_resolutions_Length;
 
 #define CLR80COL  0xC000    // disable 80-column store
@@ -57,6 +58,9 @@ void Screen_Init() {
         auxmove(0x2000, 0x3FFF, 0x2000);
     }
     gotoy(22);
+    Screen_currentResolution.mode = TEXT;
+    Screen_currentResolution.doubleRes = false;
+    Screen_currentResolution.mixed = false;
 }
 
 void Screen_resolutions_Get(Resolution **screen_resolutions) {
@@ -156,4 +160,7 @@ void Screen_SetResolution(byte mode, bool doubleRes, bool mixed) {
             break;
     }
     POKE(TXTPAGE1, 0);
+    Screen_currentResolution.mode = mode;
+    Screen_currentResolution.doubleRes = doubleRes;
+    Screen_currentResolution.mixed = mixed;
 }

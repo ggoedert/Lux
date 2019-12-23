@@ -17,12 +17,10 @@ void main() {
 }
 
 void loadApplication() {
-    Float frameTime;
-    char buffer[FLOAT_MAX_STRING_SIZE];
     GameObject *Player;
 
-    Debug_SetMode(DEBUG_MODE_CONSOLE);
     Screen_SetResolution(TEXT, false, false);
+    Debug_SetMode(DEBUG_MODE_CONSOLE);
     Player = GameObject_New();
     *(PlayerControllerBehaviour **)List_Add(&Player->components) = PlayerControllerBehaviour_New();
 }

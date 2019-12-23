@@ -11,7 +11,7 @@
 
 Application application;
 
-void Application_Run(char *name, int version, LoadApplication loadApplication) {
+void Application_Run(char *name, word version, LoadApplication loadApplication) {
     _heapadd((void *)0x300, 0xCF);
 
     GetApple2Id((Apple2Id *)&application);
