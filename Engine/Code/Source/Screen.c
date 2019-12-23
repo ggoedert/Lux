@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <string.h>
 #include <conio.h> 
 #include <peekpoke.h> 
@@ -6,6 +7,8 @@
 
 #include "LuxApplication.h"
 #include "LuxScreen.h"
+
+byte Screen_resolutions_Length;
 
 #define CLR80COL  0xC000    // disable 80-column store
 #define SET80COL  0xC001    // enable 80-column store

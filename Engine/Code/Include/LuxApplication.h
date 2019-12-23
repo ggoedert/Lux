@@ -30,6 +30,6 @@ typedef void (*LoadApplication)(void);
 
 void Application_Run(char *name, int version, LoadApplication loadApplication);
 
-LUX_EXTERN Application application;
+extern Application application;
 
 #endif

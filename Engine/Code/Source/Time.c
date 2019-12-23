@@ -4,25 +4,33 @@
 
 #define Float_oneOverThirty ((Float)0x00000888)
 
-Float time, frameTime, deltaTime;
+word time, frameTime, deltaTime;
 
-Float Time_frameTime_Get() {
+word Time_deltaClock_Get() {
     return deltaTime;
 }
 
+word Time_clock_Get() {
+    return time;
+}
+
 void Time_Init() {
-    time = Float_zero;
-    frameTime = Float_zero;
-    deltaTime = Float_zero;
+    time = 0;
+    frameTime = 0;
+    deltaTime = 0;
 }
 
 void Time_Update() {
-    if (frameTime == Float_zero)
-        frameTime = Float_oneOverThirty;
+    if (frameTime == 0)
+        frameTime = 1;
 }
 
 void Time_Run() {
     deltaTime = frameTime;
-    frameTime = Float_zero;
-    time = Float_Add(time, deltaTime);
+    frameTime = 0;
+    time += deltaTime;
+}
+
+Float Time_ToTime(word clock) {
+    return Float_Mul(FIXMATH_I(clock), Float_oneOverThirty);
 }

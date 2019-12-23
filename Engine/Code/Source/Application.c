@@ -9,6 +9,8 @@
 #include "LuxScreen.h"
 #include "LuxSceneManagement.h"
 
+Application application;
+
 void Application_Run(char *name, int version, LoadApplication loadApplication) {
     _heapadd((void *)0x300, 0xCF);
 

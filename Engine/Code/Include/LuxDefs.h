@@ -7,12 +7,7 @@
 // new style null pointer
 #define nullptr NULL
 
-// true/false definitions
-#define true 1
-#define false 0
-
 // type aliases
-typedef char bool;
 typedef unsigned char byte;
 typedef unsigned int word;
 
@@ -86,27 +81,5 @@ typedef unsigned int word;
             B##_Destructor(&this->B);                         \
         )                                                     \
     )
-
-// extern macro for defining globals
-#ifndef LUX_DEFINE_GLOBALS
-#ifndef LUX_EXTERN
-#define LUX_EXTERN extern
-#endif
-#else
-#ifndef LUX_EXTERN
-#define LUX_EXTERN
-#endif
-#endif
-
-// declare macro for defining globals
-#ifndef LUX_DEFINE_GLOBALS
-#ifndef LUX_DECLARE
-#define LUX_DECLARE(TYPE, NAME, VALUE) extern TYPE NAME
-#endif
-#else
-#ifndef LUX_DECLARE
-#define LUX_DECLARE(TYPE, NAME, VALUE) TYPE NAME = VALUE
-#endif
-#endif
 
 #endif

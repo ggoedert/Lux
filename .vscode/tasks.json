@@ -409,6 +409,114 @@
             "problemMatcher": []
         },
         {
+            "label": "Clean TestTime Debug",
+            "type": "shell",
+            "command": "make CONFIG=Debug clean",
+            "options": {
+                "cwd": "${workspaceRoot}/Test/Time"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build TestTime Debug",
+            "type": "shell",
+            "command": "make CONFIG=Debug",
+            "options": {
+                "cwd": "${workspaceRoot}/Test/Time"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Rebuild TestTime Debug",
+            "type": "shell",
+            "command": "make CONFIG=Debug clean all",
+            "options": {
+                "cwd": "${workspaceRoot}/Test/Time"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run TestTime Debug",
+            "type": "shell",
+            "command": "make CONFIG=Debug run",
+            "options": {
+                "cwd": "${workspaceRoot}/Test/Time"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean TestTime Size",
+            "type": "shell",
+            "command": "make CONFIG=Size clean",
+            "options": {
+                "cwd": "${workspaceRoot}/Test/Time"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build TestTime Size",
+            "type": "shell",
+            "command": "make CONFIG=Size",
+            "options": {
+                "cwd": "${workspaceRoot}/Test/Time"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Rebuild TestTime Size",
+            "type": "shell",
+            "command": "make CONFIG=Size clean all",
+            "options": {
+                "cwd": "${workspaceRoot}/Test/Time"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run TestTime Size",
+            "type": "shell",
+            "command": "make CONFIG=Size run",
+            "options": {
+                "cwd": "${workspaceRoot}/Test/Time"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean TestTime Speed",
+            "type": "shell",
+            "command": "make CONFIG=Speed clean",
+            "options": {
+                "cwd": "${workspaceRoot}/Test/Time"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build TestTime Speed",
+            "type": "shell",
+            "command": "make CONFIG=Speed",
+            "options": {
+                "cwd": "${workspaceRoot}/Test/Time"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Rebuild TestTime Speed",
+            "type": "shell",
+            "command": "make CONFIG=Speed clean all",
+            "options": {
+                "cwd": "${workspaceRoot}/Test/Time"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run TestTime Speed",
+            "type": "shell",
+            "command": "make CONFIG=Speed run",
+            "options": {
+                "cwd": "${workspaceRoot}/Test/Time"
+            },
+            "problemMatcher": []
+        },
+        {
             "label": "Clean TestOverlay Debug",
             "type": "shell",
             "command": "make CONFIG=Debug clean",
