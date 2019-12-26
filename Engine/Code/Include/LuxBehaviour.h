@@ -6,6 +6,6 @@
 derived_class (Behaviour, Component,
     NONE
 );
-class_default_prototypes(Behaviour, virtual_table(Component) *vtable);
+class_default_prototypes(Behaviour, virtual_table_type(Component) *vtable);
 
 #endif

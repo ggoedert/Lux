@@ -1,6 +1,6 @@
 #include "LuxTransform.h"
 
-virtual_table(Component) virtual_table_instance(Component_Transform) = {
+virtual_table_type(Component) virtual_table_instance(Component_Transform) = {
     (Component_Delete_Type)Transform_Delete
 };
 class_default_implementations(Transform, (NONE), (NONE),

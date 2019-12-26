@@ -11,8 +11,8 @@ typedef int32_t Float;
 #define PI_DIV_4                ((Float)0x0000C90F)
 #define THREE_PI_DIV_4          ((Float)0x00025B2F)
 
-#define Float_maximum  ((Float)0x7FFFFFFF)
-#define Float_minimum  ((Float)0x80000000)
+#define Float_maximum  ((Float)0x7FFFFFFF) // +32767.99998
+#define Float_minimum  ((Float)0x80000000) // -32768.00000
 #define Float_overflow ((Float)0x80000000)
 
 #define Float_pi   ((Float)205887)
@@ -22,26 +22,24 @@ typedef int32_t Float;
 
 #define FIXMATH_I(i) \
 ( \
-    ( \
-        (  (uint32_t)i ) \
-        << (uint32_t)16 \
-    ) \
+       (uint32_t)(i) \
+    << (uint32_t)16 \
 )
 #define FLOATC_I(i) \
-( (Float) \
+((Float) \
     ( \
-      (( #i[0] ) == '-') \
-        ? -FIXMATH_I((uint32_t)( ( (i) * -1) )) \
-        : FIXMATH_I(i) \
+        ((#i[0]) == '-') \
+        ? -FIXMATH_I((i)*-1) \
+        :  FIXMATH_I(i) \
     ) \
 )
-
-#define FLOAT_MAX_STRING_SIZE 13 // -32768.00000 including null terminator
 
 #define Float_Add(value0, value1) ((Float)(((Float)value0) + ((Float)value1)))
 #define Float_Sub(value0, value1) ((Float)(((Float)value0) - ((Float)value1)))
 Float Float_Mul(Float value0, Float value1);
 Float Float_Div(Float value0, Float value1);
+
+#define FLOAT_MAX_STRING_SIZE 13 // -32768.00000 including null terminator
 void Float_ToString(Float value, char *buffer, int decimals);
 
 #endif

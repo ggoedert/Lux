@@ -1,6 +1,6 @@
 #include "LuxComponent.h"
 
-class_default_implementations(Component, (virtual_table(Component) *vtable), (vtable),
+class_default_implementations(Component, (virtual_table_type(Component) *vtable), (vtable),
     (
         this->vtable = vtable;
         this->customBehaviour = false;

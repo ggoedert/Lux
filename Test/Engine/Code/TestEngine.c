@@ -30,8 +30,8 @@ void loadApplication() {
     Debug_Log("application.machine: %u", application.machine);*/
     /* while (ptr<(byte *)0x4000) {
         *ptr = 0xFF;
-        ptr++;
-        col++;
+        ++ptr;
+        ++col;
     }*/
     Debug_Log("%u bytes free.", _heapmemavail());
 

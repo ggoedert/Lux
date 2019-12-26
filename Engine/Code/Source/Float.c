@@ -158,7 +158,7 @@ Float Float_Div(Float value0, Float value1) {
 	#ifdef FIXMATH_ROUNDING
 	if (remainder >= divider)
 	{
-		quotient++;
+		++quotient;
 	}
 	#endif
 	
@@ -214,7 +214,7 @@ void Float_ToString(Float value, char *buffer, int decimals)
     if (fracpart >= scale)
     {
         /* Handle carry from decimal part */
-        intpart++;
+        ++intpart;
         fracpart -= scale;    
     }
     

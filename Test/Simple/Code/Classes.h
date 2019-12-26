@@ -8,7 +8,7 @@ virtual_class (Base, (
         void (*OtherPrint)(Base *this);
     )
 );
-void Base_Constructor(Base *this, virtual_table(Base) *vtable, char *name);
+void Base_Constructor(Base *this, virtual_table_type(Base) *vtable, char *name);
 
 //DerivedA.h
 derived_class (DerivedA, Base,

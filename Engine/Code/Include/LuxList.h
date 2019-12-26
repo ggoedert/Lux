@@ -10,6 +10,7 @@
     #define List_Delete Collection_Delete
 #define List_SetCapacity Collection_SetCapacity
 #define List_Add Collection_Add
+void List_RemoveAt(List *this, int index);
 void *List_Item(List *this, int index);
 #define List_Clear(...) Collection_Clear(__VA_ARGS__)
 

@@ -3,7 +3,7 @@
 #include "Classes.h"
 
 //Base.c
-void Base_Constructor(Base *this, virtual_table(Base) *vtable, char *name) {
+void Base_Constructor(Base *this, virtual_table_type(Base) *vtable, char *name) {
     this->vtable = vtable;
     this->name = name;    
 }
@@ -12,7 +12,7 @@ void Base_OtherPrint(Base *this) {
 }
 
 //DerivedA.c
-virtual_table(Base) virtual_table_instance(DerivedA) = {
+virtual_table_type(Base) virtual_table_instance(DerivedA) = {
     DerivedA_Print,
     Base_OtherPrint
 };
@@ -25,7 +25,7 @@ void DerivedA_Print(Base *this) {
 }
 
 //DerivedB.c
-virtual_table(Base) virtual_table_instance(DerivedB) = {
+virtual_table_type(Base) virtual_table_instance(DerivedB) = {
     DerivedB_Print,
     DerivedB_OtherPrint
 };

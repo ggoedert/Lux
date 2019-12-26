@@ -17,7 +17,7 @@ void loadApplication() {
 
     Debug_Log("%u bytes free.", _heapmemavail());
     Debug_Log("$%08lx", Float_pi);
-    Debug_Log("$%08lx", (Float)FLOATC_I(30));
+    Debug_Log("$%08lx", FLOATC_I(30));
     frameTime = Float_Div(Float_one, FLOATC_I(30));
     Debug_Log("$%08lx", frameTime);
     Float_ToString(frameTime, buffer, 5);

@@ -4,6 +4,7 @@
 #include <peekpoke.h> 
 
 #include "Screen.h"
+#include "Vaporlock.h"
 
 #include "LuxApplication.h"
 #include "LuxScreen.h"
@@ -15,6 +16,7 @@ byte Screen_resolutions_Length;
 #define SET80COL  0xC001    // enable 80-column store
 #define CLR80VID  0xC00C    // disable 80-column display mode
 #define SET80VID  0xC00D    // enable 80-column display mode
+#define RDVBLBAR  0xC019    // not VBL (VBL signal low) on iie
 #define CLRTEXT   0xC050    // disable text-only mode
 #define SETTEXT   0xC051    // enable text-only mode
 #define CLRMIXED  0xC052    // disable graphics/text mixed mode
@@ -99,15 +101,15 @@ void Screen_resolutions_Get(Resolution **screen_resolutions) {
     }
 }
 
-void Screen_SetResolution(byte mode, bool doubleRes, bool mixed) {
-    switch(mode) {
+void Screen_SetResolutionInternal() {
+    switch(Screen_currentResolution.mode) {
         case TEXT:
             POKE(CLRHIRES, 0);
             POKE(SETTEXT, 0);
             if (application.machine >= IIe) {
                 POKE(SETIOUDIS, 0);
                 POKE(CLRDHIRES, 0);
-                if (doubleRes) {
+                if (Screen_currentResolution.doubleRes) {
                     POKE(SET80COL, 0);
                     POKE(SET80VID, 0);
                 }
@@ -124,7 +126,7 @@ void Screen_SetResolution(byte mode, bool doubleRes, bool mixed) {
             POKE(CLR80COL, 0);
             if (application.machine >= IIe) {
                 POKE(SETIOUDIS, 0);
-                if (doubleRes) {
+                if (Screen_currentResolution.doubleRes) {
                     POKE(SETDHIRES, 0);
                     POKE(SET80VID, 0);
                 }
@@ -133,7 +135,7 @@ void Screen_SetResolution(byte mode, bool doubleRes, bool mixed) {
                     POKE(CLR80VID, 0);
                 }
             }
-            if (!mixed)
+            if (!Screen_currentResolution.mixed)
                 POKE(CLRMIXED, 0);
             else
                 POKE(SETMIXED, 0);
@@ -144,7 +146,7 @@ void Screen_SetResolution(byte mode, bool doubleRes, bool mixed) {
             POKE(CLR80COL, 0);
             if (application.machine >= IIe) {
                 POKE(SETIOUDIS, 0);
-                if (doubleRes) {
+                if (Screen_currentResolution.doubleRes) {
                     POKE(SETDHIRES, 0);
                     POKE(SET80VID, 0);
                 }
@@ -153,14 +155,44 @@ void Screen_SetResolution(byte mode, bool doubleRes, bool mixed) {
                     POKE(CLR80VID, 0);
                 }
             }
-            if (!mixed)
+            if (!Screen_currentResolution.mixed)
                 POKE(CLRMIXED, 0);
             else
                 POKE(SETMIXED, 0);
             break;
     }
     POKE(TXTPAGE1, 0);
+}
+
+void Screen_SetResolution(byte mode, bool doubleRes, bool mixed) {
     Screen_currentResolution.mode = mode;
     Screen_currentResolution.doubleRes = doubleRes;
     Screen_currentResolution.mixed = mixed;
+    Screen_SetResolutionInternal();
+    VaporlockSetup();
+}
+
+void Screen_WaitVBlank() {
+    if (application.machine == IIe) {          // this optimization only works on the original IIe
+        while ((PEEK(RDVBLBAR)&0x80)==0x0) {}  // wait current vblank to end, if started inside it
+        while ((PEEK(RDVBLBAR)&0x80)!=0x0) {}  // wait new vblank to start
+    }
+    else {
+        bool setupScreen = (Screen_currentResolution.mode != HGR) || (Screen_currentResolution.doubleRes != false) || (Screen_currentResolution.mixed != false);
+        if (setupScreen) {
+            POKE(SETHIRES, 0);
+            POKE(CLRTEXT, 0);
+            POKE(CLR80COL, 0);
+            if (application.machine >= IIe) {
+                POKE(SETIOUDIS, 0);
+                POKE(CLRDHIRES, 0);
+                POKE(CLR80VID, 0);
+            }
+            POKE(CLRMIXED, 0);
+            POKE(TXTPAGE1, 0);
+        }
+        Vaporlock();
+        if (setupScreen)
+            Screen_SetResolutionInternal();
+    }
 }
