@@ -3,6 +3,7 @@
 
 #include "LuxTypes.h"
 
-word String_GetHashCode(char *string);
+byte String_GetHashCode8(char *string);
+word String_GetHashCode16(char *string);
 
 #endif

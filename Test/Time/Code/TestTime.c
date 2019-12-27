@@ -1,13 +1,12 @@
 #include <conio.h> 
 
 #include "LuxEngine.h"
-
 #include "LuxCustomBehaviour.h"
 
 void loadApplication(void);
 
 derived_class (PlayerControllerBehaviour, CustomBehaviour,
-    int vblanks, lastSecs;
+    int updates, lastSecs;
 );
 class_default_prototypes(PlayerControllerBehaviour, NONE);
 void PlayerControllerBehaviour_Start(PlayerControllerBehaviour *this);
@@ -38,18 +37,15 @@ virtual_table_type(CustomBehaviour) virtual_table_instance(CustomBehaviour_Playe
 derived_class_simple_default_implementations(PlayerControllerBehaviour, CustomBehaviour, (&virtual_table_instance(Component_PlayerControllerBehaviour), &virtual_table_instance(CustomBehaviour_PlayerControllerBehaviour)))
 
 void PlayerControllerBehaviour_Start(PlayerControllerBehaviour *this) {
-    this->vblanks = 0;
+    this->updates = 0;
     this->lastSecs = -1;
  }
 
 void PlayerControllerBehaviour_Update(PlayerControllerBehaviour *this) {
-    int secs;
-    Screen_WaitVBlank();
-    this->vblanks++;
-    secs = this->vblanks/60;
+    int secs = this->updates++/60;
     if (secs != this->lastSecs) {
         gotoy(-1);
-        Debug_Log("Time  = %d   ", secs);
+        Debug_Log("Time = %d", secs);
         this->lastSecs = secs;
     }
 }

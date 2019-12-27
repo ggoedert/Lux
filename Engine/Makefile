@@ -13,7 +13,7 @@ SOURCEDIR = Code/Source
 ASOURCEFILES = Apple2Id.s Vaporlock.s
 AOBJECTFILES = $(ASOURCEFILES:.s=.o)
 AOBJECTS = $(addprefix Build/$(CONFIG)/, $(AOBJECTFILES))
-CSOURCEFILES = Float.c String.c Debug.c Time.c Collection.c List.c Stack.c Screen.c Vector2.c Component.c Transform.c Behaviour.c CustomBehaviour.c GameObject.c SceneManager.c Scene.c Application.c
+CSOURCEFILES = Float.c String.c QualitySettings.c Debug.c Time.c Collection.c List.c Stack.c Screen.c Vector2.c Component.c Transform.c Behaviour.c CustomBehaviour.c GameObject.c SceneManager.c Scene.c Application.c
 COBJECTFILES = $(CSOURCEFILES:.c=.o)
 COBJECTS = $(addprefix Build/$(CONFIG)/, $(COBJECTFILES))
 

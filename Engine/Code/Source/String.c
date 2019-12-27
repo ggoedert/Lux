@@ -1,6 +1,13 @@
 #include "LuxString.h"
 
-word String_GetHashCode(char *string) {
+byte String_GetHashCode8(char *string) {
+    byte sum = 0;
+    while (*string)
+        sum = (sum + *string++) % 255;
+    return sum;
+}
+
+word String_GetHashCode16(char *string) {
     word sum1 = 0;
     word sum2 = 0;
     while (*string)

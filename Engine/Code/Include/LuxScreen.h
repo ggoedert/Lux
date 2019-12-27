@@ -14,10 +14,9 @@ class (Resolution,
     bool mixed;
 );
 
-extern Resolution Screen_currentResolution;
+extern Resolution Screen_resolutions[];
 extern byte Screen_resolutions_Length;
-void Screen_resolutions_Get(Resolution **screen_resolutions);
+extern Resolution Screen_currentResolution;
 void Screen_SetResolution(byte mode, bool doubleRes, bool mixed);
-void Screen_WaitVBlank(void);
 
 #endif

@@ -18,8 +18,8 @@ void main() {
 void loadApplication() {
 
     Debug_SetMode(DEBUG_MODE_CONSOLE);
-    //Screen_SetResolution(HGR, true, true);
-    Screen_SetResolution(TEXT, false, false);
+    Screen_SetResolution(HGR, false, false);
+    //Screen_SetResolution(TEXT, false, false);
     Debug_Log("%u bytes free", _heapmemavail());
 
     //***
@@ -34,12 +34,12 @@ void loadApplication() {
 #define TXTPAGE1  0xC054    // switch in page 1
 #define TXTPAGE2  0xC055    // switch in page 2
 
-    if (application.machine >= IIe) {
+    /*if (application.machine >= IIe) {
         POKE(CLR80COL, 0);
         POKE(TXTPAGE1, 0);
-    }
-    memset((void *)0x2000, 0xFF, 0x2000);
-    if (application.machine >= IIe) {
+    }*/
+    memset((void *)0x2000, 0x00, 0x2000);
+    /*if (application.machine >= IIe) {
         POKE(SET80COL, 0);
         POKE(TXTPAGE2, 0);
         memset((void *)0x2000, 0xFF, 0x2000);
@@ -48,7 +48,7 @@ void loadApplication() {
     if (application.machine >= IIe) {
         POKE(CLR80COL, 0);
         POKE(TXTPAGE1, 0);
-    }
+    }*/
     //***
 
     SceneManager_LoadScene(MainScene_Load);

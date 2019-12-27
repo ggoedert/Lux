@@ -28,11 +28,11 @@ void loadApplication() {
     Debug_Log("Screen_resolutions_Length: %hhu", Screen_resolutions_Length);
     Debug_Log("");
 
-    //Debug_Log("String_GetHashCode(\"abcde\"): $%04x", String_GetHashCode("abcde"));
-    //Debug_Log("String_GetHashCode(\"abcdef\"): $%04x", String_GetHashCode("abcdef"));
-    //Debug_Log("String_GetHashCode(\"abcdefgh\"): $%04x", String_GetHashCode("abcdefgh"));
-    Debug_Log("String_GetHashCode(\"Untitled\"): $%04x", String_GetHashCode("Untitled"));
-    Debug_Log("String_GetHashCode(\"CustomBehaviour\"): $%04x", String_GetHashCode("CustomBehaviour"));
+    Debug_Log("String_GetHashCode16(\"abcde\"): $%04x", String_GetHashCode16("abcde"));
+    Debug_Log("String_GetHashCode16(\"abcdef\"): $%04x", String_GetHashCode16("abcdef"));
+    Debug_Log("String_GetHashCode16(\"abcdefgh\"): $%04x", String_GetHashCode16("abcdefgh"));
+    Debug_Log("String_GetHashCode16(\"Untitled\"): $%04x", String_GetHashCode16("Untitled"));
+    Debug_Log("String_GetHashCode16(\"CustomBehaviour\"): $%04x", String_GetHashCode16("CustomBehaviour"));
     Debug_Log("");
 
     DoClassesTest();

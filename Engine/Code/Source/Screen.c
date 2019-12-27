@@ -9,9 +9,6 @@
 #include "LuxApplication.h"
 #include "LuxScreen.h"
 
-Resolution Screen_currentResolution;
-byte Screen_resolutions_Length;
-
 #define CLR80COL  0xC000    // disable 80-column store
 #define SET80COL  0xC001    // enable 80-column store
 #define CLR80VID  0xC00C    // disable 80-column display mode
@@ -36,10 +33,27 @@ byte Screen_resolutions_Length;
 #define AUXMOVE   0xC311    // C=0 Aux->Main, C=1 Main->Aux 
 #define MOVE      0xFE2C    // Main<->Main, *MUST* set Y=0 prior! 
 
+Resolution Screen_resolutions[] = {
+    {TEXT, false, false},
+    {GR, false, false},
+    {GR, false, true},
+    {HGR, false, false},
+    {HGR, false, true},
+    {TEXT, true, false},
+    {GR, true, false},
+    {GR, true, true},
+    {HGR, true, false},
+    {HGR, true, true}
+};
+
+byte Screen_resolutions_Length;
+
+Resolution Screen_currentResolution;
+
 void auxmove(word start, word end, word dest) {
-    POKE(STARTSOU, start);
-    POKE(ENDSOU, end);
-    POKE(DEST, dest);
+    POKEW(STARTSOU, start);
+    POKEW(ENDSOU, end);
+    POKEW(DEST, dest);
     asm("sec");
     asm("jsr %w", AUXMOVE);
 }
@@ -49,6 +63,7 @@ void Screen_Init() {
         Screen_resolutions_Length = 5;
     else
         Screen_resolutions_Length = 10;
+    Screen_currentResolution = Screen_resolutions[0];
     memset((void *)0x0400, 0xA0, 0x0400);
     memset((void *)0x2000, 0x00, 0x2000);
     if (application.machine >= IIe) {
@@ -60,45 +75,6 @@ void Screen_Init() {
         auxmove(0x2000, 0x3FFF, 0x2000);
     }
     gotoy(22);
-    Screen_currentResolution.mode = TEXT;
-    Screen_currentResolution.doubleRes = false;
-    Screen_currentResolution.mixed = false;
-}
-
-void Screen_resolutions_Get(Resolution **screen_resolutions) {
-    *screen_resolutions = malloc(sizeof(Resolution)*Screen_resolutions_Length);
-    (*screen_resolutions)[0].mode = TEXT;
-    (*screen_resolutions)[0].doubleRes = false;
-    (*screen_resolutions)[0].mixed = false;
-    (*screen_resolutions)[1].mode = GR;
-    (*screen_resolutions)[1].doubleRes = false;
-    (*screen_resolutions)[1].mixed = false;
-    (*screen_resolutions)[2].mode = GR;
-    (*screen_resolutions)[2].doubleRes = false;
-    (*screen_resolutions)[2].mixed = true;
-    (*screen_resolutions)[3].mode = HGR;
-    (*screen_resolutions)[3].doubleRes = false;
-    (*screen_resolutions)[3].mixed = false;
-    (*screen_resolutions)[4].mode = HGR;
-    (*screen_resolutions)[4].doubleRes = false;
-    (*screen_resolutions)[4].mixed = true;
-    if (application.machine >= IIe) {
-        (*screen_resolutions)[5].mode = TEXT;
-        (*screen_resolutions)[5].doubleRes = true;
-        (*screen_resolutions)[5].mixed = false;
-        (*screen_resolutions)[6].mode = GR;
-        (*screen_resolutions)[6].doubleRes = true;
-        (*screen_resolutions)[6].mixed = false;
-        (*screen_resolutions)[7].mode = GR;
-        (*screen_resolutions)[7].doubleRes = true;
-        (*screen_resolutions)[7].mixed = true;
-        (*screen_resolutions)[8].mode = HGR;
-        (*screen_resolutions)[8].doubleRes = true;
-        (*screen_resolutions)[8].mixed = false;
-        (*screen_resolutions)[9].mode = HGR;
-        (*screen_resolutions)[9].doubleRes = true;
-        (*screen_resolutions)[9].mixed = true;
-    }
 }
 
 void Screen_SetResolutionInternal() {
@@ -165,16 +141,20 @@ void Screen_SetResolutionInternal() {
 }
 
 void Screen_SetResolution(byte mode, bool doubleRes, bool mixed) {
-    Screen_currentResolution.mode = mode;
-    Screen_currentResolution.doubleRes = doubleRes;
-    Screen_currentResolution.mixed = mixed;
-    Screen_SetResolutionInternal();
-    VaporlockSetup();
+    int index;
+    for (index = 0; index<Screen_resolutions_Length; index++) {
+        if ((Screen_resolutions[index].mode == mode) && (Screen_resolutions[index].doubleRes == doubleRes) && (Screen_resolutions[index].mixed == mixed)) {
+            Screen_currentResolution = Screen_resolutions[index];
+            Screen_SetResolutionInternal();
+            VaporlockSetup();
+            return;
+        }
+    }
 }
 
 void Screen_WaitVBlank() {
     if (application.machine == IIe) {          // this optimization only works on the original IIe
-        while ((PEEK(RDVBLBAR)&0x80)==0x0) {}  // wait current vblank to end, if started inside it
+        while ((PEEK(RDVBLBAR)&0x80)==0x0) {}  // wait current vblank to end, if already inside it
         while ((PEEK(RDVBLBAR)&0x80)!=0x0) {}  // wait new vblank to start
     }
     else {

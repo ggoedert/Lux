@@ -3,6 +3,7 @@
 
 #include "LuxFloat.h"
 #include "LuxApplication.h"
+#include "LuxQualitySettings.h"
 #include "LuxDebug.h"
 #include "LuxGameObject.h"
 #include "LuxCustomBehaviour.h"
