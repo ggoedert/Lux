@@ -1,10 +1,14 @@
-#include <string.h>
-#include <peekpoke.h>//@@need major cleanup@@ ??delthis??
-
 #include "LuxEngine.h"
-#include "LuxSceneManagement.h"
+#include "LuxCustomBehaviour.h"
 
 void loadApplication(void);
+
+derived_class (PlayerControllerBehaviour, CustomBehaviour,
+    int updates, lastSecs;
+);
+class_default_prototypes(PlayerControllerBehaviour, NONE);
+void PlayerControllerBehaviour_Start(PlayerControllerBehaviour *this);
+void PlayerControllerBehaviour_Update(PlayerControllerBehaviour *this);
 
 //main.c
 void main() {
@@ -13,45 +17,32 @@ void main() {
 }
 
 void loadApplication() {
-    Debug_SetMode(DEBUG_MODE_CONSOLE);
-    Screen_SetResolution(HGR, true, true);
+    GameObject *Player;
 
-    /*byte *ptr=(byte *)0x2000;
-    byte col = 0x0;
-    Debug_Log("application.machine: %u", application.machine);
-    Debug_Log("application.machine: %u", application.machine);
-    Debug_Log("application.machine: %u", application.machine);
-    Debug_Log("application.machine: %u", application.machine);
-    Debug_Log("application.machine: %u", application.machine);
-    Debug_Log("application.machine: %u", application.machine);
-    Debug_Log("application.machine: %u", application.machine);
-    Debug_Log("application.machine: %u", application.machine);
-    Debug_Log("application.machine: %u", application.machine);
-    Debug_Log("application.machine: %u", application.machine);*/
-    /* while (ptr<(byte *)0x4000) {
-        *ptr = 0xFF;
-        ++ptr;
-        ++col;
-    }*/
-    Debug_Log("%u bytes free.", _heapmemavail());
+    Screen_SetResolution(HGR, true, false);
+    Player = GameObject_New();
+    *(PlayerControllerBehaviour **)List_Add(&Player->components) = PlayerControllerBehaviour_New();
+}
 
-    //should keep track if we are really in DHGR
-    //should do some scheduling function with stack with graphics commands that write to screen during vsync or something
-    //and also calls gameobject type updates
+virtual_table_type(Component) virtual_table_instance(Component_PlayerControllerBehaviour) = {
+    (Component_Delete_Type)PlayerControllerBehaviour_Delete
+};
+virtual_table_type(CustomBehaviour) virtual_table_instance(CustomBehaviour_PlayerControllerBehaviour) = {
+    (CustomBehaviour_Start_Type)PlayerControllerBehaviour_Start,
+    (CustomBehaviour_Update_Type)PlayerControllerBehaviour_Update
+};
+derived_class_simple_default_implementations(PlayerControllerBehaviour, CustomBehaviour, (&virtual_table_instance(Component_PlayerControllerBehaviour), &virtual_table_instance(CustomBehaviour_PlayerControllerBehaviour)))
 
-#define CLR80COL  0xC000    // disable 80-column store
-#define SET80COL  0xC001    // enable 80-column store
-#define TXTPAGE1  0xC054    // switch in page 1
-#define TXTPAGE2  0xC055    // switch in page 2
+void PlayerControllerBehaviour_Start(PlayerControllerBehaviour *this) {
+    this->updates = 0;
+    this->lastSecs = -1;
+ }
 
-    if (application.machine >= IIe) {
-        POKE(TXTPAGE1, 0);
-        POKE(CLR80COL, 0);
-    }
-    memset((void *)0x2000, 0xFF, 0x2000);
-    if (application.machine >= IIe) {
-        POKE(SET80COL, 0);
-        POKE(TXTPAGE2, 0);
-        memset((void *)0x2000, 0xFF, 0x2000);
+void PlayerControllerBehaviour_Update(PlayerControllerBehaviour *this) {
+    int secs = this->updates++/60;
+    if (secs != this->lastSecs) {
+        Camera_backgroundColor = secs%16;
+        Screen_SetResolution(HGR, true, false);
+        this->lastSecs = secs;
     }
 }

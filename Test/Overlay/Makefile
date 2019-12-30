@@ -9,7 +9,7 @@ $(error Unknown CONFIG $(CONFIG), set either to Debug, Size or Speed. Omit to de
 endif
 
 MAKECONFIG = ..\..\Util\MakeConfig\Build\Speed\MakeConfig.exe
-APPLEWIN = C:\Apple\AppleWin\Applewin.exe
+APPLEWIN = C:\Apple\AppleWin\Applewin.exe -no-printscreen-key
 APPLECOMMANDER = C:\Apple\AppleCommander-win64-1.5.0.jar
 LOADER_SYSTEM = C:\cc65\target\apple2\util\loader.system
 

@@ -1,37 +1,14 @@
 #include <stdbool.h>
 #include <string.h>
 #include <conio.h> 
-#include <peekpoke.h> 
 
+#include "IO.h"
 #include "Screen.h"
 #include "Vaporlock.h"
 
 #include "LuxApplication.h"
+#include "LuxCamera.h"
 #include "LuxScreen.h"
-
-#define CLR80COL  0xC000    // disable 80-column store
-#define SET80COL  0xC001    // enable 80-column store
-#define CLR80VID  0xC00C    // disable 80-column display mode
-#define SET80VID  0xC00D    // enable 80-column display mode
-#define RDVBLBAR  0xC019    // not VBL (VBL signal low) on iie
-#define CLRTEXT   0xC050    // disable text-only mode
-#define SETTEXT   0xC051    // enable text-only mode
-#define CLRMIXED  0xC052    // disable graphics/text mixed mode
-#define SETMIXED  0xC053    // enable graphics/text mixed mode
-#define TXTPAGE1  0xC054    // switch in page 1
-#define TXTPAGE2  0xC055    // switch in page 2
-#define CLRHIRES  0xC056    // disable hr graphics
-#define SETHIRES  0xC057    // enable hr graphics
-#define SETDHIRES 0xC05E    // turn on dhr graphics
-#define CLRDHIRES 0xC05F    // turn off dhr graphics
-#define SETIOUDIS 0xC07E    // turn on IOUDis access for addresses $C058 to $C05F
-#define CLRIOUDIS 0xC07F    // turn off IOUDis access for addresses $C058 to $C05F
-
-#define STARTSOU  0x003C
-#define ENDSOU    0x003E
-#define DEST      0x0042
-#define AUXMOVE   0xC311    // C=0 Aux->Main, C=1 Main->Aux 
-#define MOVE      0xFE2C    // Main<->Main, *MUST* set Y=0 prior! 
 
 Resolution Screen_resolutions[] = {
     {TEXT, false, false},
@@ -50,28 +27,20 @@ byte Screen_resolutions_Length;
 
 Resolution Screen_currentResolution;
 
-void auxmove(word start, word end, word dest) {
-    POKEW(STARTSOU, start);
-    POKEW(ENDSOU, end);
-    POKEW(DEST, dest);
-    asm("sec");
-    asm("jsr %w", AUXMOVE);
-}
-
 void Screen_Init() {
     if (application.machine < IIe)
         Screen_resolutions_Length = 5;
     else
         Screen_resolutions_Length = 10;
     Screen_currentResolution = Screen_resolutions[0];
-    memset((void *)0x0400, 0xA0, 0x0400);
+    memset((void *)0x0400, 0xA0, 0x0400);//this is actually bad, because holes in the graphics memory layout are used by the system
     memset((void *)0x2000, 0x00, 0x2000);
     if (application.machine >= IIe) {
-        POKE(SET80COL, 0);
-        POKE(TXTPAGE2, 0);
+        FASTPOKE(SET80COL);
+        FASTPOKE(TXTPAGE2);
         memset((void *)0x0400, 0xA0, 0x0400);
-        POKE(TXTPAGE1, 0);
-        POKE(CLR80COL, 0);
+        FASTPOKE(TXTPAGE1);
+        FASTPOKE(CLR80COL);
         auxmove(0x2000, 0x3FFF, 0x2000);
     }
     gotoy(22);
@@ -80,64 +49,111 @@ void Screen_Init() {
 void Screen_SetResolutionInternal() {
     switch(Screen_currentResolution.mode) {
         case TEXT:
-            POKE(CLRHIRES, 0);
-            POKE(SETTEXT, 0);
+            FASTPOKE(CLRHIRES);
+            FASTPOKE(SETTEXT);
             if (application.machine >= IIe) {
-                POKE(SETIOUDIS, 0);
-                POKE(CLRDHIRES, 0);
+                FASTPOKE(SETIOUDIS);
+                FASTPOKE(CLRDHIRES);
                 if (Screen_currentResolution.doubleRes) {
-                    POKE(SET80COL, 0);
-                    POKE(SET80VID, 0);
+                    FASTPOKE(SET80COL);
+                    FASTPOKE(SET80VID);
                 }
                 else {
-                    POKE(CLR80COL, 0);
-                    POKE(CLR80VID, 0);
+                    FASTPOKE(CLR80COL);
+                    FASTPOKE(CLR80VID);
                 }
             }
-            POKE(CLRMIXED, 0);
+            FASTPOKE(CLRMIXED);
             break;
         case GR:
-            POKE(CLRHIRES, 0);
-            POKE(CLRTEXT, 0);
-            POKE(CLR80COL, 0);
+            FASTPOKE(CLRHIRES);
+            FASTPOKE(CLRTEXT);
+            FASTPOKE(CLR80COL);
             if (application.machine >= IIe) {
-                POKE(SETIOUDIS, 0);
+                FASTPOKE(SETIOUDIS);
                 if (Screen_currentResolution.doubleRes) {
-                    POKE(SETDHIRES, 0);
-                    POKE(SET80VID, 0);
+                    FASTPOKE(SETDHIRES);
+                    FASTPOKE(SET80VID);
                 }
                 else {
-                    POKE(CLRDHIRES, 0);
-                    POKE(CLR80VID, 0);
+                    FASTPOKE(CLRDHIRES);
+                    FASTPOKE(CLR80VID);
                 }
             }
             if (!Screen_currentResolution.mixed)
-                POKE(CLRMIXED, 0);
+                FASTPOKE(CLRMIXED);
             else
-                POKE(SETMIXED, 0);
+                FASTPOKE(SETMIXED);
             break;
         case HGR:
-            POKE(SETHIRES, 0);
-            POKE(CLRTEXT, 0);
-            POKE(CLR80COL, 0);
+            FASTPOKE(SETHIRES);
+            FASTPOKE(CLRTEXT);
+            FASTPOKE(CLR80COL);
             if (application.machine >= IIe) {
-                POKE(SETIOUDIS, 0);
+                FASTPOKE(SETIOUDIS);
                 if (Screen_currentResolution.doubleRes) {
-                    POKE(SETDHIRES, 0);
-                    POKE(SET80VID, 0);
+                    FASTPOKE(SETDHIRES);
+                    FASTPOKE(SET80VID);
                 }
                 else {
-                    POKE(CLRDHIRES, 0);
-                    POKE(CLR80VID, 0);
+                    FASTPOKE(CLRDHIRES);
+                    FASTPOKE(CLR80VID);
                 }
             }
             if (!Screen_currentResolution.mixed)
-                POKE(CLRMIXED, 0);
+                FASTPOKE(CLRMIXED);
             else
-                POKE(SETMIXED, 0);
+                FASTPOKE(SETMIXED);
             break;
     }
-    POKE(TXTPAGE1, 0);
+    FASTPOKE(TXTPAGE1);
+}
+
+void Screen_Clear() {
+    byte *ptr;
+    int size;
+
+    if ((Screen_currentResolution.mode != HGR) || Screen_currentResolution.mixed) {
+        memset((void *)0x0400, 0xA0, 0x0400);//this is actually bad, because holes in the graphics memory layout are used by the system
+        if ((application.machine >= IIe) && (Screen_currentResolution.doubleRes))
+            memset((void *)0x0400, 0xA0, 0x0400);
+    }
+    if (Screen_currentResolution.mode == HGR) {
+        byte a, b, c, d;
+        a = ((Camera_backgroundColor&0x7)<<4)|Camera_backgroundColor;
+        b = ((Camera_backgroundColor&0x3)<<5)|(Camera_backgroundColor<<1)|(Camera_backgroundColor>>3);
+        c = ((Camera_backgroundColor&0x1)<<6)|(Camera_backgroundColor<<2)|(Camera_backgroundColor>>2);
+        d = (Camera_backgroundColor<<3)|(Camera_backgroundColor>>1);
+        
+        if ((a==b) && (a==c) && (a==d)) {
+            memset((void *)0x2000, a, 0x2000);
+            if ((application.machine >= IIe) && (Screen_currentResolution.doubleRes))
+                auxmove(0x2000, 0x3FFF, 0x2000);
+            return;
+        }
+        
+        ptr = (byte *)0x2000;
+        *ptr++ = a;
+        *ptr++ = c;
+        do {
+            size = ptr-(byte *)0x2000;
+            memcpy(ptr, (byte *)0x2000, size);
+            ptr += size;
+        } while (ptr<(byte *)0x4000);
+        if ((application.machine >= IIe) && (Screen_currentResolution.doubleRes))
+            auxmove(0x2000, 0x3FFF, 0x2000);
+
+        if ((a==b) && (c==d))
+            return;
+        ptr = (byte *)0x2000;
+        *ptr++ = b;
+        *ptr++ = d;
+        do {
+            size = ptr-(byte *)0x2000;
+            memcpy(ptr, (byte *)0x2000, size);
+            ptr += size;
+        } while (ptr<(byte *)0x4000);
+    }
 }
 
 void Screen_SetResolution(byte mode, bool doubleRes, bool mixed) {
@@ -145,6 +161,7 @@ void Screen_SetResolution(byte mode, bool doubleRes, bool mixed) {
     for (index = 0; index<Screen_resolutions_Length; index++) {
         if ((Screen_resolutions[index].mode == mode) && (Screen_resolutions[index].doubleRes == doubleRes) && (Screen_resolutions[index].mixed == mixed)) {
             Screen_currentResolution = Screen_resolutions[index];
+            Screen_Clear();
             Screen_SetResolutionInternal();
             VaporlockSetup();
             return;
@@ -160,16 +177,16 @@ void Screen_WaitVBlank() {
     else {
         bool setupScreen = (Screen_currentResolution.mode != HGR) || (Screen_currentResolution.doubleRes != false) || (Screen_currentResolution.mixed != false);
         if (setupScreen) {
-            POKE(SETHIRES, 0);
-            POKE(CLRTEXT, 0);
-            POKE(CLR80COL, 0);
+            FASTPOKE(SETHIRES);
+            FASTPOKE(CLRTEXT);
+            FASTPOKE(CLR80COL);
             if (application.machine >= IIe) {
-                POKE(SETIOUDIS, 0);
-                POKE(CLRDHIRES, 0);
-                POKE(CLR80VID, 0);
+                FASTPOKE(SETIOUDIS);
+                FASTPOKE(CLRDHIRES);
+                FASTPOKE(CLR80VID);
             }
-            POKE(CLRMIXED, 0);
-            POKE(TXTPAGE1, 0);
+            FASTPOKE(CLRMIXED);
+            FASTPOKE(TXTPAGE1);
         }
         Vaporlock();
         if (setupScreen)

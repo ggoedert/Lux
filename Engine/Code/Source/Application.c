@@ -29,9 +29,9 @@ void Application_Run(char *name, word version, LoadApplication loadApplication) 
 
     loadApplication();
     while(true) {
-        if (QualitySettings_vSync)
-            Screen_WaitVBlank();
         Scene_Run();
         Time_Run();
+        if (QualitySettings_vSync)
+            Screen_WaitVBlank();
     }
 }
