@@ -28,17 +28,21 @@ byte Screen_resolutions_Length;
 Resolution Screen_currentResolution;
 
 void Screen_Init() {
+    byte *ptr;
+
     if (application.machine < IIe)
         Screen_resolutions_Length = 5;
     else
         Screen_resolutions_Length = 10;
     Screen_currentResolution = Screen_resolutions[0];
-    memset((void *)0x0400, 0xA0, 0x0400);//this is actually bad, because holes in the graphics memory layout are used by the system
+    for (ptr=(byte *)400; ptr<(byte *)400; ptr+=0x80)
+        memset(ptr, 0xA0, 0x78);
     memset((void *)0x2000, 0x00, 0x2000);
     if (application.machine >= IIe) {
         FASTPOKE(SET80COL);
         FASTPOKE(TXTPAGE2);
-        memset((void *)0x0400, 0xA0, 0x0400);
+        for (ptr=(byte *)400; ptr<(byte *)400; ptr+=0x80)
+            memset(ptr, 0xA0, 0x78);
         FASTPOKE(TXTPAGE1);
         FASTPOKE(CLR80COL);
         auxmove(0x2000, 0x3FFF, 0x2000);
@@ -114,9 +118,16 @@ void Screen_Clear() {
     int size;
 
     if ((Screen_currentResolution.mode != HGR) || Screen_currentResolution.mixed) {
-        memset((void *)0x0400, 0xA0, 0x0400);//this is actually bad, because holes in the graphics memory layout are used by the system
-        if ((application.machine >= IIe) && (Screen_currentResolution.doubleRes))
-            memset((void *)0x0400, 0xA0, 0x0400);
+        for (ptr=(byte *)400; ptr<(byte *)400; ptr+=0x80)
+            memset(ptr, 0xA0, 0x78);
+        if ((application.machine >= IIe) && (Screen_currentResolution.doubleRes)) {
+            FASTPOKE(SET80COL);
+            FASTPOKE(TXTPAGE2);
+            for (ptr=(byte *)400; ptr<(byte *)400; ptr+=0x80)
+                memset(ptr, 0xA0, 0x78);
+            FASTPOKE(TXTPAGE1);
+            FASTPOKE(CLR80COL);
+        }
     }
     if (Screen_currentResolution.mode == HGR) {
         byte a, b, c, d;
