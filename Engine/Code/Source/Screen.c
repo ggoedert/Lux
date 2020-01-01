@@ -27,6 +27,17 @@ byte Screen_resolutions_Length;
 
 Resolution Screen_currentResolution;
 
+// Table to translate a dhgr color to a similar hgr color
+// * Two highest bits: page index
+//   01 -> page 0
+//   11 -> page 1
+//   00 -> either page
+//   10 -> either page
+// * Two lowest bits: color index
+byte dhgr2hgr[] = {
+    0x00, 0x00, 0x00, 0x82, 0x00, 0x82, 0x01, 0x03, 0x00, 0x02, 0x82, 0x03, 0x81, 0x03, 0x03, 0x03
+};
+
 void Screen_Init() {
     byte *ptr;
 
@@ -47,6 +58,8 @@ void Screen_Init() {
         FASTPOKE(CLR80COL);
         auxmove(0x2000, 0x3FFF, 0x2000);
     }
+    if (application.machine != IIe) // this is not needed on the IIe
+        VaporlockSetup();
     gotoy(22);
 }
 
@@ -130,60 +143,84 @@ void Screen_Clear() {
         }
     }
     if (Screen_currentResolution.mode == HGR) {
-        byte a, b, c, d;
-        a = ((Camera_backgroundColor&0x7)<<4)|Camera_backgroundColor;
-        b = ((Camera_backgroundColor&0x3)<<5)|(Camera_backgroundColor<<1)|(Camera_backgroundColor>>3);
-        c = ((Camera_backgroundColor&0x1)<<6)|(Camera_backgroundColor<<2)|(Camera_backgroundColor>>2);
-        d = (Camera_backgroundColor<<3)|(Camera_backgroundColor>>1);
-        
-        if ((a==b) && (a==c) && (a==d)) {
-            memset((void *)0x2000, a, 0x2000);
-            if ((application.machine >= IIe) && (Screen_currentResolution.doubleRes))
-                auxmove(0x2000, 0x3FFF, 0x2000);
-            return;
+        if ((application.machine < IIe) || (!Screen_currentResolution.doubleRes)) {
+            byte p = dhgr2hgr[Camera_backgroundColor]&0x80;
+            byte ci = dhgr2hgr[Camera_backgroundColor]&0x3;
+            byte a, b;
+            a = p|((ci&0x1)<<6)|(ci<<4)|(ci<<2)|ci;
+            b = p|(ci<<5)|(ci<<3)|(ci<<1)|(ci>>1);
+            
+            if (a==b) {
+                memset((void *)0x2000, a, 0x2000);
+                return;
+            }
+            
+            ptr = (byte *)0x2000;
+            *ptr++ = a;
+            *ptr++ = b;
+            do {
+                size = ptr-(byte *)0x2000;
+                memcpy(ptr, (byte *)0x2000, size);
+                ptr += size;
+            } while (ptr<(byte *)0x4000);
         }
-        
-        ptr = (byte *)0x2000;
-        *ptr++ = a;
-        *ptr++ = c;
-        do {
-            size = ptr-(byte *)0x2000;
-            memcpy(ptr, (byte *)0x2000, size);
-            ptr += size;
-        } while (ptr<(byte *)0x4000);
-        if ((application.machine >= IIe) && (Screen_currentResolution.doubleRes))
+        else {
+            byte a, b, c, d;
+            a = ((Camera_backgroundColor&0x7)<<4)|Camera_backgroundColor;
+            b = ((Camera_backgroundColor&0x3)<<5)|(Camera_backgroundColor<<1)|(Camera_backgroundColor>>3);
+            c = ((Camera_backgroundColor&0x1)<<6)|(Camera_backgroundColor<<2)|(Camera_backgroundColor>>2);
+            d = (Camera_backgroundColor<<3)|(Camera_backgroundColor>>1);
+            
+            if ((a==b) && (a==c) && (a==d)) {
+                memset((void *)0x2000, a, 0x2000);
+                auxmove(0x2000, 0x3FFF, 0x2000);
+                return;
+            }
+            
+            ptr = (byte *)0x2000;
+            *ptr++ = a;
+            *ptr++ = c;
+            do {
+                size = ptr-(byte *)0x2000;
+                memcpy(ptr, (byte *)0x2000, size);
+                ptr += size;
+            } while (ptr<(byte *)0x4000);
             auxmove(0x2000, 0x3FFF, 0x2000);
-
-        if ((a==b) && (c==d))
-            return;
-        ptr = (byte *)0x2000;
-        *ptr++ = b;
-        *ptr++ = d;
-        do {
-            size = ptr-(byte *)0x2000;
-            memcpy(ptr, (byte *)0x2000, size);
-            ptr += size;
-        } while (ptr<(byte *)0x4000);
+            
+            if ((a==b) && (c==d))
+                return;
+            ptr = (byte *)0x2000;
+            *ptr++ = b;
+            *ptr++ = d;
+            do {
+                size = ptr-(byte *)0x2000;
+                memcpy(ptr, (byte *)0x2000, size);
+                ptr += size;
+            } while (ptr<(byte *)0x4000);
+        }
     }
 }
 
 void Screen_SetResolution(byte mode, bool doubleRes, bool mixed) {
     int index;
+    if (application.machine < IIe)
+        doubleRes = false;
     for (index = 0; index<Screen_resolutions_Length; index++) {
         if ((Screen_resolutions[index].mode == mode) && (Screen_resolutions[index].doubleRes == doubleRes) && (Screen_resolutions[index].mixed == mixed)) {
             Screen_currentResolution = Screen_resolutions[index];
             Screen_Clear();
             Screen_SetResolutionInternal();
-            VaporlockSetup();
+            if (application.machine != IIe) // this is not needed on the IIe
+                VaporlockSetup();
             return;
         }
     }
 }
 
 void Screen_WaitVBlank() {
-    if (application.machine == IIe) {          // this optimization only works on the original IIe
-        while ((PEEK(RDVBLBAR)&0x80)==0x0) {}  // wait current vblank to end, if already inside it
-        while ((PEEK(RDVBLBAR)&0x80)!=0x0) {}  // wait new vblank to start
+    if (application.machine == IIe) {          // this optimization only works on the IIe
+        while ((PEEK(RDVBLBAR)&0x80)==0x0) {}  // if already inside a vblank, wait for it to end
+        while ((PEEK(RDVBLBAR)&0x80)!=0x0) {}  // wait for a new vblank to start
     }
     else {
         bool setupScreen = (Screen_currentResolution.mode != HGR) || (Screen_currentResolution.doubleRes != false) || (Screen_currentResolution.mixed != false);
