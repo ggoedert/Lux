@@ -144,9 +144,10 @@ void Screen_Clear() {
     }
     if (Screen_currentResolution.mode == HGR) {
         if ((application.machine < IIe) || (!Screen_currentResolution.doubleRes)) {
-            byte p = dhgr2hgr[Camera_backgroundColor]&0x80;
-            byte ci = dhgr2hgr[Camera_backgroundColor]&0x3;
-            byte a, b;
+            byte a = dhgr2hgr[Camera_backgroundColor];
+            byte p = a&0x80;
+            byte ci = a&0x3;
+            byte b;
             a = p|((ci&0x1)<<6)|(ci<<4)|(ci<<2)|ci;
             b = p|(ci<<5)|(ci<<3)|(ci<<1)|(ci>>1);
             
@@ -187,16 +188,16 @@ void Screen_Clear() {
             } while (ptr<(byte *)0x4000);
             auxmove(0x2000, 0x3FFF, 0x2000);
             
-            if ((a==b) && (c==d))
-                return;
-            ptr = (byte *)0x2000;
-            *ptr++ = b;
-            *ptr++ = d;
-            do {
-                size = ptr-(byte *)0x2000;
-                memcpy(ptr, (byte *)0x2000, size);
-                ptr += size;
-            } while (ptr<(byte *)0x4000);
+            if ((a!=b) || (c!=d)) {
+                ptr = (byte *)0x2000;
+                *ptr++ = b;
+                *ptr++ = d;
+                do {
+                    size = ptr-(byte *)0x2000;
+                    memcpy(ptr, (byte *)0x2000, size);
+                    ptr += size;
+                } while (ptr<(byte *)0x4000);
+            }
         }
     }
 }
