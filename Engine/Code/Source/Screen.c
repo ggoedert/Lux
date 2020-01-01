@@ -35,7 +35,7 @@ Resolution Screen_currentResolution;
 //   10 -> either page
 // * Two lowest bits: color index
 byte dhgr2hgr[] = {
-    0x00, 0x00, 0x00, 0x81, 0x00, 0x81, 0x02, 0x03, 0x00, 0x01, 0x81, 0x03, 0x82, 0x03, 0x03, 0x03
+    0x00, 0x01, 0x02, 0x81, 0x00, 0x81, 0x02, 0x81, 0x82, 0x01, 0x81, 0x83, 0x82, 0x01, 0x02, 0x83
 };
 
 void Screen_Init() {
@@ -151,19 +151,18 @@ void Screen_Clear() {
             a = p|((ci&0x1)<<6)|(ci<<4)|(ci<<2)|ci;
             b = p|(ci<<5)|(ci<<3)|(ci<<1)|(ci>>1);
             
-            if (a==b) {
+            if (a==b)
                 memset((void *)0x2000, a, 0x2000);
-                return;
+            else {
+                ptr = (byte *)0x2000;
+                *ptr++ = a;
+                *ptr++ = b;
+                do {
+                    size = ptr-(byte *)0x2000;
+                    memcpy(ptr, (byte *)0x2000, size);
+                    ptr += size;
+                } while (ptr<(byte *)0x4000);
             }
-            
-            ptr = (byte *)0x2000;
-            *ptr++ = a;
-            *ptr++ = b;
-            do {
-                size = ptr-(byte *)0x2000;
-                memcpy(ptr, (byte *)0x2000, size);
-                ptr += size;
-            } while (ptr<(byte *)0x4000);
         }
         else {
             byte a, b, c, d;
@@ -175,31 +174,33 @@ void Screen_Clear() {
             if ((a==b) && (a==c) && (a==d)) {
                 memset((void *)0x2000, a, 0x2000);
                 auxmove(0x2000, 0x3FFF, 0x2000);
-                return;
             }
-            
-            ptr = (byte *)0x2000;
-            *ptr++ = a;
-            *ptr++ = c;
-            do {
-                size = ptr-(byte *)0x2000;
-                memcpy(ptr, (byte *)0x2000, size);
-                ptr += size;
-            } while (ptr<(byte *)0x4000);
-            auxmove(0x2000, 0x3FFF, 0x2000);
-            
-            if ((a!=b) || (c!=d)) {
+            else {
                 ptr = (byte *)0x2000;
-                *ptr++ = b;
-                *ptr++ = d;
+                *ptr++ = a;
+                *ptr++ = c;
                 do {
                     size = ptr-(byte *)0x2000;
                     memcpy(ptr, (byte *)0x2000, size);
                     ptr += size;
                 } while (ptr<(byte *)0x4000);
+                auxmove(0x2000, 0x3FFF, 0x2000);
+                
+                if ((a!=b) || (c!=d)) {
+                    ptr = (byte *)0x2000;
+                    *ptr++ = b;
+                    *ptr++ = d;
+                    do {
+                        size = ptr-(byte *)0x2000;
+                        memcpy(ptr, (byte *)0x2000, size);
+                        ptr += size;
+                    } while (ptr<(byte *)0x4000);
+                }
             }
         }
     }
+    if (application.machine != IIe) // this is not needed on the IIe
+        VaporlockSetup();
 }
 
 void Screen_SetResolution(byte mode, bool doubleRes, bool mixed) {
@@ -211,8 +212,6 @@ void Screen_SetResolution(byte mode, bool doubleRes, bool mixed) {
             Screen_currentResolution = Screen_resolutions[index];
             Screen_Clear();
             Screen_SetResolutionInternal();
-            if (application.machine != IIe) // this is not needed on the IIe
-                VaporlockSetup();
             return;
         }
     }

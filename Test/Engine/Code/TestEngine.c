@@ -42,7 +42,7 @@ void PlayerControllerBehaviour_Update(PlayerControllerBehaviour *this) {
     int secs = this->updates++/60;
     if (secs != this->lastSecs) {
         Camera_backgroundColor = secs&0xf;
-        Screen_SetResolution(HGR, true, false);
+        Screen_Clear();
         this->lastSecs = secs;
     }
 }
