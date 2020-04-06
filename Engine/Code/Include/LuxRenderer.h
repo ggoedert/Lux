@@ -5,10 +5,16 @@
 
 #define sortingLayer_Default 127
 
-derived_class (Renderer, Component,
-    bool enabled;
-    byte sortingLayer;
+derived_virtual_class (Renderer, Component,
+    (
+        bool enabled;
+        byte sortingLayer;
+    ),
+    (
+        void (*Update)(Renderer *this);
+    )
 );
-class_default_prototypes(Renderer, virtual_table_type(Component) *vtable);
+typedef void (*Renderer_Update_Type)(Renderer *this);
+class_constructor_destructor_prototypes(Renderer, virtual_table_type(Component) *component_vtable, virtual_table_type(Renderer) *renderer_vtable);
 
 #endif

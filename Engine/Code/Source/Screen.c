@@ -131,12 +131,12 @@ void Screen_Clear() {
     int size;
 
     if ((Screen_currentResolution.mode != HGR) || Screen_currentResolution.mixed) {
-        for (ptr=(byte *)400; ptr<(byte *)400; ptr+=0x80)
+        for (ptr=(byte *)0x0400; ptr<(byte *)0x0800; ptr+=0x80)
             memset(ptr, 0xA0, 0x78);
         if ((application.machine >= IIe) && (Screen_currentResolution.doubleRes)) {
             FASTPOKE(SET80COL);
             FASTPOKE(TXTPAGE2);
-            for (ptr=(byte *)400; ptr<(byte *)400; ptr+=0x80)
+            for (ptr=(byte *)0x0400; ptr<(byte *)0x0800; ptr+=0x80)
                 memset(ptr, 0xA0, 0x78);
             FASTPOKE(TXTPAGE1);
             FASTPOKE(CLR80COL);

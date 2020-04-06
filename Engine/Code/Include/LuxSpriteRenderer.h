@@ -2,10 +2,12 @@
 #define LUX_SPRITERENDERER_H
 
 #include "LuxRenderer.h"
+#include "LuxSprite.h"
 
 derived_class (SpriteRenderer, Renderer,
-    NONE
+    Sprite *sprite;
 );
-class_default_prototypes(SpriteRenderer, virtual_table_type(Component) *vtable);
+class_default_prototypes(SpriteRenderer, NONE);
+void SpriteRenderer_Update(SpriteRenderer *this);
 
 #endif

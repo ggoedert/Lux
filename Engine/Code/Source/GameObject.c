@@ -3,6 +3,7 @@
 
 #include "LuxGameObject.h"
 #include "LuxCustomBehaviour.h"
+#include "LuxRenderer.h"
 #include "LuxTransform.h"
 
 #include "LuxDebug.h"
@@ -29,10 +30,12 @@ void GameObject_Run(GameObject *this) {
     CustomBehaviour_Update_Type CustomBehaviour_Update;
     for (i=0; i<this->components.count; i++) {
         component = *(Component **)List_Item(&this->components, i);
-        if (component->customBehaviour) {
+        if (component->typeId&CUSTOM_BEHAVIOUR) {
             CustomBehaviour_Update = ((CustomBehaviour *)component)->vtable->Update;
             if (CustomBehaviour_Update)
                 CustomBehaviour_Update((CustomBehaviour *)component);
         }
+        else if (component->typeId&RENDERER)
+            ((Renderer *)component)->vtable->Update((Renderer *)component);
     }
 }
