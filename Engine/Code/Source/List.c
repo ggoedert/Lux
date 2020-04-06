@@ -10,6 +10,6 @@ void List_RemoveAt(List *this, int index) {
         memmove(((byte *)this->items)+(this->sizeOfItem*index), ((byte *)this->items)+(this->sizeOfItem*(index+1)), this->sizeOfItem*moveItems);
 }
 
-void *List_Item(List *this, int index) {
+void *List_VoidItem(List *this, int index) {
     return (((byte *)this->items)+(this->sizeOfItem*index));
 }

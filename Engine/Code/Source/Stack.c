@@ -1,9 +1,9 @@
 #include "LuxCollections.h"
 
-void *Stack_Pop(Stack *this) {
+void *Stack_VoidPop(Stack *this) {
     return (((byte *)this->items)+(this->sizeOfItem*(--this->count)));
 }
 
-void *Stack_Peek(List *this) {
+void *Stack_VoidPeek(List *this) {
     return (((byte *)this->items)+(this->sizeOfItem*this->count));
 }

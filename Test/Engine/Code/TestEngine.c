@@ -21,7 +21,7 @@ void loadApplication() {
 
     Screen_SetResolution(HGR, true, false);
     Player = GameObject_New();
-    *(PlayerControllerBehaviour **)List_Add(&Player->components) = PlayerControllerBehaviour_New();
+    List_Add(PlayerControllerBehaviour, &Player->components, PlayerControllerBehaviour_New());
 }
 
 virtual_table_type(Component) virtual_table_instance(Component_PlayerControllerBehaviour) = {

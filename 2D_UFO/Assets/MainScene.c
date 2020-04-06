@@ -19,6 +19,6 @@ void MainScene_Load() {
     Player = GameObject_New();
     spriteRenderer = SpriteRenderer_New();
     spriteRenderer->sprite = (Sprite *)Resources_Load(UFO);
-    *(SpriteRenderer **)List_Add(&Player->components) = spriteRenderer;
-    *(PlayerControllerBehaviour **)List_Add(&Player->components) = PlayerControllerBehaviour_New();
+    List_Add(SpriteRenderer, &Player->components, spriteRenderer);
+    List_Add(PlayerControllerBehaviour, &Player->components, PlayerControllerBehaviour_New());
 }

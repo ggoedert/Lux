@@ -9,9 +9,11 @@
     #define Stack_New Collection_New
     #define Stack_Delete Collection_Delete
 #define Stack_SetCapacity Collection_SetCapacity
-#define Stack_Push Collection_Add
-void *Stack_Pop(Stack *this);
-void *Stack_Peek(List *this);
+#define Stack_Push(...) Collection_Add(__VA_ARGS__)
+void *Stack_VoidPop(Stack *this);
+#define Stack_Pop(T, L) (*(T **)Stack_VoidPop(L))
+void *Stack_VoidPeek(List *this);
+#define Stack_Peek(T, L) (*(T **)Stack_VoidPeek(L))
 #define Stack_Clear(...) Collection_Clear(__VA_ARGS__)
 
 #endif

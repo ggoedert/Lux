@@ -19,7 +19,7 @@ void Collection_SetCapacity(Collection *this, byte capacity) {
     }
 }
 
-void *Collection_Add(Collection *this) {
+void *Collection_VoidAdd(Collection *this) {
     if (this->count == this->capacity) {
         int newCount = this->count+1;
         if (newCount<=2)
