@@ -8,6 +8,6 @@ derived_class (SpriteRenderer, Renderer,
     Sprite *sprite;
 );
 class_default_prototypes(SpriteRenderer, NONE);
-void SpriteRenderer_Update(SpriteRenderer *this);
+void SpriteRenderer_Render(SpriteRenderer *this);
 
 #endif

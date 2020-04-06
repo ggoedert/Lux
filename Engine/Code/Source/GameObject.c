@@ -35,6 +35,6 @@ void GameObject_Run(GameObject *this) {
                 CustomBehaviour_Update((CustomBehaviour *)component);
         }
         else if (component->type==RendererType)
-            ((Renderer *)component)->vtable->Update((Renderer *)component);
+            ((Renderer *)component)->vtable->Render((Renderer *)component);
     }
 }

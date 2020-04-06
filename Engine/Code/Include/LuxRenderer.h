@@ -11,10 +11,10 @@ derived_virtual_class (Renderer, Component,
         byte sortingLayer;
     ),
     (
-        void (*Update)(Renderer *this);
+        void (*Render)(Renderer *this);
     )
 );
-typedef void (*Renderer_Update_Type)(Renderer *this);
+typedef void (*Renderer_Render_Type)(Renderer *this);
 class_constructor_destructor_prototypes(Renderer, virtual_table_type(Component) *component_vtable, virtual_table_type(Renderer) *renderer_vtable);
 
 #define sortingLayer_Default 127
