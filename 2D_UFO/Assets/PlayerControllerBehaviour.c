@@ -13,15 +13,15 @@ virtual_table_type(CustomBehaviour) virtual_table_instance(CustomBehaviour_Playe
 derived_class_simple_default_implementations(PlayerControllerBehaviour, CustomBehaviour, (&virtual_table_instance(Component_PlayerControllerBehaviour), &virtual_table_instance(CustomBehaviour_PlayerControllerBehaviour)))
 
 void PlayerControllerBehaviour_Start(PlayerControllerBehaviour *this) {
-    Debug_Log("PlayerControllerBehaviour_Start $%04x", this);
-    this->updatetimes = 3;
-}
+    this->updates = 0;
+    this->lastSecs = -1;
+ }
 
 void PlayerControllerBehaviour_Update(PlayerControllerBehaviour *this) {
-    if (this->updatetimes) {
-        Debug_Log("PlayerControllerBehaviour_Update $%04x - %d", this, this->updatetimes);
-        --this->updatetimes;
-    }
-    /*if (!this->updatetimes)
-        SceneManager_LoadScene(EndGameScene_Load);*/
+    /*int secs = this->updates++/60;
+    if (secs != this->lastSecs) {
+        Camera_backgroundColor = secs&0xf;
+        Screen_Clear();
+        this->lastSecs = secs;
+    }*/
 }

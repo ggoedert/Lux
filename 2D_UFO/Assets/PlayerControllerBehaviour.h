@@ -4,7 +4,7 @@
 #include "LuxCustomBehaviour.h"
 
 derived_class (PlayerControllerBehaviour, CustomBehaviour,
-    int updatetimes;
+    int updates, lastSecs;
 );
 class_default_prototypes(PlayerControllerBehaviour, NONE);
 void PlayerControllerBehaviour_Start(PlayerControllerBehaviour *this);
