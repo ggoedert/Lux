@@ -35,6 +35,15 @@ void loadApplication() {
     Debug_Log("String_GetHashCode16(\"CustomBehaviour\"): $%04x", String_GetHashCode16("CustomBehaviour"));
     Debug_Log("");
 
+    Debug_Log("String_GetHashCode8(\"abcde\"): $%02x", String_GetHashCode8("abcde"));
+    Debug_Log("String_GetHashCode8(\"abcdef\"): $%02x", String_GetHashCode8("abcdef"));
+    Debug_Log("String_GetHashCode8(\"abcdefgh\"): $%02x", String_GetHashCode8("abcdefgh"));
+    Debug_Log("String_GetHashCode8(\"Untitled\"): $%02x", String_GetHashCode8("Untitled"));
+    Debug_Log("String_GetHashCode8(\"CustomBehaviour\"): $%02x", String_GetHashCode8("CustomBehaviour"));
+    Debug_Log("String_GetHashCode8(\"Renderer\"): $%02x", String_GetHashCode8("Renderer"));
+    Debug_Log("String_GetHashCode8(\"Transform\"): $%02x", String_GetHashCode8("Transform"));
+    Debug_Log("");
+
     DoClassesTest();
     Debug_Log("");
     
