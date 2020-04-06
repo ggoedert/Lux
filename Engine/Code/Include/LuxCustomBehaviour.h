@@ -3,6 +3,8 @@
 
 #include "LuxBehaviour.h"
 
+#define CustomBehaviourType 0x26 // String_GetHashCode8("CustomBehaviour")
+
 derived_virtual_class (CustomBehaviour, Behaviour,
     (
         NONE

@@ -4,6 +4,8 @@
 #include "LuxComponent.h"
 #include "LuxVector2.h"
 
+#define TransformType 0xbf // String_GetHashCode8("Transform")
+
 derived_class (Transform, Component,
     Vector2 position;
 );

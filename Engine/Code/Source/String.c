@@ -8,8 +8,8 @@ byte String_GetHashCode8(char *string) {
 }
 
 word String_GetHashCode16(char *string) {
-    word sum1 = 0;
-    word sum2 = 0;
+    byte sum1 = 0;
+    byte sum2 = 0;
     while (*string)
     {
         sum1 = (sum1 + *string++) % 255;

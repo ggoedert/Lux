@@ -6,8 +6,6 @@
 #include "LuxRenderer.h"
 #include "LuxTransform.h"
 
-#include "LuxDebug.h"
-
 class_default_implementations(GameObject, (NONE), (NONE),
     (
         List_Constructor(&this->components, sizeof(Component *));
@@ -21,6 +19,7 @@ class_default_implementations(GameObject, (NONE), (NONE),
             component = *(Component **)List_Item(&this->components, i);
             component->vtable->Delete(component);
         }
+        List_Destructor(&this->components);
     )
 )
 
@@ -30,12 +29,12 @@ void GameObject_Run(GameObject *this) {
     CustomBehaviour_Update_Type CustomBehaviour_Update;
     for (i=0; i<this->components.count; i++) {
         component = *(Component **)List_Item(&this->components, i);
-        if (component->typeId&CUSTOM_BEHAVIOUR) {
+        if (component->type==CustomBehaviourType) {
             CustomBehaviour_Update = ((CustomBehaviour *)component)->vtable->Update;
             if (CustomBehaviour_Update)
                 CustomBehaviour_Update((CustomBehaviour *)component);
         }
-        else if (component->typeId&RENDERER)
+        else if (component->type==RendererType)
             ((Renderer *)component)->vtable->Update((Renderer *)component);
     }
 }

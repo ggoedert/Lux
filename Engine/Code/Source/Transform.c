@@ -5,7 +5,7 @@ virtual_table_type(Component) virtual_table_instance(Component_Transform) = {
 };
 class_default_implementations(Transform, (NONE), (NONE),
     (
-        Component_Constructor(&this->Component, &virtual_table_instance(Component_Transform));
+        Component_Constructor(&this->Component, &virtual_table_instance(Component_Transform), TransformType);
         Vector2_Constructor(&this->position);
     ),
     (

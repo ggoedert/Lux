@@ -10,13 +10,13 @@
 
 virtual_class (Component,
     (
-        byte typeId;
+        byte type;
     ),
     (
         void (*Delete)(Component *this);
     )
 );
 typedef void (*Component_Delete_Type)(Component *this);
-class_default_prototypes(Component, virtual_table_type(Component) *vtable);
+class_default_prototypes(Component, virtual_table_type(Component) *vtable, byte type);
 
 #endif
