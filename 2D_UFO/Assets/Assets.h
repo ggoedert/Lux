@@ -8,9 +8,7 @@ class (Asset,
     word size;
 );
 
-Asset Assets[] = {
-    {0, 100}
-};
+extern Asset Assets[];
 
 #endif
  

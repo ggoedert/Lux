@@ -15,7 +15,7 @@ derived_class_simple_default_implementations(PlayerControllerBehaviour, CustomBe
 void PlayerControllerBehaviour_Start(PlayerControllerBehaviour *this) {
     this->updates = 0;
     this->lastSecs = -1;
- }
+}
 
 void PlayerControllerBehaviour_Update(PlayerControllerBehaviour *this) {
     /*int secs = this->updates++/60;

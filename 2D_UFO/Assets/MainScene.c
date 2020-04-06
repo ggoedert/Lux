@@ -7,6 +7,10 @@
 #include "MainScene.h"
 #include "PlayerControllerBehaviour.h"
 
+Asset Assets[] = {
+    {0, 100}
+};
+
 //TODO IMPLEMENT COMMENTED PARTS
 void MainScene_Load() {
     GameObject *Player;
