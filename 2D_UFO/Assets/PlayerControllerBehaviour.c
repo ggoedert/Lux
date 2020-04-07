@@ -18,10 +18,11 @@ void PlayerControllerBehaviour_Start(PlayerControllerBehaviour *this) {
 }
 
 void PlayerControllerBehaviour_Update(PlayerControllerBehaviour *this) {
-    /*int secs = this->updates++/60;
+    int secs = this->updates++/60;
     if (secs != this->lastSecs) {
-        Camera_backgroundColor = secs&0xf;
-        Screen_Clear();
+        //Camera_backgroundColor = secs&0xf;
+        //Screen_Clear();
+        Debug_Log("PlayerControllerBehaviour_Update %d", secs);
         this->lastSecs = secs;
-    }*/
+    }
 }
