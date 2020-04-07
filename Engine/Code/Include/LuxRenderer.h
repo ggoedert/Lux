@@ -3,7 +3,7 @@
 
 #include "LuxComponent.h"
 
-#define RendererType 0x3a // String_GetHashCode8("Renderer")
+#define typeof_Renderer 0x3a // String_GetHashCode8("Renderer")
 
 derived_virtual_class (Renderer, Component,
     (

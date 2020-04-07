@@ -17,6 +17,6 @@ virtual_class (Component,
     )
 );
 typedef void (*Component_Delete_Type)(Component *this);
-class_default_prototypes(Component, virtual_table_type(Component) *vtable, byte type);
+class_default_prototypes(Component, byte type, virtual_table_type(Component) *vtable);
 
 #endif

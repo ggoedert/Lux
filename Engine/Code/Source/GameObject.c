@@ -29,12 +29,12 @@ void GameObject_Run(GameObject *this) {
     CustomBehaviour_Update_Type CustomBehaviour_Update;
     for (i=0; i<this->components.count; i++) {
         component = List_Item(Component, &this->components, i);
-        if (component->type==CustomBehaviourType) {
+        if (component->type == typeof_CustomBehaviour) {
             CustomBehaviour_Update = ((CustomBehaviour *)component)->vtable->Update;
             if (CustomBehaviour_Update)
                 CustomBehaviour_Update((CustomBehaviour *)component);
         }
-        else if (component->type==RendererType)
+        else if (component->type == typeof_Renderer)
             ((Renderer *)component)->vtable->Render((Renderer *)component);
     }
 }

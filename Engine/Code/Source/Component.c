@@ -1,9 +1,9 @@
 #include "LuxComponent.h"
 
-class_default_implementations(Component, (virtual_table_type(Component) *vtable, byte type), (vtable, type),
+class_default_implementations(Component, (byte type, virtual_table_type(Component) *vtable), (type, vtable),
     (
-        this->vtable = vtable;
         this->type = type;
+        this->vtable = vtable;
     ),
     (
         NONE

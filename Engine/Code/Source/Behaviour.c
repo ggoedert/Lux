@@ -1,8 +1,8 @@
 #include "LuxBehaviour.h"
 
-class_default_implementations(Behaviour, (virtual_table_type(Component) *vtable, byte type), (vtable, type),
+class_default_implementations(Behaviour, (byte type, virtual_table_type(Component) *vtable), (type, vtable),
     (
-        Component_Constructor(&this->Component, vtable, type);
+        Component_Constructor(&this->Component, type, vtable);
     ),
     (
         Component_Destructor(&this->Component);
