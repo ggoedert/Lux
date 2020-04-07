@@ -5,9 +5,6 @@
 
 #include "LuxTypes.h"
 
-#define CUSTOM_BEHAVIOUR 0x1
-#define RENDERER         0x2
-
 virtual_class (Component,
     (
         byte type;
