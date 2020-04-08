@@ -12,7 +12,7 @@
 #define List_Add(...) Collection_Add(__VA_ARGS__)
 void List_RemoveAt(List *this, int index);
 void *List_VoidItem(List *this, int index);
-#define List_Item(T, L, I) (*(T **)List_VoidItem(L, I))
+#define List_Item(L, T, I) (*(T **)List_VoidItem(L, I))
 #define List_Clear(...) Collection_Clear(__VA_ARGS__)
 
 #endif

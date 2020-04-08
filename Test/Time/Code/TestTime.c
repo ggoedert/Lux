@@ -24,7 +24,7 @@ void loadApplication() {
     Screen_SetResolution(TEXT, false, false);
     Debug_SetMode(DEBUG_MODE_CONSOLE);
     Player = GameObject_New();
-    List_Add(PlayerControllerBehaviour, &Player->components, PlayerControllerBehaviour_New());
+    List_Add(&Player->components, PlayerControllerBehaviour, PlayerControllerBehaviour_New());
 }
 
 virtual_table_type(Component) virtual_table_instance(Component_PlayerControllerBehaviour) = {

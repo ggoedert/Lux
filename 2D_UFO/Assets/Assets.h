@@ -11,4 +11,3 @@ class (Asset,
 extern Asset Assets[];
 
 #endif
- 
