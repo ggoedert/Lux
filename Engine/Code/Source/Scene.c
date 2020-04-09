@@ -13,7 +13,14 @@ void Scene_Init() {
     List_Constructor(&gameObjectList, sizeof(GameObject *));
 }
 
+#ifdef _DEBUG
 void Scene_Finalize() {
+    Scene_Unload();
+    List_Destructor(&gameObjectList);
+}
+#endif
+
+void Scene_Unload() {
     int i;
     for (i=0; i<gameObjectList.count; i++)
         GameObject_Delete(List_Item(&gameObjectList, GameObject, i));

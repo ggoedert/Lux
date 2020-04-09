@@ -48,7 +48,6 @@ void Application_Play(char *name, word version, LoadApplication loadApplication)
 #ifdef _DEBUG
 void Application_Stop() {
     Scene_Finalize();
-    List_Destructor(&gameObjectList);
     Application_isPlaying = false;
 }
 #endif
