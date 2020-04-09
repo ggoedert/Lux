@@ -10,6 +10,6 @@ derived_class_simple_default_implementations(SpriteRenderer, Renderer, (&virtual
 
 #include "LuxDebug.h"
 void SpriteRenderer_Render(SpriteRenderer *this) {
-    Debug_Log("SpriteRenderer_Render");
     //TODO!!!
+    //Debug_Log("SpriteRenderer_Render");
 }

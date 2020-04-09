@@ -12,13 +12,16 @@ void loadApplication(void);
 //main.c
 void main() {
     _heapadd((void *)0x800, 0x1800);
-    Application_Run("2D UFO", 1, loadApplication);
+    Application_Play("2D UFO", 1, loadApplication);
+    Debug_Log("%u bytes free.", _heapmemavail());
+    while(true);
 }
 
 void loadApplication() {
-    Camera_backgroundColor = green;
-    //Screen_SetResolution(HGR, false, false);
     Debug_SetMode(DEBUG_MODE_CONSOLE);
     Screen_SetResolution(TEXT, false, false);
+    Debug_Log("%u bytes free.", _heapmemavail());
+    //Camera_backgroundColor = green;
+    //Screen_SetResolution(HGR, false, false);
     SceneManager_LoadScene(MainScene_Load);
 }

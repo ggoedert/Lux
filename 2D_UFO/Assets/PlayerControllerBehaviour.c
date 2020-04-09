@@ -24,5 +24,8 @@ void PlayerControllerBehaviour_Update(PlayerControllerBehaviour *this) {
         //Screen_Clear();
         Debug_Log("PlayerControllerBehaviour_Update %d", secs);
         this->lastSecs = secs;
+#ifdef _DEBUG
+        Application_Stop();
+#endif
     }
 }

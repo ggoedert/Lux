@@ -13,7 +13,7 @@ void PlayerControllerBehaviour_Update(PlayerControllerBehaviour *this);
 //main.c
 void main() {
     _heapadd((void *)0x800, 0x1800);
-    Application_Run("TestEngine", 1, loadApplication);
+    Application_Play("TestEngine", 1, loadApplication);
 }
 
 void loadApplication() {

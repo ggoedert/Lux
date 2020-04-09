@@ -24,10 +24,18 @@ class (Application,
     byte machine;       // the type of Apple II
     byte romlevel;      // which revision of the machine
     byte memory;        // how much memory (up to 128K)
-    char *name;         // application name
-    word version;       // application version number
 );
-void Application_Run(char *name, word version, LoadApplication loadApplication);
+void Application_Play(char *name, word version, LoadApplication loadApplication);
+#ifdef _DEBUG
+void Application_Stop();
+#endif
 extern Application application;
+extern char *Application_name;         // application name
+extern word Application_version;       // application version number
+#ifdef NDEBUG
+#define Application_isPlaying true     // in release return always in play mode
+#else
+extern byte Application_isPlaying;     // return true if in play mode
+#endif
 
 #endif

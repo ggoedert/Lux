@@ -5,7 +5,7 @@ void loadApplication(void);
 //main.c
 void main() {
     _heapadd((void *)0x800, 0x1800);
-    Application_Run("TestFloat", 1, loadApplication);
+    Application_Play("TestFloat", 1, loadApplication);
 }
 
 void loadApplication() {

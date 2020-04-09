@@ -9,7 +9,7 @@ void loadApplication(void);
 //main.c
 void main() {
     _heapadd((void *)0x800, 0x1800);
-    Application_Run("Test", 42, loadApplication);
+    Application_Play("Test", 42, loadApplication);
 }
 
 void loadApplication() {

@@ -12,13 +12,18 @@
 #include "LuxSceneManagement.h"
 
 Application application;
+char *Application_name = nullptr;
+word Application_version = 0;
+#ifdef _DEBUG
+byte Application_isPlaying = false;
+#endif
 
-void Application_Run(char *name, word version, LoadApplication loadApplication) {
+void Application_Play(char *name, word version, LoadApplication loadApplication) {
     _heapadd((void *)0x300, 0xCF);
 
     GetApple2Id((Apple2Id *)&application);
-    application.name = name;
-    application.version = version;
+    Application_name = name;
+    Application_version = version;
 
     if (application.memory > 48)
         _heapadd((void *)0xD000, 0x1000);
@@ -27,11 +32,23 @@ void Application_Run(char *name, word version, LoadApplication loadApplication) 
     Time_Init();
     Scene_Init();
 
+#ifdef _DEBUG
+    Application_isPlaying = true;
+#endif
+
     loadApplication();
-    while(true) {
+    while(Application_isPlaying) {
         Scene_Run();
         Time_Run();
         if (QualitySettings_vSync)
             Screen_WaitVBlank();
     }
 }
+
+#ifdef _DEBUG
+void Application_Stop() {
+    Scene_Finalize();
+    List_Destructor(&gameObjectList);
+    Application_isPlaying = false;
+}
+#endif
