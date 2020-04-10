@@ -1,5 +1,3 @@
-#define LUX_DEFINE_GLOBALS
-
 #include "Apple2Id.h"
 #include "QualitySettings.h"
 #include "Screen.h"
