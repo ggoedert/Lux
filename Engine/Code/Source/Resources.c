@@ -7,7 +7,7 @@ void Resources_Init() {
 }
 
 void Resources_AddStorage(Storage *storage) {
-    List_Add(&storageList, Storage, storage);
+    List_Add(&storageList, Storage *, storage);
 }
 
 void *Resources_Load(word id) {

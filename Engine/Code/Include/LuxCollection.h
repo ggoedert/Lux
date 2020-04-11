@@ -12,7 +12,7 @@ class (Collection,
 class_default_prototypes(Collection, byte sizeOfItem);
 void Collection_SetCapacity(Collection *this, byte capacity);
 void *Collection_VoidAdd(Collection *this);
-#define Collection_Add(this, Type, item) *(Type **)Collection_VoidAdd(this) = item
+#define Collection_Add(this, Type, item) *(Type *)Collection_VoidAdd(this) = item
 #define Collection_Clear(this) (this)->count=0
 
 #endif

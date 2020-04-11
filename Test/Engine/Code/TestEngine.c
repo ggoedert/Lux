@@ -1,5 +1,6 @@
 #include "LuxEngine.h"
 #include "LuxCustomBehaviour.h"
+#include "LuxStorage.h"
 
 void loadApplication(void);
 
@@ -21,7 +22,7 @@ void loadApplication() {
 
     Screen_SetResolution(HGR, true, false);
     Player = GameObject_New();
-    List_Add(&Player->components, PlayerControllerBehaviour, PlayerControllerBehaviour_New());
+    List_Add(&Player->components, PlayerControllerBehaviour *, PlayerControllerBehaviour_New());
 }
 
 virtual_table_type(Component) virtual_table_instance(Component_PlayerControllerBehaviour) = {

@@ -9,14 +9,14 @@
 class_default_implementations(GameObject, (NONE), (NONE),
     (
         List_Constructor(&this->components, sizeof(Component *));
-        List_Add(&this->components, Transform, Transform_New());
+        List_Add(&this->components, Transform *, Transform_New());
         Scene_RegisterGameObject(this);
     ),
     (
         int i;
         Component *component;
         for (i=0; i<this->components.count; i++) {
-            component = List_Item(&this->components, Component, i);
+            component = List_Item(&this->components, Component *, i);
             component->vtable->Delete(component);
         }
         List_Destructor(&this->components);
@@ -28,7 +28,7 @@ void GameObject_Run(GameObject *this) {
     Component *component;
     CustomBehaviour_Update_Type CustomBehaviour_Update;
     for (i=0; i<this->components.count; i++) {
-        component = List_Item(&this->components, Component, i);
+        component = List_Item(&this->components, Component *, i);
         if (component->type == typeof_CustomBehaviour) {
             CustomBehaviour_Update = ((CustomBehaviour *)component)->vtable->Update;
             if (CustomBehaviour_Update)

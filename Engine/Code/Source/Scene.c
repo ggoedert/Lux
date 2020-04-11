@@ -23,18 +23,18 @@ void Scene_Finalize() {
 void Scene_Unload() {
     int i;
     for (i=0; i<gameObjectList.count; i++)
-        GameObject_Delete(List_Item(&gameObjectList, GameObject, i));
+        GameObject_Delete(List_Item(&gameObjectList, GameObject *, i));
     List_Clear(&gameObjectList);
 }
 
 void Scene_RegisterGameObject(GameObject *gameObject) {
-    List_Add(&gameObjectList, GameObject, gameObject);
+    List_Add(&gameObjectList, GameObject *, gameObject);
 }
 
 void Scene_Run() {
     int i;
     for (i=0; i<gameObjectList.count; i++) {
-        GameObject_Run(List_Item(&gameObjectList, GameObject, i));
+        GameObject_Run(List_Item(&gameObjectList, GameObject *, i));
         Time_Update();
     }
     if (i==0)
