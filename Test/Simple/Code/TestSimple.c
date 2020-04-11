@@ -23,8 +23,8 @@ void loadApplication() {
     Debug_Log("application.machine: %u", application.machine);
     Debug_Log("application.romlevel: %u",  application.romlevel);
     Debug_Log("application.memory: %u",  application.memory);
-    Debug_Log("application.name: %s", application.name);
-    Debug_Log("application.version: %u", application.version);
+    Debug_Log("application.name: %s", Application_name);
+    Debug_Log("application.version: %u",  Application_version);
     Debug_Log("Screen_resolutions_Length: %hhu", Screen_resolutions_Length);
     Debug_Log("");
 
@@ -33,6 +33,8 @@ void loadApplication() {
     Debug_Log("String_GetHashCode16(\"abcdefgh\"): $%04x", String_GetHashCode16("abcdefgh"));
     Debug_Log("String_GetHashCode16(\"Untitled\"): $%04x", String_GetHashCode16("Untitled"));
     Debug_Log("String_GetHashCode16(\"CustomBehaviour\"): $%04x", String_GetHashCode16("CustomBehaviour"));
+    Debug_Log("String_GetHashCode16(\"Texture2D\"): $%04x", String_GetHashCode16("Texture2D"));
+
     Debug_Log("");
 
     Debug_Log("String_GetHashCode8(\"abcde\"): $%02x", String_GetHashCode8("abcde"));

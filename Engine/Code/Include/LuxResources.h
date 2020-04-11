@@ -2,6 +2,7 @@
 #define LUX_RESOURCES_H
 
 #include "LuxStorage.h"
+#include "LuxSprite.h"
 
 void Resources_Init(void);
 #ifdef _DEBUG

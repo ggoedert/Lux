@@ -3,6 +3,8 @@
 
 #include "LuxTypes.h"
 
+#define Texture2D 0x166a // String_GetHashCode16("Texture2D")
+
 class (Sprite,
     byte temp;
 );

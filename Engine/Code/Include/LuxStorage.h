@@ -14,11 +14,11 @@ virtual_class (Storage,
         NONE
     ),
     (
-        byte (*Load)(word id);
+        byte *(*Load)(word id);
         void (*Optimize)(void);
     )
 );
-typedef byte (*Storage_Load_Type)(word);
+typedef byte *(*Storage_Load_Type)(word);
 typedef void (*Storage_Optimize_Type)(void);
 class_default_prototypes(Storage, virtual_table_type(Storage) *vtable);
 

@@ -13,7 +13,6 @@
 #include "LuxScreen.h"
 #include "LuxVector2.h"
 #include "LuxTransform.h"
-#include "LuxTexture2D.h"
 #include "LuxSprite.h"
 #include "LuxRenderer.h"
 #include "LuxSpriteRenderer.h"
