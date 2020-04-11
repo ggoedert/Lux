@@ -1,13 +1,15 @@
 #ifndef ASSETS_H
 #define ASSETS_H
 
-#define UFO 0x0
+#define UFO 0xdbea // String_GetHashCode16("UFO")
 
-class (Asset,
-    word offset;
-    word size;
+derived_class (Assets, Storage,
+    NONE
 );
+class_default_prototypes(Assets, NONE);
+byte *Assets_Load(word);
+void Assets_Optimize(void);
 
-extern Asset Assets[];
+extern Assets assets;
 
 #endif

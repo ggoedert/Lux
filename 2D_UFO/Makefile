@@ -18,7 +18,7 @@ SOURCEDIR = Assets
 ASOURCEFILES =
 AOBJECTFILES = $(ASOURCEFILES:.s=.o)
 AOBJECTS = $(addprefix Build/$(CONFIG)/, $(AOBJECTFILES))
-CSOURCEFILES = 2D_UFOApplication.c MainScene.c PlayerControllerBehaviour.c
+CSOURCEFILES = 2D_UFOApplication.c Assets.c MainScene.c PlayerControllerBehaviour.c
 COBJECTFILES = $(CSOURCEFILES:.c=.o)
 COBJECTS = $(addprefix Build/$(CONFIG)/, $(COBJECTFILES))
 ENGINELIB = ../Engine/Build/$(CONFIG)/Engine.lib

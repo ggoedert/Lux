@@ -3,13 +3,8 @@
 #include "LuxSceneManagement.h"
 
 #include "Assets.h"
-
 #include "MainScene.h"
 #include "PlayerControllerBehaviour.h"
-
-Asset Assets[] = {
-    {0, 100}
-};
 
 void MainScene_Load() {
     GameObject *Player;
