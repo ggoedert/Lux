@@ -1,5 +1,4 @@
 #include <string.h>
-#include <peekpoke.h>//@@need major cleanup@@ ??delthis??
 
 #include "LuxSystem.h"
 #include "LuxEngine.h"
@@ -21,6 +20,7 @@ void loadApplication() {
     Debug_SetMode(DEBUG_MODE_CONSOLE);
     Screen_SetResolution(TEXT, false, false);
     Debug_Log("%u bytes free.", _heapmemavail());
+    Resources_AddStorage(nullptr);
     //Camera_backgroundColor = green;
     //Screen_SetResolution(HGR, false, false);
     SceneManager_LoadScene(MainScene_Load);
