@@ -1,8 +1,6 @@
 #ifndef LUX_SCREEN_H
 #define LUX_SCREEN_H
 
-#include <stdbool.h>
-
 #include "LuxTypes.h"
 
 // graphics modes

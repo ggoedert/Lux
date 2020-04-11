@@ -1,8 +1,6 @@
 #ifndef LUX_COMPONENT_H
 #define LUX_COMPONENT_H
 
-#include <stdbool.h>
-
 #include "LuxTypes.h"
 
 virtual_class (Component,

@@ -1,12 +1,10 @@
 #ifndef LUX_RESOURCES_H
 #define LUX_RESOURCES_H
 
-#include "LuxTypes.h"
+#include "LuxStorage.h"
 
-class (Resources,
-    byte temp;
-);
-class_default_prototypes(Resources, NONE);
+void Resources_AddStorage(Storage *storage);
 void *Resources_Load(word id);
+void Resources_Optimize(void);
 
 #endif
