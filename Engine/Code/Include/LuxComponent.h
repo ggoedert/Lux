@@ -1,17 +1,11 @@
 #ifndef LUX_COMPONENT_H
 #define LUX_COMPONENT_H
 
-#include "LuxTypes.h"
+#include "LuxObject.h"
 
-virtual_class (Component,
-    (
-        byte type;
-    ),
-    (
-        void (*Delete)(Component *this);
-    )
+derived_class (Component, Object,
+    byte type;
 );
-typedef void (*Component_Delete_Type)(Component *this);
-class_default_prototypes(Component, byte type, virtual_table_type(Component) *vtable);
+class_default_prototypes(Component, byte type, virtual_table_type(Object) *vtable);
 
 #endif

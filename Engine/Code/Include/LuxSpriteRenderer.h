@@ -7,7 +7,7 @@
 derived_class (SpriteRenderer, Renderer,
     Sprite *sprite;
 );
-class_default_prototypes(SpriteRenderer, NONE);
+class_default_prototypes(SpriteRenderer, Sprite *sprite);
 void SpriteRenderer_Render(SpriteRenderer *this);
 
 #endif

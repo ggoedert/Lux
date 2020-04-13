@@ -1,13 +1,14 @@
 #ifndef LUX_SPRITE_H
 #define LUX_SPRITE_H
 
-#include "LuxTypes.h"
+#include "LuxAsset.h"
 
-#define Texture2D 0x166a // String_GetHashCode16("Texture2D")
+#define typeof_Sprite 0x79 // String_GetHashCode8("Sprite")
 
-class (Sprite,
-    byte temp;
+derived_class (Sprite, Asset,
+    byte width, height;
+    byte *data;
 );
-class_default_prototypes(Sprite, NONE);
+class_default_prototypes(Sprite, byte *texture2D);
 
 #endif

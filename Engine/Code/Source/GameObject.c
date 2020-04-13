@@ -17,7 +17,7 @@ class_default_implementations(GameObject, (NONE), (NONE),
         Component *component;
         for (i=0; i<this->components.count; i++) {
             component = List_Item(&this->components, Component *, i);
-            component->vtable->Delete(component);
+            ((Object *)component)->vtable->Delete(((Object *)component));
         }
         List_Destructor(&this->components);
     )

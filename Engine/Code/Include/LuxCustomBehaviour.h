@@ -16,6 +16,6 @@ derived_virtual_class (CustomBehaviour, Behaviour,
 );
 typedef void (*CustomBehaviour_Start_Type)(CustomBehaviour *this);
 typedef void (*CustomBehaviour_Update_Type)(CustomBehaviour *this);
-class_constructor_destructor_prototypes(CustomBehaviour, virtual_table_type(Component) *component_vtable, virtual_table_type(CustomBehaviour) *customBehaviour_vtable);
+class_constructor_destructor_prototypes(CustomBehaviour, virtual_table_type(Object) *object_vtable, virtual_table_type(CustomBehaviour) *customBehaviour_vtable);
 
 #endif
