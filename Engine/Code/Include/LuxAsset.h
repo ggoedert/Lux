@@ -3,9 +3,7 @@
 
 #include "LuxObject.h"
 
-derived_class (Asset, Object,
-    byte type;
-);
+derived_class (Asset, Object, NONE);
 class_default_prototypes(Asset, byte type, virtual_table_type(Object) *vtable);
 
 #endif

@@ -5,13 +5,13 @@
 
 virtual_class (Object,
     (
-        NONE
+        byte type;
     ),
     (
         void (*Delete)(Object *this);
     )
 );
 typedef void (*Object_Delete_Type)(Object *this);
-class_default_prototypes(Object, virtual_table_type(Object) *vtable);
+class_default_prototypes(Object, byte type, virtual_table_type(Object) *vtable);
 
 #endif

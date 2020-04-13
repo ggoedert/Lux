@@ -13,7 +13,7 @@ class_default_implementations(SpriteRenderer, (Sprite *sprite), (sprite),
         this->sprite = sprite;
     ),
     (
-        Resources_Unreference(this->sprite->Asset.type);
+        Resources_Unreference(this->sprite->Asset.Object.type);
         Renderer_Destructor(&this->Renderer);
     )
 )
