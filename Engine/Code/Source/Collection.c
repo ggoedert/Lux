@@ -12,7 +12,7 @@ class_default_implementations(Collection, (byte sizeOfItem), (sizeOfItem),
     )
 )
 
-void Collection_SetCapacity(Collection *this, byte capacity) {
+void Collection_SetCapacity(Collection *this, ColUInt capacity) {
     if (capacity > this->capacity) {
         this->capacity = capacity;
         this->items = realloc(this->items, this->capacity*this->sizeOfItem);
@@ -21,7 +21,7 @@ void Collection_SetCapacity(Collection *this, byte capacity) {
 
 void *Collection_VoidAdd(Collection *this) {
     if (this->count == this->capacity) {
-        int newCount = this->count+1;
+        ColUInt newCount = this->count+1;
         if (newCount<=2)
             this->capacity = newCount;
         else if (newCount==3)

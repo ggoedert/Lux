@@ -1,14 +1,31 @@
 #include "LuxResources.h"
 #include "LuxSprite.h"
 
+class (AssetReference,
+    word id;
+    Asset *asset;
+    byte count;
+);
+class_default_implementations(AssetReference, (word id, Asset *asset), (id, asset),
+    (
+        this->id = id;
+        this->asset = asset;
+        this->count = 1;
+    ),
+    (
+        NONE
+    )
+)
+List assetReferenceList;
 List storageList;
-//Storage *lastAccessedStorage = nullptr;
 
-Asset *Resources_Create(byte *resource);
+Asset *Resources_Create(word id, byte *resource);
+ColUInt Resources_FindAssetReferenceIndex(word id);
 
 #include "LuxDebug.h"
 void Resources_Init() {
     Debug_Log("Resources_Init");
+    List_Constructor(&assetReferenceList, sizeof(AssetReference));
     List_Constructor(&storageList, sizeof(Storage *));
 }
 
@@ -16,6 +33,7 @@ void Resources_Init() {
 void Resources_Finalize() {
     Debug_Log("Resources_Finalize");
     List_Destructor(&storageList);
+    List_Destructor(&assetReferenceList);
 }
 #endif
 
@@ -28,12 +46,16 @@ Asset *Resources_Reference(word id) {
     int i, j;
     Storage *currentStorage;
     byte *resource;
-    Asset *ptr;
+    AssetReference *assetReference;
+    byte assetReferenceListIndex;
 
-    /*if (hashmapcache has id) {
-        hashmapcache[id].count++;
-        return hashmapcache[id].ptr;
-    }*/
+    Debug_Log("Resources_Reference $%04x", id);
+    assetReferenceListIndex = Resources_FindAssetReferenceIndex(id);
+    if (assetReferenceListIndex != ColUIntMax) {
+        assetReference = &List_Item(&assetReferenceList, AssetReference, assetReferenceListIndex);
+        assetReference->count++;
+        return assetReference->asset;
+    }
 
     for (i=0; i<storageList.count; i++) {
         currentStorage = List_Item(&storageList, Storage *, i);
@@ -44,35 +66,36 @@ Asset *Resources_Reference(word id) {
                     List_Item(&storageList, Storage *, j) = List_Item(&storageList, Storage *, j-1);
                 List_Item(&storageList, Storage *, 0) = currentStorage;
             }
-
-            ptr = Resources_Create(resource);
-            /*if (!(hashmapcache has id)) {
-                create id at hashmapcache;
-                hashmapcache[id].count = 0;
-            }
-            hashmapcache[id].ptr = ptr;
-            hashmapcache[id].count++;*/
-
-            return ptr;
+            assetReference = List_VoidAdd(&assetReferenceList);
+            AssetReference_Constructor(assetReference, id, Resources_Create(id, resource));
+            return assetReference->asset;
         }
     }
+
     return nullptr;
 }
 
 void Resources_Unreference(word id) {
-    /*if (hashmapcache has id) {
-        hashmapcache[id].count--;
-        if (0 == hashmapcache[id].count)
-            hashmapcache[id].ptr->Delete();
-    }*/
+    AssetReference *assetReference;
+    byte assetReferenceListIndex = Resources_FindAssetReferenceIndex(id);
+    if (assetReferenceListIndex != ColUIntMax) {
+        Debug_Log("Resources_Unreference $%04x", id);
+        assetReference = &List_Item(&assetReferenceList, AssetReference, assetReferenceListIndex);
+        assetReference->count--;
+        if (0 == assetReference->count) {
+            Object *object = &assetReference->asset->Object;
+            object->vtable->Delete(object);
+            List_RemoveAt(&assetReferenceList, assetReferenceListIndex);
+        }
+    }
 }
 
-Asset *Resources_Create(byte *resource) {
+Asset *Resources_Create(word id, byte *resource) {
     Asset *asset = nullptr;
     byte resourceType = *resource++;
     switch(resourceType) {
         case Texture2D:
-            asset = (Asset *)Sprite_New(resource);
+            asset = (Asset *)Sprite_New(id, resource);
             Debug_Log("Resources_Create Texture2D %d %d", ((Sprite *)asset)->width, ((Sprite *)asset)->height);
             break;
     }
@@ -83,4 +106,15 @@ void Resources_Optimize() {
     int i;
     for (i=0; i<storageList.count; i++)
         List_Item(&storageList, Storage *, i)->vtable->Optimize();
+}
+
+ColUInt Resources_FindAssetReferenceIndex(word id) {
+    int i;
+    AssetReference *assetReference;
+    for (i=0; i<assetReferenceList.count; i++) {
+        assetReference = &List_Item(&assetReferenceList, AssetReference, i);
+        if (assetReference->id == id)
+            return i;
+    }
+    return ColUIntMax;
 }

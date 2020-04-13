@@ -9,6 +9,6 @@ derived_class (Sprite, Asset,
     byte width, height;
     byte *data;
 );
-class_default_prototypes(Sprite, byte *texture2D);
+class_default_prototypes(Sprite, word id, byte *texture2D);
 
 #endif

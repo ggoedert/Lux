@@ -12,6 +12,10 @@
 typedef unsigned char byte;
 typedef unsigned int word;
 
+// type for colections
+typedef byte ColUInt;
+#define ColUIntMax 255
+
 // struct/class helper macros
 #define REM_ENCLOSE_(...) __VA_ARGS__
 #define REM_ENCLOSE(...) REM_ENCLOSE_ __VA_ARGS__

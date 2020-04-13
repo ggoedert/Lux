@@ -6,10 +6,10 @@
 virtual_table_type(Object) virtual_table_instance(Object_Sprite) = {
     (Object_Delete_Type)Sprite_Delete
 };
-class_default_implementations(Sprite, (byte *texture2D), (texture2D),
+class_default_implementations(Sprite, (word id, byte *texture2D), (id, texture2D),
     (
         int size;
-        Asset_Constructor(&this->Asset, typeof_Sprite, &virtual_table_instance(Object_Sprite));
+        Asset_Constructor(&this->Asset, typeof_Sprite, id, &virtual_table_instance(Object_Sprite));
         Debug_Log("Create Sprite");
         this->width = *texture2D++;
         this->height = *texture2D++;
