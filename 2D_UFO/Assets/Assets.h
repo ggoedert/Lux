@@ -8,7 +8,6 @@ derived_class (Assets, Storage,
 );
 class_default_prototypes(Assets, NONE);
 byte *Assets_Load(word);
-void Assets_Optimize(void);
 
 extern Assets assets;
 

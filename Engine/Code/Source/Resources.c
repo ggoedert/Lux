@@ -94,7 +94,7 @@ Asset *Resources_Create(word id, byte *resource) {
     Asset *asset = nullptr;
     byte resourceType = *resource++;
     switch(resourceType) {
-        case Texture2D:
+        case typeof_Texture2D:
             asset = (Asset *)Sprite_New(id, resource);
             Debug_Log("Resources_Create Texture2D %d %d", ((Sprite *)asset)->width, ((Sprite *)asset)->height);
             break;
@@ -104,8 +104,12 @@ Asset *Resources_Create(word id, byte *resource) {
 
 void Resources_Optimize() {
     int i;
-    for (i=0; i<storageList.count; i++)
-        List_Item(&storageList, Storage *, i)->vtable->Optimize();
+    Storage_Optimize_Type optimize;
+    for (i=0; i<storageList.count; i++) {
+        optimize = List_Item(&storageList, Storage *, i)->vtable->Optimize;
+        if (nullptr != optimize)
+            optimize();
+    }
 }
 
 ColUInt Resources_FindAssetReferenceIndex(word id) {

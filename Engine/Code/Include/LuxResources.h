@@ -4,8 +4,6 @@
 #include "LuxStorage.h"
 #include "LuxAsset.h"
 
-#define Texture2D 0x6a // String_GetHashCode8("Texture2D")
-
 void Resources_Init(void);
 #ifdef _DEBUG
 void Resources_Finalize(void);

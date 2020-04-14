@@ -3,7 +3,8 @@
 
 #include "LuxAsset.h"
 
-#define typeof_Sprite 0x79 // String_GetHashCode8("Sprite")
+#define typeof_Texture2D 0x6a // String_GetHashCode8("Texture2D")
+#define typeof_Sprite    0x79 // String_GetHashCode8("Sprite")
 
 derived_class (Sprite, Asset,
     byte width, height;
