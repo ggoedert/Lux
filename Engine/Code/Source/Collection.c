@@ -26,7 +26,7 @@ void *Collection_VoidAdd(Collection *this) {
             this->capacity = newCount;
         else if (newCount==3)
             this->capacity = 4;
-        else 
+        else
             this->capacity = newCount+(newCount>>3)+(newCount<9?3:6);
         this->items = realloc(this->items, this->capacity*this->sizeOfItem);
     }
