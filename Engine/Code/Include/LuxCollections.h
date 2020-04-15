@@ -4,5 +4,6 @@
 #include "LuxCollection.h"
 #include "LuxList.h"
 #include "LuxStack.h"
+#include "LuxQueue.h"
 
 #endif

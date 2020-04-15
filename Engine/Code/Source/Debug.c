@@ -1,6 +1,8 @@
 #include <stdio.h>
+#include <string.h>
 
 #include "LuxDebug.h"
+#include "LuxQueue.h"
 
 #ifdef NDEBUG
 byte debugMode = 0x0;
@@ -8,25 +10,51 @@ byte debugMode = 0x0;
 byte debugMode = DEBUG_MODE_CONSOLE;
 #endif
 
+Queue *logQueue = nullptr;
+
 void Debug_SetMode(byte mode) {
     debugMode = mode;
+    if (debugMode&DEBUG_MODE_QUEUE) {
+        logQueue = Queue_New(sizeof(char *));
+        Queue_Constructor(logQueue, sizeof(char *));
+    }
+    else {
+        if (logQueue)
+            Queue_Delete(logQueue);
+    }
 }
 
 void Debug_Log(const char *format, ...) {
-    FILE *logFile;
-    va_list args;
     if (debugMode) {
+        va_list args;
+        char lineBuffer[80];
         va_start(args, format);
-        if (debugMode&DEBUG_MODE_CONSOLE) {
-            printf("\n");
-            vprintf(format, args);
-        }
+        vsnprintf(lineBuffer, 80, format, args);
+        va_end(args);
+        if (debugMode&DEBUG_MODE_CONSOLE)
+            printf("\n%s", lineBuffer);
         if (debugMode&DEBUG_MODE_FILE) {
-            logFile = fopen("Lux.log", "a");
-            vfprintf(logFile, format, args);
-            fputc('\n', logFile);
+            FILE *logFile = fopen("Lux.log", "a");
+            fprintf(logFile, "%s\n", lineBuffer);
             fclose(logFile);
         }
-        va_end(args);
+        if (debugMode&DEBUG_MODE_QUEUE) {
+            if (logQueue->count > 23) {
+                free(Queue_Peek(logQueue, char *));
+                Queue_Dequeue(logQueue);
+            }
+            Queue_Enqueue(logQueue, char *, strdup(lineBuffer));
+        }
+    }
+}
+
+void Debug_Dequeue() {
+    if (debugMode&DEBUG_MODE_QUEUE) {
+        while (logQueue->count) {
+            char *line = Queue_Peek(logQueue, char *);
+            Queue_Dequeue(logQueue);
+            printf("\n%s", line);
+            free(line);
+        }
     }
 }
