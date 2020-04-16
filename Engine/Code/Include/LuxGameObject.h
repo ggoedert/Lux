@@ -6,6 +6,6 @@
 class (GameObject,
     List components;
 );
-class_new_delete_prototypes(GameObject, NONE);
+class_new_delete_prototypes(GameObject, VOID);
 
 #endif

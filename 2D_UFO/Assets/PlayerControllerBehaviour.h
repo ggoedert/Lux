@@ -6,7 +6,7 @@
 derived_class (PlayerControllerBehaviour, CustomBehaviour,
     int updates, lastSecs;
 );
-class_default_prototypes(PlayerControllerBehaviour, NONE);
+class_default_prototypes(PlayerControllerBehaviour, VOID);
 void PlayerControllerBehaviour_Start(PlayerControllerBehaviour *this);
 void PlayerControllerBehaviour_Update(PlayerControllerBehaviour *this);
 

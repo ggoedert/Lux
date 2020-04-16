@@ -23,7 +23,7 @@ COBJECTS = $(addprefix Build/$(CONFIG)/, $(COBJECTFILES))
 ENGINELIB = ../../Engine/Build/$(CONFIG)/Engine.lib
 
 LD = cl65
-LDFLAGS = -t apple2 --start-addr 0x4000
+LDFLAGS = -t apple2 -C apple2-hgr.cfg
 AS = ca65
 ASFLAGS = -t apple2
 CC = cl65 -c

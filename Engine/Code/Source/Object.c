@@ -6,6 +6,6 @@ class_default_implementations(Object, (byte type, virtual_table_type(Object) *vt
         this->type = type;
     ),
     (
-        NONE
+        EMPTY
     )
 )

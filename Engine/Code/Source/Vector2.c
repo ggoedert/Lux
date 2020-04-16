@@ -1,11 +1,11 @@
 #include "LuxVector2.h"
 
-class_default_implementations(Vector2, (NONE), (NONE),
+class_default_implementations(Vector2, (VOID), (NONE),
     (
         this->x = 0;
         this->y = 0;
     ),
     (
-        NONE
+        EMPTY
     )
 )

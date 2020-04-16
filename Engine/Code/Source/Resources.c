@@ -13,7 +13,7 @@ class_default_implementations(AssetReference, (word id, Asset *asset), (id, asse
         this->count = 1;
     ),
     (
-        NONE
+        EMPTY
     )
 )
 List assetReferenceList;

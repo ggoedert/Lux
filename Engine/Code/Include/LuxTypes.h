@@ -19,7 +19,9 @@ typedef byte ColUInt;
 // struct/class helper macros
 #define REM_ENCLOSE_(...) __VA_ARGS__
 #define REM_ENCLOSE(...) REM_ENCLOSE_ __VA_ARGS__
-#define NONE REM_ENCLOSE(())
+#define EMPTY REM_ENCLOSE(())
+#define VOID byte
+#define NONE 0
 #define virtual_table_type(T) const struct T##_vtable
 #define virtual_table_instance(T) ##T##_vtable
 
@@ -78,7 +80,7 @@ typedef byte ColUInt;
     class_new_delete_implementations(T, AD, A)
 
 #define derived_class_simple_default_implementations(T, B, A) \
-    class_default_implementations(T, (NONE), (NONE),          \
+    class_default_implementations(T, (VOID), (NONE),          \
         (                                                     \
             B##_Constructor(&this->B, REM_ENCLOSE(A));        \
         ),                                                    \

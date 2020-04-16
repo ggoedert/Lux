@@ -11,8 +11,7 @@ void loadApplication(void);
 
 //main.c
 void main() {
-    _heapadd((void *)0x800, 0x1800);
-    Assets_Constructor(&assets);
+    Assets_Constructor(&assets, NONE);
     Application_Play("2D UFO", 1, loadApplication);
     Screen_SetResolution(TEXT, false, false);
     Debug_Dequeue();

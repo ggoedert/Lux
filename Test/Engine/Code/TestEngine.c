@@ -7,13 +7,12 @@ void loadApplication(void);
 derived_class (PlayerControllerBehaviour, CustomBehaviour,
     int updates, lastSecs;
 );
-class_default_prototypes(PlayerControllerBehaviour, NONE);
+class_default_prototypes(PlayerControllerBehaviour, VOID);
 void PlayerControllerBehaviour_Start(PlayerControllerBehaviour *this);
 void PlayerControllerBehaviour_Update(PlayerControllerBehaviour *this);
 
 //main.c
 void main() {
-    _heapadd((void *)0x800, 0x1800);
     Application_Play("TestEngine", 1, loadApplication);
 }
 
@@ -21,8 +20,8 @@ void loadApplication() {
     GameObject *Player;
 
     Screen_SetResolution(HGR, true, false);
-    Player = GameObject_New();
-    List_Add(&Player->components, PlayerControllerBehaviour *, PlayerControllerBehaviour_New());
+    Player = GameObject_New(NONE);
+    List_Add(&Player->components, PlayerControllerBehaviour *, PlayerControllerBehaviour_New(NONE));
 }
 
 virtual_table_type(Object) virtual_table_instance(Object_PlayerControllerBehaviour) = {

@@ -7,7 +7,7 @@
 
 derived_virtual_class (CustomBehaviour, Behaviour,
     (
-        NONE
+        EMPTY
     ),
     (
         void (*Start)(CustomBehaviour *this);

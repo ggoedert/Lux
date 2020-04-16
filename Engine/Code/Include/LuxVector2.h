@@ -6,6 +6,6 @@
 class (Vector2,
     word x, y;
 );
-class_default_prototypes(Vector2, NONE);
+class_default_prototypes(Vector2, VOID);
 
 #endif

@@ -11,7 +11,7 @@
 
 virtual_class (Storage,
     (
-        NONE
+        EMPTY
     ),
     (
         byte *(*Load)(word id);

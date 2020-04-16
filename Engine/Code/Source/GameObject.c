@@ -6,10 +6,10 @@
 #include "LuxRenderer.h"
 #include "LuxTransform.h"
 
-class_default_implementations(GameObject, (NONE), (NONE),
+class_default_implementations(GameObject, (VOID), (NONE),
     (
         List_Constructor(&this->components, sizeof(Component *));
-        List_Add(&this->components, Transform *, Transform_New());
+        List_Add(&this->components, Transform *, Transform_New(NONE));
         Scene_RegisterGameObject(this);
     ),
     (

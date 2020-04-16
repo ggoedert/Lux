@@ -60,7 +60,7 @@ void Screen_Init() {
     }
     if (application.machine != IIe) // this is not needed on the IIe
         VaporlockSetup();
-    gotoy(22);
+    gotoy(-1);
 }
 
 void Screen_SetResolutionInternal() {

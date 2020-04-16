@@ -4,9 +4,9 @@
 #define UFO 0xdbea // String_GetHashCode16("UFO")
 
 derived_class (Assets, Storage,
-    NONE
+    EMPTY
 );
-class_default_prototypes(Assets, NONE);
+class_default_prototypes(Assets, VOID);
 byte *Assets_Load(word);
 
 extern Assets assets;

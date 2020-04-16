@@ -5,6 +5,6 @@ class_default_implementations(Storage, (virtual_table_type(Storage) *vtable), (v
         this->vtable = vtable;
     ),
     (
-        NONE
+        EMPTY
     )
 )
