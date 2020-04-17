@@ -1,15 +1,15 @@
 #include "LuxSpriteRenderer.h"
 #include "LuxResources.h"
 
-virtual_table_type(Object) virtual_table_instance(Object_SpriteRenderer) = {
+virtual_table_type(Object) virtual_table_instance(SpriteRenderer_Object) = {
     (Object_Delete_Type)SpriteRenderer_Delete
 };
-virtual_table_type(Renderer) virtual_table_instance(Renderer_SpriteRenderer) = {
+virtual_table_type(Renderer) virtual_table_instance(SpriteRenderer_Renderer) = {
     (Renderer_Render_Type)SpriteRenderer_Render
 };
 class_default_implementations(SpriteRenderer, (Sprite *sprite), (sprite),
     (
-        Renderer_Constructor(&this->Renderer, &virtual_table_instance(Object_SpriteRenderer), &virtual_table_instance(Renderer_SpriteRenderer));
+        Renderer_Constructor(&this->Renderer, &virtual_table_instance(SpriteRenderer_Object), &virtual_table_instance(SpriteRenderer_Renderer));
         this->sprite = sprite;
     ),
     (

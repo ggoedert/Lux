@@ -26,14 +26,14 @@ void loadApplication() {
     List_Add(&Player->components, PlayerControllerBehaviour *, PlayerControllerBehaviour_New(NONE));
 }
 
-virtual_table_type(Object) virtual_table_instance(Object_PlayerControllerBehaviour) = {
+virtual_table_type(Object) virtual_table_instance(PlayerControllerBehaviour_Object) = {
     (Object_Delete_Type)PlayerControllerBehaviour_Delete
 };
-virtual_table_type(CustomBehaviour) virtual_table_instance(CustomBehaviour_PlayerControllerBehaviour) = {
+virtual_table_type(CustomBehaviour) virtual_table_instance(PlayerControllerBehaviour_CustomBehaviour) = {
     (CustomBehaviour_Start_Type)PlayerControllerBehaviour_Start,
     (CustomBehaviour_Update_Type)PlayerControllerBehaviour_Update
 };
-derived_class_simple_default_implementations(PlayerControllerBehaviour, CustomBehaviour, (&virtual_table_instance(Object_PlayerControllerBehaviour), &virtual_table_instance(CustomBehaviour_PlayerControllerBehaviour)))
+derived_class_simple_default_implementations(PlayerControllerBehaviour, CustomBehaviour, (&virtual_table_instance(PlayerControllerBehaviour_Object), &virtual_table_instance(PlayerControllerBehaviour_CustomBehaviour)))
 
 void PlayerControllerBehaviour_Start(PlayerControllerBehaviour *this) {
     this->updates = 0;
