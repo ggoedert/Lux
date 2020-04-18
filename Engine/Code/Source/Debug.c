@@ -17,6 +17,7 @@ void Debug_SetMode(byte mode) {
     if (debugMode&DEBUG_MODE_QUEUE) {
         logQueue = Queue_New(sizeof(char *));
         Queue_Constructor(logQueue, sizeof(char *));
+        Queue_SetCapacity(logQueue, 24);
     }
     else {
         if (logQueue)
