@@ -16,7 +16,8 @@ class_default_implementations(GameObject, (VOID), (NONE),
         int i;
         Component *component;
         Scene_UnregisterGameObject(this);
-        for (i=0; i<this->components.count; i++) {
+        i=this->components.count;
+        while (i--) {
             component = List_Item(&this->components, Component *, i);
             ((Object *)component)->vtable->Delete(((Object *)component));
         }

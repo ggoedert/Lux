@@ -4,7 +4,8 @@
 
 void List_VoidRemove(List *this, void *item) {
     ColUInt index;
-    for (index=0; index<this->count; index++) {
+    index=this->count;
+    while (index--) {
         if (memcmp(((byte *)this->items)+(this->sizeOfItem*index), item, this->sizeOfItem) == 0) {
             List_RemoveAt(this, index);
             return;

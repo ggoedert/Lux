@@ -22,7 +22,8 @@ void Scene_Finalize() {
 
 void Scene_Unload() {
     int i;
-    for (i=0; i<gameObjectList.count; i++)
+    i=gameObjectList.count;
+    while (i--)
         GameObject_Delete(List_Item(&gameObjectList, GameObject *, i));
     List_Clear(&gameObjectList);
 }
