@@ -2,6 +2,16 @@
 
 #include "LuxCollections.h"
 
+void List_VoidRemove(List *this, void *item) {
+    ColUInt index;
+    for (index=0; index<this->count; index++) {
+        if (memcmp(((byte *)this->items)+(this->sizeOfItem*index), item, this->sizeOfItem) == 0) {
+            List_RemoveAt(this, index);
+            return;
+        }
+    }
+}
+
 void List_RemoveAt(List *this, ColUInt index) {
     int moveItems;
     --this->count;

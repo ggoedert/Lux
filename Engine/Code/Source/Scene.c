@@ -31,6 +31,10 @@ void Scene_RegisterGameObject(GameObject *gameObject) {
     List_Add(&gameObjectList, GameObject *, gameObject);
 }
 
+void Scene_UnregisterGameObject(GameObject *gameObject) {
+    List_Remove(&gameObjectList, gameObject);
+}
+
 void Scene_Run() {
     int i;
     for (i=0; i<gameObjectList.count; i++) {
