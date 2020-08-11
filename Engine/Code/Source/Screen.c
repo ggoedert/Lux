@@ -46,17 +46,17 @@ void Screen_Init() {
     else
         Screen_resolutions_Length = 10;
     Screen_currentResolution = Screen_resolutions[0];
-    for (ptr=(byte *)400; ptr<(byte *)400; ptr+=0x80)
+    for (ptr=(byte *)0x0400; ptr<(byte *)0x0800; ptr+=0x80)
         memset(ptr, 0xA0, 0x78);
     memset((void *)0x2000, 0x00, 0x2000);
     if (application.machine >= IIe) {
         FASTPOKE(SET80COL);
         FASTPOKE(TXTPAGE2);
-        for (ptr=(byte *)400; ptr<(byte *)400; ptr+=0x80)
+        for (ptr=(byte *)0x0400; ptr<(byte *)0x0800; ptr+=0x80)
             memset(ptr, 0xA0, 0x78);
         FASTPOKE(TXTPAGE1);
         FASTPOKE(CLR80COL);
-        auxmove(0x2000, 0x3FFF, 0x2000);
+        toaux(0x2000, 0x2000, 0x2000);
     }
     if (application.machine != IIe) // this is not needed on the IIe
         VaporlockSetup();
@@ -173,7 +173,7 @@ void Screen_Clear() {
             
             if ((a==b) && (a==c) && (a==d)) {
                 memset((void *)0x2000, a, 0x2000);
-                auxmove(0x2000, 0x3FFF, 0x2000);
+                toaux(0x2000, 0x2000, 0x2000);
             }
             else {
                 ptr = (byte *)0x2000;
@@ -184,7 +184,7 @@ void Screen_Clear() {
                     memcpy(ptr, (byte *)0x2000, size);
                     ptr += size;
                 } while (ptr<(byte *)0x4000);
-                auxmove(0x2000, 0x3FFF, 0x2000);
+                toaux(0x2000, 0x2000, 0x2000);
                 
                 if ((a!=b) || (c!=d)) {
                     ptr = (byte *)0x2000;
@@ -240,4 +240,105 @@ void Screen_WaitVBlank() {
         if (setupScreen)
             Screen_SetResolutionInternal();
     }
+}
+
+// simple putimage function for this demo, does not preserve the background
+void PutFragmentDHGR(byte *data, byte width, byte height, byte x, byte y) {
+    byte y2 = y+height, packet = width/2, yb;
+    byte *source = data, *dest;
+    bool log=false;
+
+    byte a, b, c, d, e, f, g, z, *put, col;
+    byte blit[128], count;
+    bool flag;
+    packet = width/7*4;
+    if (width%7)
+        packet+=2;
+
+    // rasters are split between auxiliary memory and main memory
+    while (y < y2) {
+        put = blit;
+        count = 0;
+        flag = false;//good
+        for (col=0; col<width; col++) {
+            count++;
+            if (count == 4) {
+                a = source[col-3]>>4;
+                b = source[col-3]&0xf;
+                c = source[col-2]>>4;
+                d = source[col-2]&0xf;
+                e = source[col-1]>>4;
+                f = source[col-1]&0xf;
+                g = source[col]>>4;
+                z = source[col]&0xf;
+                flag = true;
+            }
+            else if (count == 7) {
+                a = z;
+                b = source[col-2]>>4;
+                c = source[col-2]&0xf;
+                d = source[col-1]>>4;
+                e = source[col-1]&0xf;
+                f = source[col]>>4;
+                g = source[col]&0xf;
+                flag = true;
+                count = 0;
+            }
+            if (flag) {
+                put[0] = (b<<4)|a;
+                put[packet+0] = (d<<5)|(c<<1)|(b>>3);
+                put[1] = (f<<6)|(e<<2)|(d>>2);
+                put[packet+1] = (g<<3)|(f>>1);
+                put += 2;
+                flag = false;
+            }
+        }
+        count = width%7;
+        if (count) {
+            col = width-count;
+            a = source[col]>>4;
+            b = source[col++]&0xf;
+            put[0] = (b<<4)|a;
+            if (col<width) {
+                c = source[col]>>4;
+                d = source[col++]&0xf;
+            }
+            else {
+                c = 0;
+                d = 0;
+            }
+            put[packet+0] = (d<<5)|(c<<1)|(b>>3);
+            if (col<width) {
+                e = source[col]>>4;
+                f = source[col++]&0xf;
+            }
+            else {
+                e = 0;
+                f = 0;
+            }
+            put[1] = (f<<6)|(e<<2)|(d>>2);
+            if (col<width) {
+                g = source[col]>>4;
+                z = source[col++]&0xf;
+            }
+            else {
+                g = 0;
+                z = 0;
+            }
+            put[packet+1] = (g<<3)|(f>>1);
+        }
+        log=false;
+
+        yb = y/8;
+        dest = (byte *)((y%8)*0x400+(yb%8)*0x80+(yb/8)*0x28+(x/2)+0x2000);
+        toaux((word)dest, (word)blit, packet);
+        memcpy(dest, blit+packet, packet);
+        source += width;
+        y++;
+    }
+}
+
+void Screen_DrawSprite(byte *data, byte width, byte height, byte x, byte y) {
+    if (Screen_currentResolution.doubleRes)
+        PutFragmentDHGR(data, width, height, x, y);
 }

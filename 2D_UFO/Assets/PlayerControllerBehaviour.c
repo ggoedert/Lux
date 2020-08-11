@@ -3,24 +3,22 @@
 
 #include "PlayerControllerBehaviour.h"
 
-virtual_table_type(Object) virtual_table_instance(PlayerControllerBehaviour_Object) = {
-    (Object_Delete_Type)PlayerControllerBehaviour_Delete
-};
-virtual_table_type(CustomBehaviour) virtual_table_instance(PlayerControllerBehaviour_CustomBehaviour) = {
-    (CustomBehaviour_Start_Type)PlayerControllerBehaviour_Start,
-    (CustomBehaviour_Update_Type)PlayerControllerBehaviour_Update
-};
-derived_class_simple_default_implementations(PlayerControllerBehaviour, CustomBehaviour, (&virtual_table_instance(PlayerControllerBehaviour_Object), &virtual_table_instance(PlayerControllerBehaviour_CustomBehaviour)))
+derived_custom_behaviour_class_default_implementations(PlayerControllerBehaviour, PlayerControllerBehaviour_Start, PlayerControllerBehaviour_Update, nullptr)
 
-void PlayerControllerBehaviour_Start(PlayerControllerBehaviour *this) {
+void PlayerControllerBehaviour_Start(GameObject *gameObject, PlayerControllerBehaviour *this) {
+    GameObject_transform(gameObject)->position.x = 0;
+    GameObject_transform(gameObject)->position.y = 0;
     this->updates = 0;
     this->lastSecs = -1;
 }
 
-void PlayerControllerBehaviour_Update(PlayerControllerBehaviour *this) {
+void PlayerControllerBehaviour_Update(GameObject *gameObject, PlayerControllerBehaviour *this) {
     int secs = this->updates++/60;
+    GameObject_transform(gameObject)->position.x = this->updates;
+    GameObject_transform(gameObject)->position.y = this->updates;
     if (secs != this->lastSecs) {
         Camera_backgroundColor = secs&0xf;
+        //Camera_backgroundColor = white;
         Screen_Clear();
         Debug_Log("PlayerControllerBehaviour_Update %d", secs);
         this->lastSecs = secs;

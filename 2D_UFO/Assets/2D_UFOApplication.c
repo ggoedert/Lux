@@ -26,6 +26,6 @@ void loadApplication() {
     Debug_Log("%u bytes free.", memAvail);
     Resources_AddStorage(&assets.Storage);
     Camera_backgroundColor = green;
-    Screen_SetResolution(HGR, false, false);
+    Screen_SetResolution(HGR, true, false);
     SceneManager_LoadScene(MainScene_Load);
 }

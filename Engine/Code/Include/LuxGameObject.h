@@ -8,4 +8,6 @@ class (GameObject,
 );
 class_new_delete_prototypes(GameObject, VOID);
 
+#define GameObject_transform(this) (*(Transform **)this->components.items)
+
 #endif

@@ -31,6 +31,7 @@
 #define AUXMOVE   0xC311    // C=0 Aux->Main, C=1 Main->Aux 
 #define MOVE      0xFE2C    // Main<->Main, *MUST* set Y=0 prior! 
 
-void auxmove(word start, word end, word dest);
+void toaux(word dest, word src, word count);
+void fromaux(word dest, word src, word count);
 
 #endif

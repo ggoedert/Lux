@@ -1,6 +1,7 @@
 #ifndef LUX_RENDERER_H
 #define LUX_RENDERER_H
 
+#include "LuxTransform.h"
 #include "LuxComponent.h"
 
 #define typeof_Renderer 0x3a // String_GetHashCode8("Renderer")
@@ -11,10 +12,10 @@ derived_virtual_class (Renderer, Component,
         byte sortingLayer;
     ),
     (
-        void (*Render)(Renderer *this);
+        void (*Render)(Renderer *this, Transform *transform);
     )
 );
-typedef void (*Renderer_Render_Type)(Renderer *this);
+typedef void (*Renderer_Render_Type)(Renderer *this, Transform *transform);
 class_constructor_destructor_prototypes(Renderer, virtual_table_type(Object) *object_vtable, virtual_table_type(Renderer) *renderer_vtable);
 
 #define sortingLayer_Default 127
