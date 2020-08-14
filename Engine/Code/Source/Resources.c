@@ -53,16 +53,16 @@ Asset *Resources_Reference(word id) {
     assetReferenceListIndex = Resources_FindAssetReferenceIndex(id);
     if (assetReferenceListIndex != ColUIntMax) {
         assetReference = &List_Item(&assetReferenceList, AssetReference, assetReferenceListIndex);
-        assetReference->count++;
+        ++assetReference->count;
         return assetReference->asset;
     }
 
-    for (i=0; i<storageList.count; i++) {
+    for (i=0; i<storageList.count; ++i) {
         currentStorage = List_Item(&storageList, Storage *, i);
         resource = currentStorage->vtable->Load(id);
         if (nullptr != resource) {
             if (i) {
-                for (j=i; j; j--)
+                for (j=i; j; --j)
                     List_Item(&storageList, Storage *, j) = List_Item(&storageList, Storage *, j-1);
                 List_Item(&storageList, Storage *, 0) = currentStorage;
             }
@@ -81,7 +81,7 @@ void Resources_Unreference(word id) {
     if (assetReferenceListIndex != ColUIntMax) {
         Debug_Log("Resources_Unreference $%04x", id);
         assetReference = &List_Item(&assetReferenceList, AssetReference, assetReferenceListIndex);
-        assetReference->count--;
+        --assetReference->count;
         if (0 == assetReference->count) {
             Object *object = &assetReference->asset->Object;
             object->vtable->Delete(object);
@@ -105,7 +105,7 @@ Asset *Resources_Create(word id, byte *resource) {
 void Resources_Optimize() {
     int i;
     Storage_Optimize_Type optimize;
-    for (i=0; i<storageList.count; i++) {
+    for (i=0; i<storageList.count; ++i) {
         optimize = List_Item(&storageList, Storage *, i)->vtable->Optimize;
         if (nullptr != optimize)
             optimize();
@@ -115,7 +115,7 @@ void Resources_Optimize() {
 ColUInt Resources_FindAssetReferenceIndex(word id) {
     int i;
     AssetReference *assetReference;
-    for (i=0; i<assetReferenceList.count; i++) {
+    for (i=0; i<assetReferenceList.count; ++i) {
         assetReference = &List_Item(&assetReferenceList, AssetReference, i);
         if (assetReference->id == id)
             return i;

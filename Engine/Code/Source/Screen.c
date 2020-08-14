@@ -207,7 +207,7 @@ void Screen_SetResolution(byte mode, bool doubleRes, bool mixed) {
     int index;
     if (application.machine < IIe)
         doubleRes = false;
-    for (index = 0; index<Screen_resolutions_Length; index++) {
+    for (index = 0; index<Screen_resolutions_Length; ++index) {
         if ((Screen_resolutions[index].mode == mode) && (Screen_resolutions[index].doubleRes == doubleRes) && (Screen_resolutions[index].mixed == mixed)) {
             Screen_currentResolution = Screen_resolutions[index];
             Screen_Clear();
@@ -260,8 +260,8 @@ void PutFragmentDHGR(byte *data, byte width, byte height, byte x, byte y) {
         put = blit;
         count = 0;
         flag = false;//good
-        for (col=0; col<width; col++) {
-            count++;
+        for (col=0; col<width; ++col) {
+            ++count;
             if (count == 4) {
                 a = source[col-3]>>4;
                 b = source[col-3]&0xf;
@@ -334,7 +334,7 @@ void PutFragmentDHGR(byte *data, byte width, byte height, byte x, byte y) {
         toaux((word)dest, (word)blit, packet);
         memcpy(dest, blit+packet, packet);
         source += width;
-        y++;
+        ++y;
     }
 }
 

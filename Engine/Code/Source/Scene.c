@@ -38,7 +38,7 @@ void Scene_UnregisterGameObject(GameObject *gameObject) {
 
 void Scene_Run() {
     int i;
-    for (i=0; i<gameObjectList.count; i++) {
+    for (i=0; i<gameObjectList.count; ++i) {
         GameObject_Run(List_Item(&gameObjectList, GameObject *, i));
         Time_Update();
     }

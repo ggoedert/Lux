@@ -30,7 +30,7 @@ void GameObject_Run(GameObject *this) {
     int i;
     Component *component;
     CustomBehaviour_Update_Type CustomBehaviour_Update;
-    for (i=1; i<this->components.count; i++) { // first component is always the transform
+    for (i=1; i<this->components.count; ++i) { // first component is always the transform
         component = List_Item(&this->components, Component *, i);
         if (component->Object.type == typeof_CustomBehaviour) {
             CustomBehaviour_Update = ((CustomBehaviour *)component)->vtable->Update;
