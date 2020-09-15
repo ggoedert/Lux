@@ -10,11 +10,10 @@ class_default_implementations(Sprite, (word id, byte *texture2D), (id, texture2D
     (
         int size;
         byte width, height;
-        byte x=0, y=0;
-        byte y2, packet, yb;
+        byte x, y, packet;
         byte *source, *dest;
+        byte a, b, c, d, e, f, g, z, *put, count;
         bool flag;
-        byte a, b, c, d, e, f, g, z, *put, col, count;
 
         Asset_Constructor(&this->Asset, typeof_Sprite, id, &virtual_table_instance(Sprite_Object));
 
@@ -22,42 +21,40 @@ class_default_implementations(Sprite, (word id, byte *texture2D), (id, texture2D
         this->width = width;
         height = *texture2D++;
         this->height = height;
-
-        y2 = y+height;
         packet = width/7*4;
         if (width%7)
             packet+=2;
-        size = packet*2*this->height;
+        size = packet*2*height;
         this->data = malloc(size);
 
         // rasters are split between auxiliary memory and main memory
         source = texture2D;
         dest = this->data;
-        while (y < y2) {
+        for (y=0; y<height; ++y) {
             put = dest;
             count = 0;
             flag = false;//good
-            for (col=0; col<width; ++col) {
+            for (x=0; x<width; ++x) {
                 ++count;
                 if (count == 4) {
-                    a = source[col-3]>>4;
-                    b = source[col-3]&0xf;
-                    c = source[col-2]>>4;
-                    d = source[col-2]&0xf;
-                    e = source[col-1]>>4;
-                    f = source[col-1]&0xf;
-                    g = source[col]>>4;
-                    z = source[col]&0xf;
+                    a = source[x-3]>>4;
+                    b = source[x-3]&0xf;
+                    c = source[x-2]>>4;
+                    d = source[x-2]&0xf;
+                    e = source[x-1]>>4;
+                    f = source[x-1]&0xf;
+                    g = source[x]>>4;
+                    z = source[x]&0xf;
                     flag = true;
                 }
                 else if (count == 7) {
                     a = z;
-                    b = source[col-2]>>4;
-                    c = source[col-2]&0xf;
-                    d = source[col-1]>>4;
-                    e = source[col-1]&0xf;
-                    f = source[col]>>4;
-                    g = source[col]&0xf;
+                    b = source[x-2]>>4;
+                    c = source[x-2]&0xf;
+                    d = source[x-1]>>4;
+                    e = source[x-1]&0xf;
+                    f = source[x]>>4;
+                    g = source[x]&0xf;
                     flag = true;
                     count = 0;
                 }
@@ -72,31 +69,31 @@ class_default_implementations(Sprite, (word id, byte *texture2D), (id, texture2D
             }
             count = width%7;
             if (count) {
-                col = width-count;
-                a = source[col]>>4;
-                b = source[col++]&0xf;
+                x = width-count;
+                a = source[x]>>4;
+                b = source[x++]&0xf;
                 put[0] = (b<<4)|a;
-                if (col<width) {
-                    c = source[col]>>4;
-                    d = source[col++]&0xf;
+                if (x<width) {
+                    c = source[x]>>4;
+                    d = source[x++]&0xf;
                 }
                 else {
                     c = 0;
                     d = 0;
                 }
                 put[packet+0] = (d<<5)|(c<<1)|(b>>3);
-                if (col<width) {
-                    e = source[col]>>4;
-                    f = source[col++]&0xf;
+                if (x<width) {
+                    e = source[x]>>4;
+                    f = source[x++]&0xf;
                 }
                 else {
                     e = 0;
                     f = 0;
                 }
                 put[1] = (f<<6)|(e<<2)|(d>>2);
-                if (col<width) {
-                    g = source[col]>>4;
-                    z = source[col++]&0xf;
+                if (x<width) {
+                    g = source[x]>>4;
+                    z = source[x++]&0xf;
                 }
                 else {
                     g = 0;
@@ -105,10 +102,8 @@ class_default_implementations(Sprite, (word id, byte *texture2D), (id, texture2D
                 put[packet+1] = (g<<3)|(f>>1);
             }
 
-            yb = y/8;
             dest += packet*2;
             source += width;
-            ++y;
         }
     ),
     (
