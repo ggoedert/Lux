@@ -96,7 +96,7 @@ Asset *Resources_Create(word id, byte *resource) {
     switch(resourceType) {
         case typeof_Texture2D:
             asset = (Asset *)Sprite_New(id, resource);
-            Debug_Log("Resources_Create Texture2D %d %d", ((Sprite *)asset)->width, ((Sprite *)asset)->height);
+            Debug_Log("Resources_Create Texture2D $%04x %d %d", asset, ((Sprite *)asset)->width, ((Sprite *)asset)->height);
             break;
     }
     return asset;

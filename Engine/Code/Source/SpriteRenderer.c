@@ -20,9 +20,6 @@ class_default_implementations(SpriteRenderer, (Sprite *sprite), (sprite),
     )
 )
 
-#include "LuxDebug.h"
 void SpriteRenderer_Render(SpriteRenderer *this, Transform *transform) {
-    //TODO!!!
-    //Debug_Log("SpriteRenderer_Render");
-    Screen_DrawSprite(this->sprite->data, this->sprite->width, this->sprite->height, transform->position.x, transform->position.y);
+    Screen_DrawSprite(this->sprite, transform->position.x, transform->position.y);
 }

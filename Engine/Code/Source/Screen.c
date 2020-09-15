@@ -9,6 +9,7 @@
 #include "LuxApplication.h"
 #include "LuxCamera.h"
 #include "LuxScreen.h"
+#include "LuxSprite.h"
 
 Resolution Screen_resolutions[] = {
     {TEXT, false, false},
@@ -243,102 +244,24 @@ void Screen_WaitVBlank() {
 }
 
 // simple putimage function for this demo, does not preserve the background
-void PutFragmentDHGR(byte *data, byte width, byte height, byte x, byte y) {
-    byte y2 = y+height, packet = width/2, yb;
-    byte *source = data, *dest;
-    bool log=false;
-
-    byte a, b, c, d, e, f, g, z, *put, col;
-    byte blit[128], count;
-    bool flag;
-    packet = width/7*4;
-    if (width%7)
-        packet+=2;
-
+void PutFragmentDHGR(Sprite *sprite, byte x, byte y) {
     // rasters are split between auxiliary memory and main memory
+    byte *source = sprite->data, *dest;
+    byte packSize, y2 = y+sprite->height, yb;
+    packSize = sprite->width/7*4;
+    if (sprite->width%7)
+        packSize+=2;
     while (y < y2) {
-        put = blit;
-        count = 0;
-        flag = false;//good
-        for (col=0; col<width; ++col) {
-            ++count;
-            if (count == 4) {
-                a = source[col-3]>>4;
-                b = source[col-3]&0xf;
-                c = source[col-2]>>4;
-                d = source[col-2]&0xf;
-                e = source[col-1]>>4;
-                f = source[col-1]&0xf;
-                g = source[col]>>4;
-                z = source[col]&0xf;
-                flag = true;
-            }
-            else if (count == 7) {
-                a = z;
-                b = source[col-2]>>4;
-                c = source[col-2]&0xf;
-                d = source[col-1]>>4;
-                e = source[col-1]&0xf;
-                f = source[col]>>4;
-                g = source[col]&0xf;
-                flag = true;
-                count = 0;
-            }
-            if (flag) {
-                put[0] = (b<<4)|a;
-                put[packet+0] = (d<<5)|(c<<1)|(b>>3);
-                put[1] = (f<<6)|(e<<2)|(d>>2);
-                put[packet+1] = (g<<3)|(f>>1);
-                put += 2;
-                flag = false;
-            }
-        }
-        count = width%7;
-        if (count) {
-            col = width-count;
-            a = source[col]>>4;
-            b = source[col++]&0xf;
-            put[0] = (b<<4)|a;
-            if (col<width) {
-                c = source[col]>>4;
-                d = source[col++]&0xf;
-            }
-            else {
-                c = 0;
-                d = 0;
-            }
-            put[packet+0] = (d<<5)|(c<<1)|(b>>3);
-            if (col<width) {
-                e = source[col]>>4;
-                f = source[col++]&0xf;
-            }
-            else {
-                e = 0;
-                f = 0;
-            }
-            put[1] = (f<<6)|(e<<2)|(d>>2);
-            if (col<width) {
-                g = source[col]>>4;
-                z = source[col++]&0xf;
-            }
-            else {
-                g = 0;
-                z = 0;
-            }
-            put[packet+1] = (g<<3)|(f>>1);
-        }
-        log=false;
-
         yb = y/8;
         dest = (byte *)((y%8)*0x400+(yb%8)*0x80+(yb/8)*0x28+(x/2)+0x2000);
-        toaux((word)dest, (word)blit, packet);
-        memcpy(dest, blit+packet, packet);
-        source += width;
+        toaux((word)dest, (word)source, packSize);
+        memcpy(dest, source+packSize, packSize);
+        source += 2*packSize;
         ++y;
     }
 }
 
-void Screen_DrawSprite(byte *data, byte width, byte height, byte x, byte y) {
+void Screen_DrawSprite(Sprite *sprite, byte x, byte y) {
     if (Screen_currentResolution.doubleRes)
-        PutFragmentDHGR(data, width, height, x, y);
+        PutFragmentDHGR(sprite, x, y);
 }
