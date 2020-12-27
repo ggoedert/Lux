@@ -9,7 +9,7 @@ virtual_table_type(Object) virtual_table_instance(Sprite_Object) = {
 class_default_implementations(Sprite, (word id, byte *texture2D), (id, texture2D),
     (
         int size;
-        byte width, height;
+        byte halfWidth, height;
         byte x, y, packet;
         byte *source, *dest;
         byte a, b, c, d, e, f, g, z, *put, count;
@@ -17,12 +17,12 @@ class_default_implementations(Sprite, (word id, byte *texture2D), (id, texture2D
 
         Asset_Constructor(&this->Asset, typeof_Sprite, id, &virtual_table_instance(Sprite_Object));
 
-        width = *texture2D++;
-        this->width = width;
+        halfWidth = *texture2D++/2;
+        this->width = halfWidth*2;
         height = *texture2D++;
         this->height = height;
-        packet = width/7*4;
-        if (width%7)
+        packet = halfWidth/7*4;
+        if (halfWidth%7)
             packet+=2;
         size = packet*2*height;
         this->data = malloc(size);
@@ -34,7 +34,7 @@ class_default_implementations(Sprite, (word id, byte *texture2D), (id, texture2D
             put = dest;
             count = 0;
             flag = false;//good
-            for (x=0; x<width; ++x) {
+            for (x=0; x<halfWidth; ++x) {
                 ++count;
                 if (count == 4) {
                     a = source[x-3]>>4;
@@ -67,13 +67,13 @@ class_default_implementations(Sprite, (word id, byte *texture2D), (id, texture2D
                     flag = false;
                 }
             }
-            count = width%7;
+            count = halfWidth%7;
             if (count) {
-                x = width-count;
+                x = halfWidth-count;
                 a = source[x]>>4;
                 b = source[x++]&0xf;
                 put[0] = (b<<4)|a;
-                if (x<width) {
+                if (x<halfWidth) {
                     c = source[x]>>4;
                     d = source[x++]&0xf;
                 }
@@ -82,7 +82,7 @@ class_default_implementations(Sprite, (word id, byte *texture2D), (id, texture2D
                     d = 0;
                 }
                 put[packet+0] = (d<<5)|(c<<1)|(b>>3);
-                if (x<width) {
+                if (x<halfWidth) {
                     e = source[x]>>4;
                     f = source[x++]&0xf;
                 }
@@ -91,7 +91,7 @@ class_default_implementations(Sprite, (word id, byte *texture2D), (id, texture2D
                     f = 0;
                 }
                 put[1] = (f<<6)|(e<<2)|(d>>2);
-                if (x<width) {
+                if (x<halfWidth) {
                     g = source[x]>>4;
                     z = source[x++]&0xf;
                 }
@@ -103,7 +103,7 @@ class_default_implementations(Sprite, (word id, byte *texture2D), (id, texture2D
             }
 
             dest += packet*2;
-            source += width;
+            source += halfWidth;
         }
     ),
     (

@@ -248,7 +248,8 @@ void PutFragmentDHGR(Sprite *sprite, byte x, byte y) {
     // rasters are split between auxiliary memory and main memory
     byte *source = sprite->data, *dest;
     byte packSize, y2 = y+sprite->height, yb;
-    packSize = sprite->width/7*4;
+    packSize = sprite->width/7*2;
+    x = x/7*4;
     if (sprite->width%7)
         packSize+=2;
     while (y < y2) {

@@ -26,6 +26,17 @@ class_default_implementations(GameObject, (VOID), (NONE),
     )
 )
 
+Component *GameObject_GetComponent(GameObject *this, byte type) {
+    int i;
+    Component *component;
+    for (i=1; i<this->components.count; ++i) { // first component is always the transform
+        component = List_Item(&this->components, Component *, i);
+        if (component->Object.type == type)
+            return component;
+    }
+    return nullptr;
+}
+
 void GameObject_Run(GameObject *this) {
     int i;
     Component *component;

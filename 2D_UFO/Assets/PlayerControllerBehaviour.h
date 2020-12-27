@@ -5,6 +5,8 @@
 
 derived_class (PlayerControllerBehaviour, CustomBehaviour,
     int updates, lastSecs;
+    byte spriteWidth, spriteHeight;
+    bool xPositive, yPositive;
 );
 derived_custom_behaviour_class_default_prototypes(PlayerControllerBehaviour);
 void PlayerControllerBehaviour_Start(GameObject *gameObject, PlayerControllerBehaviour *this);
