@@ -15,7 +15,7 @@ LOADER_SYSTEM = C:\cc65\target\apple2\util\loader.system
 DISKLABEL = TWODUFO
 OUTPUT = 2D_UFO
 SOURCEDIR = Assets
-ASOURCEFILES =
+ASOURCEFILES = HGR.s
 AOBJECTFILES = $(ASOURCEFILES:.s=.o)
 AOBJECTS = $(addprefix Build/$(CONFIG)/, $(AOBJECTFILES))
 CSOURCEFILES = 2D_UFOApplication.c Assets.c MainScene.c PlayerControllerBehaviour.c
