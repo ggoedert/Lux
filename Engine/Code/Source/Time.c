@@ -25,6 +25,8 @@ void Time_Run() {
     Time_clock += Time_deltaClock;
 }
 
+#ifdef FLOAT
 Float Time_ToTime(word clock) {
     return Float_Mul(FIXMATH_I(clock), Float_oneOverThirty);
 }
+#endif

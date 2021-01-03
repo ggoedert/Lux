@@ -9,10 +9,11 @@ virtual_table_type(Object) virtual_table_instance(SpriteRenderer_Object) = {
 virtual_table_type(Renderer) virtual_table_instance(SpriteRenderer_Renderer) = {
     (Renderer_Render_Type)SpriteRenderer_Render
 };
-class_default_implementations(SpriteRenderer, (Sprite *sprite), (sprite),
+class_default_implementations(SpriteRenderer, (Sprite *sprite, byte mask), (sprite, mask),
     (
         Renderer_Constructor(&this->Renderer, &virtual_table_instance(SpriteRenderer_Object), &virtual_table_instance(SpriteRenderer_Renderer));
         this->sprite = sprite;
+        this->mask = mask;
     ),
     (
         Resources_Unreference(this->sprite->Asset.id);
@@ -21,5 +22,5 @@ class_default_implementations(SpriteRenderer, (Sprite *sprite), (sprite),
 )
 
 void SpriteRenderer_Render(SpriteRenderer *this, Transform *transform) {
-    Screen_DrawSprite(this->sprite, transform->position.x, transform->position.y);
+    Screen_DrawSprite(this->sprite, this->mask, transform->position.x, transform->position.y);
 }

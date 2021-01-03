@@ -51,7 +51,7 @@ clean:
 	if exist ../../Engine/Build/$(CONFIG)/. $(MAKE) CONFIG=$(CONFIG) clean -C ../../Engine
 
 prebuild: | Build/$(CONFIG)/.
-	$(MAKE) CONFIG=$(CONFIG) -C ../../Engine
+	$(MAKE) CONFIG=$(CONFIG) OPTIONS=FLOAT -C ../../Engine
 
 Build/$(CONFIG)/$(OUTPUT): $(AOBJECTS) $(COBJECTS) $(ENGINELIB)
 	$(LD) $(LDFLAGS) -o $@ $(AOBJECTS) $(COBJECTS) $(ENGINELIB)

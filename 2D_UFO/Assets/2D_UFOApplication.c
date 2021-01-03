@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <string.h>
 
 #include "LuxSystem.h"
@@ -21,7 +22,12 @@ void main() {
 }
 
 void loadApplication() {
-    int memAvail = _heapmemavail();
+    int memAvail;
+    if (application.machine < IIe) {
+        printf("\nApple IIe not detected!");
+        while(true);
+    }
+    memAvail = _heapmemavail();
     Debug_SetMode(DEBUG_MODE_QUEUE);
     Debug_Log("%u bytes free.", memAvail);
     Resources_AddStorage(&assets.Storage);

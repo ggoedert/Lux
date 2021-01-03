@@ -14,7 +14,7 @@ LOADER_SYSTEM = C:\cc65\target\apple2\util\loader.system
 
 OUTPUT = TestEngine
 SOURCEDIR = Code
-ASOURCEFILES =
+ASOURCEFILES = HGR.s
 AOBJECTFILES = $(ASOURCEFILES:.s=.o)
 AOBJECTS = $(addprefix Build/$(CONFIG)/, $(AOBJECTFILES))
 CSOURCEFILES = TestEngine.c

@@ -6,6 +6,6 @@
 
 void Screen_Init(void);
 void Screen_WaitVBlank(void);
-void Screen_DrawSprite(Sprite *sprite, byte x, byte y);
+void Screen_DrawSprite(Sprite *sprite, byte mask, byte x, byte y);
 
 #endif
