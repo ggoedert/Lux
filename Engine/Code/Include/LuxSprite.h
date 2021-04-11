@@ -7,7 +7,7 @@
 
 class (Sprite,
     byte width, height;
-    byte *dest;
+    byte *data;
 );
 class_default_prototypes(Sprite, byte *texture2D);
 

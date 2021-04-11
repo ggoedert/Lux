@@ -253,7 +253,7 @@ void PutFragmentDHGR(Sprite *sprite, byte mask, byte x, byte y) {
     packet = halfWidth/7*4;
     if (halfWidth%7)
         packet+=2;
-    spriteData = sprite->dest;
+    spriteData = sprite->data;
 
     x2 = x/7*2;
     for (yo=0; yo<sprite->height; ++yo) {
