@@ -6,7 +6,6 @@
 
 #include "LuxApplication.h"
 #include "LuxQualitySettings.h"
-#include "LuxResources.h"
 #include "LuxScreen.h"
 #include "LuxSceneManagement.h"
 
@@ -27,7 +26,6 @@ void Application_Play(char *name, word version, LoadApplication loadApplication)
     if (application.memory > 48)
         _heapadd((void *)0xD000, 0x1000);
     QualitySettings_Init();
-    Resources_Init();
     Screen_Init();
     Time_Init();
     Scene_Init();
@@ -48,7 +46,6 @@ void Application_Play(char *name, word version, LoadApplication loadApplication)
 #ifdef _DEBUG
 void Application_Stop() {
     Scene_Finalize();
-    Resources_Finalize();
     Application_isPlaying = false;
 }
 #endif

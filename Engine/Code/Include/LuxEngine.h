@@ -5,7 +5,6 @@
 #include "LuxApplication.h"
 #include "LuxDebug.h"
 #include "LuxQualitySettings.h"
-#include "LuxResources.h"
 #include "LuxCamera.h"
 #include "LuxGameObject.h"
 #include "LuxCustomBehaviour.h"

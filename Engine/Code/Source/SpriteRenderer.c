@@ -1,7 +1,6 @@
 #include "Screen.h"
 
 #include "LuxSpriteRenderer.h"
-#include "LuxResources.h"
 
 virtual_table_type(Object) virtual_table_instance(SpriteRenderer_Object) = {
     (Object_Delete_Type)SpriteRenderer_Delete
@@ -16,7 +15,6 @@ class_default_implementations(SpriteRenderer, (Sprite *sprite, byte mask), (spri
         this->mask = mask;
     ),
     (
-        Resources_Unreference(this->sprite->Asset.id);
         Renderer_Destructor(&this->Renderer);
     )
 )

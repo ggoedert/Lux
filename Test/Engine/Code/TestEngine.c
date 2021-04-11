@@ -1,6 +1,5 @@
 #include "LuxEngine.h"
 #include "LuxCustomBehaviour.h"
-#include "LuxStorage.h"
 
 void loadApplication(void);
 

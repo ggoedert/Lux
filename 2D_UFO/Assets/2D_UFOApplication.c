@@ -12,7 +12,6 @@ void loadApplication(void);
 
 //main.c
 void main() {
-    Assets_Constructor(&assets, NONE);
     Application_Play("2D UFO", 1, loadApplication);
     Screen_SetResolution(TEXT, false, false);
     Debug_Dequeue();
@@ -30,7 +29,6 @@ void loadApplication() {
     memAvail = _heapmemavail();
     Debug_SetMode(DEBUG_MODE_QUEUE);
     Debug_Log("%u bytes free.", memAvail);
-    Resources_AddStorage(&assets.Storage);
     Camera_backgroundColor = green;
     Screen_SetResolution(HGR, true, false);
     SceneManager_LoadScene(MainScene_Load);
