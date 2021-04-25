@@ -4,6 +4,11 @@
 #include "Classes.h"
 #include "MapMemory.h"
 
+class (Segment,
+    byte start;
+    byte end;
+);
+
 void loadApplication(void);
 
 //main.c
@@ -48,6 +53,7 @@ void loadApplication() {
     Debug_Log("String_GetHashCode8(\"Transform\"): $%02x", String_GetHashCode8("Transform"));
     Debug_Log("String_GetHashCode8(\"Texture2D\"): $%02x", String_GetHashCode16("Texture2D"));
     Debug_Log("");
+    Debug_Log("sizeof(Segment): %u", sizeof(Segment));
 
     Debug_Log("%u bytes free.", _heapmemavail());
     Debug_Log("end.");

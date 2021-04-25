@@ -10,6 +10,7 @@
 #include "LuxCamera.h"
 #include "LuxScreen.h"
 #include "LuxSprite.h"
+#include "LuxCollections.h"
 
 Resolution Screen_resolutions[] = {
     {TEXT, false, false},
@@ -39,8 +40,15 @@ byte dhgr2hgr[] = {
     0x00, 0x01, 0x02, 0x81, 0x00, 0x81, 0x02, 0x81, 0x82, 0x01, 0x81, 0x83, 0x82, 0x01, 0x02, 0x83
 };
 
+class (Segment,
+    byte start, packet;
+    byte *data;
+);
+List lines[192];
+
 void Screen_Init() {
     byte *ptr;
+    int index;
 
     if (application.machine < IIe)
         Screen_resolutions_Length = 5;
@@ -62,6 +70,9 @@ void Screen_Init() {
     if (application.machine != IIe) // this is not needed on the IIe
         VaporlockSetup();
     gotoy(-1);
+
+    for (index = 0; index<192; ++index)
+        List_Constructor(lines+index, sizeof(Segment));
 }
 
 void Screen_SetResolutionInternal() {
@@ -129,7 +140,7 @@ void Screen_SetResolutionInternal() {
 
 void Screen_Clear() {
     byte *ptr;
-    int size;
+    int size, y2;
 
     if ((Screen_currentResolution.mode != HGR) || Screen_currentResolution.mixed) {
         for (ptr=(byte *)0x0400; ptr<(byte *)0x0800; ptr+=0x80)
@@ -202,6 +213,9 @@ void Screen_Clear() {
     }
     if (application.machine != IIe) // this is not needed on the IIe
         VaporlockSetup();
+
+    for (y2=0; y2<192; ++y2)
+        List_Clear(lines+y2);
 }
 
 void Screen_SetResolution(byte mode, bool doubleRes, bool mixed) {
@@ -219,6 +233,9 @@ void Screen_SetResolution(byte mode, bool doubleRes, bool mixed) {
 }
 
 void Screen_WaitVBlank() {
+    int y2, yb, x2, packet, i;
+    byte *screenData, *dest;
+
     if (application.machine == IIe) {          // this optimization only works on the IIe
         while ((PEEK(RDVBLBAR)&0x80)==0x0) {}  // if already inside a vblank, wait for it to end
         while ((PEEK(RDVBLBAR)&0x80)!=0x0) {}  // wait for a new vblank to start
@@ -241,13 +258,33 @@ void Screen_WaitVBlank() {
         if (setupScreen)
             Screen_SetResolutionInternal();
     }
+
+    for (y2=0; y2<192; ++y2) {
+        yb = y2/8;
+        if (lines[y2].count) {
+            for (i=0; i<lines[y2].count; ++i) {
+                x2 = List_Item(lines+y2, Segment, i).start;
+                packet = List_Item(lines+y2, Segment, i).packet;
+                screenData = List_Item(lines+y2, Segment, i).data;
+
+                dest = (byte *)((y2%8)*0x400+(yb%8)*0x80+(yb/8)*0x28+x2+0x2000);
+
+                toaux((word)dest, (word)screenData, packet);
+                memcpy(dest, screenData+packet, packet);
+                free(screenData);
+
+            }
+            List_Clear(lines+y2);
+        }
+    }
 }
 
 // simple putimage function for this demo
 void PutFragmentDHGR(Sprite *sprite, byte mask, byte x, byte y) {
     byte halfWidth;
-    byte yo, y2, yb, x2, packet;
-    byte *dest, *spriteData;
+    byte yo, y2, yb, x2, x2e, packet;
+    byte *dest, *spriteData, *screenData;
+    Segment seg;
 
     halfWidth = sprite->width/2;
     packet = halfWidth/7*4;
@@ -256,16 +293,21 @@ void PutFragmentDHGR(Sprite *sprite, byte mask, byte x, byte y) {
     spriteData = sprite->data;
 
     x2 = x/7*2;
+    x2e = (x+sprite->width)/7*2;
     for (yo=0; yo<sprite->height; ++yo) {
         y2 = y+yo;
         yb = y2/8;
         dest = (byte *)((y2%8)*0x400+(yb%8)*0x80+(yb/8)*0x28+x2+0x2000);
 
-        /*
         //?mask?
-        fromaux((word)spriteData, (word)dest, packet);
-        memcpy(spriteData+packet, dest, packet);
-        */
+        screenData = malloc(packet*2);
+        fromaux((word)screenData, (word)dest, packet);
+        memcpy(screenData+packet, dest, packet);
+        seg.start = x2;
+        seg.packet = packet;
+        seg.data = screenData;
+        List_Add(lines+y2, Segment, seg);
+        //
 
         toaux((word)dest, (word)spriteData, packet);
         memcpy(dest, spriteData+packet, packet);
