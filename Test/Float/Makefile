@@ -61,10 +61,10 @@ $(COBJECTS): Build/$(CONFIG)/$(OUTPUTDIR)/%.o : %.c | Build/$(CONFIG)/$(OUTPUTDI
 Build/.:
 	mkdir Build
 
-Build/$(CONFIG)/.: Build/.
+Build/$(CONFIG)/.: | Build/.
 	mkdir Build\$(CONFIG)
 
-Build/$(CONFIG)/$(OUTPUTDIR)/.: Build/$(CONFIG)/.
+Build/$(CONFIG)/$(OUTPUTDIR)/.: | Build/$(CONFIG)/.
 	mkdir Build\$(CONFIG)\$(OUTPUTDIR)
 
 Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT).dsk: Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT) | Build/$(CONFIG)/$(OUTPUTDIR)/.

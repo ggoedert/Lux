@@ -18,6 +18,8 @@ ASOURCEFILES =
 AOBJECTFILES = $(ASOURCEFILES:.s=.o)
 AOBJECTS = $(addprefix Build/$(CONFIG)/$(OUTPUTDIR)/, $(AOBJECTFILES))
 CSOURCEFILES = TestSimple.c Classes.c MapMemory.c
+DEPENDFILES = $(CSOURCEFILES:.c=.d)
+DEPENDS = $(addprefix Build/Depends/$(OUTPUTDIR)/, $(DEPENDFILES))
 COBJECTFILES = $(CSOURCEFILES:.c=.o)
 COBJECTS = $(addprefix Build/$(CONFIG)/$(OUTPUTDIR)/, $(COBJECTFILES))
 ENGINELIB = Build/$(CONFIG)/Engine/Engine.lib
@@ -43,6 +45,7 @@ run: all
 
 .PHONY: clean
 clean:
+	if exist Build/Depends/. rmdir /S /Q Build\Depends
 	if exist Build/$(CONFIG)/. rmdir /S /Q Build\$(CONFIG)
 	if exist Build/. dir /b Build | >nul find /v "" || rmdir /S /Q Build
 
@@ -55,16 +58,22 @@ $(ENGINELIB): Build/$(CONFIG)/$(OUTPUTDIR)/.
 $(AOBJECTS): Build/$(CONFIG)/$(OUTPUTDIR)/%.o : %.s | Build/$(CONFIG)/$(OUTPUTDIR)/.
 	$(AS) $(ASFLAGS) -o $@ $<
 
-$(COBJECTS): Build/$(CONFIG)/$(OUTPUTDIR)/%.o : %.c | Build/$(CONFIG)/$(OUTPUTDIR)/.
-	$(CC) $(CFLAGS) -o $@ $<
+$(COBJECTS): Build/$(CONFIG)/$(OUTPUTDIR)/%.o : %.c | Build/Depends/$(OUTPUTDIR)/. Build/$(CONFIG)/$(OUTPUTDIR)/.
+	$(CC) $(CFLAGS) --create-dep Build/Depends/$(OUTPUTDIR)/$*.d -o $@ $<
 
 Build/.:
 	mkdir Build
 
-Build/$(CONFIG)/.: Build/.
+Build/$(CONFIG)/.: | Build/.
 	mkdir Build\$(CONFIG)
 
-Build/$(CONFIG)/$(OUTPUTDIR)/.: Build/$(CONFIG)/.
+Build/Depends/.: | Build/.
+	mkdir Build\Depends
+
+Build/Depends/$(OUTPUTDIR)/.: | Build/Depends/.
+	mkdir Build\Depends\$(OUTPUTDIR)
+
+Build/$(CONFIG)/$(OUTPUTDIR)/.: | Build/$(CONFIG)/.
 	mkdir Build\$(CONFIG)\$(OUTPUTDIR)
 
 Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT).dsk: Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT) | Build/$(CONFIG)/$(OUTPUTDIR)/.
@@ -72,3 +81,5 @@ Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT).dsk: Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPU
 	java -jar $(APPLECOMMANDER) -n Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT).dsk $(OUTPUT)
 	java -jar $(APPLECOMMANDER) -p Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT).dsk startup.system sys < $(LOADER_SYSTEM)
 	java -jar $(APPLECOMMANDER) -as Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT).dsk startup < Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT)
+
+include $(wildcard $(DEPENDS))
