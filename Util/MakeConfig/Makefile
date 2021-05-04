@@ -1,15 +1,12 @@
-ifndef $(CONFIG)
+ifndef CONFIG
 CONFIG = Speed
 endif
-
 $(info CONFIG set to $(CONFIG))
-
 ifeq (,$(filter $(CONFIG), Debug Size Speed))
 $(error Unknown CONFIG $(CONFIG), set either to Debug, Size or Speed. Omit to default to Size)
 endif
 
 OUTPUT = MakeConfig.exe
-SOURCEDIR = Code
 CPPSOURCEFILES = MakeConfig.cpp
 CPPOBJECTFILES = $(CPPSOURCEFILES:.cpp=.o)
 CPPOBJECTS = $(addprefix Build/$(CONFIG)/, $(CPPOBJECTFILES))
@@ -39,7 +36,7 @@ ifneq ($(CONFIG), Debug)
 	strip $@
 endif
 
-$(CPPOBJECTS): Build/$(CONFIG)/%.o : $(SOURCEDIR)/%.cpp | Build/$(CONFIG)/.
+$(CPPOBJECTS): Build/$(CONFIG)/%.o : %.cpp | Build/$(CONFIG)/.
 	$(CC) $(CFLAGS) -o $@ $<
 
 Build/.:

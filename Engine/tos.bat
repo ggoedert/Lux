@@ -1,1 +1,1 @@
-cl65 -S -T -t apple2 -I Code/Include -D NDEBUG -Or -o Code/Source/%1.s Code/Source/%1.c 
+cl65 -S -T -t apple2 -I Include -D NDEBUG -Or -o %1.s Source/%1.c 
