@@ -1,5 +1,3 @@
-ROOTDIR := $(shell cd)
-
 ifndef CONFIG
 CONFIG = Size
 endif
@@ -53,7 +51,7 @@ Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT): $(ENGINELIB) $(AOBJECTS) $(COBJECTS)
 	$(LD) $(LDFLAGS) -o $@ $(AOBJECTS) $(COBJECTS) $(ENGINELIB)
 
 $(ENGINELIB): Build/$(CONFIG)/$(OUTPUTDIR)/.
-	$(MAKE) ROOTDIR=$(ROOTDIR) CONFIG=$(CONFIG) -C ../../Engine
+	$(MAKE) ROOTDIR=$(CURDIR) CONFIG=$(CONFIG) -C ../../Engine
 
 $(AOBJECTS): Build/$(CONFIG)/$(OUTPUTDIR)/%.o : %.s | Build/$(CONFIG)/$(OUTPUTDIR)/.
 	$(AS) $(ASFLAGS) -o $@ $<

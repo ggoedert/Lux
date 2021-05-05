@@ -1,5 +1,3 @@
-ROOTDIR := $(shell cd)
-
 ifndef CONFIG
 CONFIG = Size
 endif

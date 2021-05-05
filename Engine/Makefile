@@ -1,5 +1,5 @@
 ifndef ROOTDIR
-ROOTDIR := $(shell cd)
+ROOTDIR = $(CURDIR)
 endif
 $(info ROOTDIR set to $(ROOTDIR))
 
@@ -62,23 +62,22 @@ $(ROOTDIR)/Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT): $(AOBJECTS) $(COBJECTS)
 $(AOBJECTS): $(ROOTDIR)/Build/$(CONFIG)/$(OUTPUTDIR)/%.o : Source/%.s | $(ROOTDIR)/Build/$(CONFIG)/$(OUTPUTDIR)/.
 	$(AS) $(ASFLAGS) -o $@ $<
 
-
 $(COBJECTS): $(ROOTDIR)/Build/$(CONFIG)/$(OUTPUTDIR)/%.o : Source/%.c | $(ROOTDIR)/Build/Depends/$(OUTPUTDIR)/. $(ROOTDIR)/Build/$(CONFIG)/$(OUTPUTDIR)/.
 	$(CC) $(CFLAGS) --create-dep $(ROOTDIR)/Build/Depends/$(OUTPUTDIR)/$*.d -o $@ $<
 
 $(ROOTDIR)/Build/.:
-	mkdir $(ROOTDIR)\Build
+	mkdir $(subst /,\,$(ROOTDIR))\Build
 
 $(ROOTDIR)/Build/Depends/.: | $(ROOTDIR)/Build/.
-	mkdir $(ROOTDIR)\Build\Depends
+	mkdir $(subst /,\,$(ROOTDIR))\Build\Depends
 
 $(ROOTDIR)/Build/Depends/$(OUTPUTDIR)/.: | $(ROOTDIR)/Build/Depends/.
-	mkdir $(ROOTDIR)\Build\Depends\$(OUTPUTDIR)
+	mkdir $(subst /,\,$(ROOTDIR))\Build\Depends\$(OUTPUTDIR)
 
 $(ROOTDIR)/Build/$(CONFIG)/.: | $(ROOTDIR)/Build/.
-	mkdir $(ROOTDIR)\Build\$(CONFIG)
+	mkdir $(subst /,\,$(ROOTDIR))\Build\$(CONFIG)
 
 $(ROOTDIR)/Build/$(CONFIG)/$(OUTPUTDIR)/.: | $(ROOTDIR)/Build/$(CONFIG)/.
-	mkdir $(ROOTDIR)\Build\$(CONFIG)\$(OUTPUTDIR)
+	mkdir $(subst /,\,$(ROOTDIR))\Build\$(CONFIG)\$(OUTPUTDIR)
 
 include $(wildcard $(DEPENDS))
