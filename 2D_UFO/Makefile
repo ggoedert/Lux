@@ -14,10 +14,10 @@ DISKLABEL = TWODUFO
 OUTPUTDIR = 2D_UFO
 OUTPUT = 2D_UFO
 SOURCEDIR = Assets
-ASOURCEFILES = HGR.s
+ASOURCEFILES = $(subst Assets/,,$(wildcard Assets/*.s))
 AOBJECTFILES = $(ASOURCEFILES:.s=.o)
 AOBJECTS = $(addprefix Build/$(CONFIG)/$(OUTPUTDIR)/, $(AOBJECTFILES))
-CSOURCEFILES = 2D_UFOApplication.c Assets.c MainScene.c PlayerControllerBehaviour.c
+CSOURCEFILES = $(subst Assets/,,$(wildcard Assets/*.c))
 DEPENDFILES = $(CSOURCEFILES:.c=.d)
 DEPENDS = $(addprefix Build/Depends/$(OUTPUTDIR)/, $(DEPENDFILES))
 COBJECTFILES = $(CSOURCEFILES:.c=.o)

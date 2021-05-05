@@ -12,10 +12,10 @@ LOADER_SYSTEM = C:\cc65\target\apple2\util\loader.system
 
 OUTPUTDIR = TestSimple
 OUTPUT = TestSimple
-ASOURCEFILES =
+ASOURCEFILES = $(wildcard *.s)
 AOBJECTFILES = $(ASOURCEFILES:.s=.o)
 AOBJECTS = $(addprefix Build/$(CONFIG)/$(OUTPUTDIR)/, $(AOBJECTFILES))
-CSOURCEFILES = TestSimple.c Classes.c MapMemory.c
+CSOURCEFILES = $(wildcard *.c)
 DEPENDFILES = $(CSOURCEFILES:.c=.d)
 DEPENDS = $(addprefix Build/Depends/$(OUTPUTDIR)/, $(DEPENDFILES))
 COBJECTFILES = $(CSOURCEFILES:.c=.o)

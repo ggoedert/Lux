@@ -12,10 +12,10 @@ LOADER_SYSTEM = C:\cc65\target\apple2\util\loader.system
 
 OUTPUTDIR = TestEngine
 OUTPUT = TestEngine
-ASOURCEFILES = HGR.s
+ASOURCEFILES = $(wildcard *.s)
 AOBJECTFILES = $(ASOURCEFILES:.s=.o)
 AOBJECTS = $(addprefix Build/$(CONFIG)/$(OUTPUTDIR)/, $(AOBJECTFILES))
-CSOURCEFILES = TestEngine.c
+CSOURCEFILES = $(wildcard *.c)
 COBJECTFILES = $(CSOURCEFILES:.c=.o)
 COBJECTS = $(addprefix Build/$(CONFIG)/$(OUTPUTDIR)/, $(COBJECTFILES))
 ENGINELIB = Build/$(CONFIG)/Engine/Engine.lib

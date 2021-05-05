@@ -7,7 +7,7 @@ $(error Unknown CONFIG $(CONFIG), set either to Debug, Size or Speed. Omit to de
 endif
 
 OUTPUT = MakeConfig.exe
-CPPSOURCEFILES = MakeConfig.cpp
+CPPSOURCEFILES = $(wildcard *.cpp)
 CPPOBJECTFILES = $(CPPSOURCEFILES:.cpp=.o)
 CPPOBJECTS = $(addprefix Build/$(CONFIG)/, $(CPPOBJECTFILES))
 

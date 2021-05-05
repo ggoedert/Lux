@@ -19,12 +19,14 @@ endif
 
 OUTPUTDIR = Engine
 OUTPUT = Engine.lib
-ASOURCEFILES = Apple2Id.s Vaporlock.s
+ASOURCEFILES = $(subst Source/,,$(wildcard Source/*.s))
 AOBJECTFILES = $(ASOURCEFILES:.s=.o)
 AOBJECTS = $(addprefix $(ROOTDIR)/Build/$(CONFIG)/$(OUTPUTDIR)/, $(AOBJECTFILES))
-CSOURCEFILES = IO.c String.c Debug.c QualitySettings.c Object.c Camera.c Time.c Collection.c List.c Stack.c Screen.c Vector2.c Sprite.c Component.c Transform.c Renderer.c SpriteRenderer.c Behaviour.c CustomBehaviour.c GameObject.c SceneManager.c Scene.c Application.c
-ifneq ($(findstring FLOAT, $(OPTIONS)),)
-CSOURCEFILES += Float.c
+PRECSOURCEFILES = $(subst Source/,,$(wildcard Source/*.c))
+ifeq ($(findstring FLOAT, $(OPTIONS)),)
+CSOURCEFILES = $(subst Float.c,,$(PRECSOURCEFILES))
+else
+CSOURCEFILES = $(PRECSOURCEFILES)
 endif
 DEPENDFILES = $(CSOURCEFILES:.c=.d)
 DEPENDS = $(addprefix $(ROOTDIR)/Build/Depends/$(OUTPUTDIR)/, $(DEPENDFILES))

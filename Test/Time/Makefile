@@ -12,10 +12,10 @@ LOADER_SYSTEM = C:\cc65\target\apple2\util\loader.system
 
 OUTPUTDIR = TestTime
 OUTPUT = TestTime
-ASOURCEFILES =
+ASOURCEFILES = $(wildcard *.s)
 AOBJECTFILES = $(ASOURCEFILES:.s=.o)
 AOBJECTS = $(addprefix Build/$(CONFIG)/$(OUTPUTDIR)/, $(AOBJECTFILES))
-CSOURCEFILES = TestTime.c
+CSOURCEFILES = $(wildcard *.c)
 COBJECTFILES = $(CSOURCEFILES:.c=.o)
 COBJECTS = $(addprefix Build/$(CONFIG)/$(OUTPUTDIR)/, $(COBJECTFILES))
 ENGINELIB = Build/$(CONFIG)/Engine/Engine.lib
