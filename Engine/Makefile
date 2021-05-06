@@ -16,18 +16,23 @@ $(info OPTIONS set to $(OPTIONS))
 else
 $(info OPTIONS not set)
 endif
+comma = ,
+ifneq ($(filter FLOAT,$(subst $(comma),$() $(),$(OPTIONS))),)
+FLOAT = 1
+endif
 
 OUTPUTDIR = Engine
 OUTPUT = Engine.lib
 ASOURCEFILES = $(subst Source/,,$(wildcard Source/*.s))
 AOBJECTFILES = $(ASOURCEFILES:.s=.o)
 AOBJECTS = $(addprefix $(ROOTDIR)/Build/$(CONFIG)/$(OUTPUTDIR)/, $(AOBJECTFILES))
-PRECSOURCEFILES = $(subst Source/,,$(wildcard Source/*.c))
-ifeq ($(findstring FLOAT, $(OPTIONS)),)
-CSOURCEFILES = $(subst Float.c,,$(PRECSOURCEFILES))
+PRECSOURCEFILES1 = $(subst Source/,,$(wildcard Source/*.c))
+ifdef FLOAT
+PRECSOURCEFILES2 = $(PRECSOURCEFILES1)
 else
-CSOURCEFILES = $(PRECSOURCEFILES)
+PRECSOURCEFILES2 = $(subst Float.c,,$(PRECSOURCEFILES1))
 endif
+CSOURCEFILES = $(PRECSOURCEFILES2)
 DEPENDFILES = $(CSOURCEFILES:.c=.d)
 DEPENDS = $(addprefix $(ROOTDIR)/Build/Depends/$(OUTPUTDIR)/, $(DEPENDFILES))
 COBJECTFILES = $(CSOURCEFILES:.c=.o)
@@ -39,7 +44,7 @@ AS = ca65
 ASFLAGS = -t apple2
 CC = cl65 -c
 CFLAGS = -t apple2 -I Include
-ifneq ($(findstring FLOAT, $(OPTIONS)),)
+ifdef FLOAT
 CFLAGS += -D FLOAT
 endif
 ifeq ($(CONFIG), Debug)
