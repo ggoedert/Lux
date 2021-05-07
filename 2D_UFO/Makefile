@@ -18,10 +18,10 @@ ASOURCEFILES = $(subst Assets/,,$(wildcard Assets/*.s))
 AOBJECTFILES = $(ASOURCEFILES:.s=.o)
 AOBJECTS = $(addprefix Build/$(CONFIG)/$(OUTPUTDIR)/, $(AOBJECTFILES))
 CSOURCEFILES = $(subst Assets/,,$(wildcard Assets/*.c))
-DEPENDFILES = $(CSOURCEFILES:.c=.d)
-DEPENDS = $(addprefix Build/Depends/$(OUTPUTDIR)/, $(DEPENDFILES))
 COBJECTFILES = $(CSOURCEFILES:.c=.o)
 COBJECTS = $(addprefix Build/$(CONFIG)/$(OUTPUTDIR)/, $(COBJECTFILES))
+CDEPENDFILES = $(CSOURCEFILES:.c=.d)
+CDEPENDS = $(addprefix Build/$(CONFIG)/$(OUTPUTDIR)/, $(CDEPENDFILES))
 ENGINELIB = Build/$(CONFIG)/Engine/Engine.lib
 
 LD = cl65
@@ -45,7 +45,6 @@ run: all
 
 .PHONY: clean
 clean:
-	if exist Build/Depends/. rmdir /S /Q Build\Depends
 	if exist Build/$(CONFIG)/. rmdir /S /Q Build\$(CONFIG)
 	if exist Build/. dir /b Build | >nul find /v "" || rmdir /S /Q Build
 
@@ -58,20 +57,14 @@ $(ENGINELIB): Build/$(CONFIG)/$(OUTPUTDIR)/.
 $(AOBJECTS): Build/$(CONFIG)/$(OUTPUTDIR)/%.o : $(SOURCEDIR)/%.s | Build/$(CONFIG)/$(OUTPUTDIR)/.
 	$(AS) $(ASFLAGS) -o $@ $<
 
-$(COBJECTS): Build/$(CONFIG)/$(OUTPUTDIR)/%.o : $(SOURCEDIR)/%.c | Build/Depends/$(OUTPUTDIR)/. Build/$(CONFIG)/$(OUTPUTDIR)/.
-	$(CC) $(CFLAGS) --create-dep Build/Depends/$(OUTPUTDIR)/$*.d -o $@ $<
+$(COBJECTS): Build/$(CONFIG)/$(OUTPUTDIR)/%.o : $(SOURCEDIR)/%.c | Build/$(CONFIG)/$(OUTPUTDIR)/.
+	$(CC) $(CFLAGS) --create-dep Build/$(CONFIG)/$(OUTPUTDIR)/$*.d -o $@ $<
 
 Build/.:
 	mkdir Build
 
 Build/$(CONFIG)/.: | Build/.
 	mkdir Build\$(CONFIG)
-
-Build/Depends/.: | Build/.
-	mkdir Build\Depends
-
-Build/Depends/$(OUTPUTDIR)/.: | Build/Depends/.
-	mkdir Build\Depends\$(OUTPUTDIR)
 
 Build/$(CONFIG)/$(OUTPUTDIR)/.: | Build/$(CONFIG)/.
 	mkdir Build\$(CONFIG)\$(OUTPUTDIR)
@@ -82,4 +75,4 @@ Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT).dsk: Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPU
 	java -jar $(APPLECOMMANDER) -p Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT).dsk startup.system sys < $(LOADER_SYSTEM)
 	java -jar $(APPLECOMMANDER) -as Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT).dsk startup < Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT)
 
-include $(wildcard $(DEPENDS))
+include $(wildcard $(CDEPENDS))
