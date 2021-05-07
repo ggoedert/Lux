@@ -26,13 +26,15 @@ OUTPUT = Engine.lib
 ASOURCEFILES = $(subst Source/,,$(wildcard Source/*.s))
 AOBJECTFILES = $(ASOURCEFILES:.s=.o)
 AOBJECTS = $(addprefix $(ROOTDIR)/Build/$(CONFIG)/$(OUTPUTDIR)/, $(AOBJECTFILES))
-PRECSOURCEFILES1 = $(subst Source/,,$(wildcard Source/*.c))
+ADEPENDFILES = $(ASOURCEFILES:.s=.d)
+ADEPENDS = $(addprefix $(ROOTDIR)/Build/$(CONFIG)/$(OUTPUTDIR)/, $(ADEPENDFILES))
+CSOURCEFILESALL = $(subst Source/,,$(wildcard Source/*.c))
 ifdef FLOAT
-PRECSOURCEFILES2 = $(PRECSOURCEFILES1)
+CSOURCEFILESFLOAT = $(CSOURCEFILESALL)
 else
-PRECSOURCEFILES2 = $(subst Float.c,,$(PRECSOURCEFILES1))
+CSOURCEFILESFLOAT = $(subst Float.c,,$(CSOURCEFILESALL))
 endif
-CSOURCEFILES = $(PRECSOURCEFILES2)
+CSOURCEFILES = $(CSOURCEFILESFLOAT)
 COBJECTFILES = $(CSOURCEFILES:.c=.o)
 COBJECTS = $(addprefix $(ROOTDIR)/Build/$(CONFIG)/$(OUTPUTDIR)/, $(COBJECTFILES))
 CDEPENDFILES = $(CSOURCEFILES:.c=.d)
@@ -59,17 +61,17 @@ all: $(ROOTDIR)/Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT)
 
 .PHONY: clean
 clean:
-	if exist $(ROOTDIR)/Build/$(CONFIG)/. rmdir /S /Q $(ROOTDIR)\Build\$(CONFIG)
-	if exist $(ROOTDIR)/Build/. dir /b $(ROOTDIR)\Build | >nul find /v "" || rmdir /S /Q $(ROOTDIR)\Build
+	if exist $(ROOTDIR)/Build/$(CONFIG)/. rmdir /S /Q $(subst /,\,$(ROOTDIR))\Build\$(CONFIG)
+	if exist $(ROOTDIR)/Build/. dir /b $(subst /,\,$(ROOTDIR))\Build | >nul find /v "" || rmdir /S /Q $(subst /,\,$(ROOTDIR))\Build
 
 $(ROOTDIR)/Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT): $(AOBJECTS) $(COBJECTS)
 	$(AR) $(ARFLAGS) $@ $(AOBJECTS) $(COBJECTS)
 
 $(AOBJECTS): $(ROOTDIR)/Build/$(CONFIG)/$(OUTPUTDIR)/%.o : Source/%.s | $(ROOTDIR)/Build/$(CONFIG)/$(OUTPUTDIR)/.
-	$(AS) $(ASFLAGS) -o $@ $<
+	$(AS) $(ASFLAGS) --create-dep $(@:.o=.d) -o $@ $<
 
 $(COBJECTS): $(ROOTDIR)/Build/$(CONFIG)/$(OUTPUTDIR)/%.o : Source/%.c | $(ROOTDIR)/Build/$(CONFIG)/$(OUTPUTDIR)/.
-	$(CC) $(CFLAGS) --create-dep $(ROOTDIR)/Build/$(CONFIG)/$(OUTPUTDIR)/$*.d -o $@ $<
+	$(CC) $(CFLAGS) --create-dep $(@:.o=.d) -o $@ $<
 
 $(ROOTDIR)/Build/.:
 	mkdir $(subst /,\,$(ROOTDIR))\Build
@@ -80,4 +82,5 @@ $(ROOTDIR)/Build/$(CONFIG)/.: | $(ROOTDIR)/Build/.
 $(ROOTDIR)/Build/$(CONFIG)/$(OUTPUTDIR)/.: | $(ROOTDIR)/Build/$(CONFIG)/.
 	mkdir $(subst /,\,$(ROOTDIR))\Build\$(CONFIG)\$(OUTPUTDIR)
 
+include $(wildcard $(ADEPENDS))
 include $(wildcard $(CDEPENDS))

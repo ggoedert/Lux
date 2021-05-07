@@ -15,6 +15,8 @@ OUTPUT = TestSimple
 ASOURCEFILES = $(wildcard *.s)
 AOBJECTFILES = $(ASOURCEFILES:.s=.o)
 AOBJECTS = $(addprefix Build/$(CONFIG)/$(OUTPUTDIR)/, $(AOBJECTFILES))
+ADEPENDFILES = $(ASOURCEFILES:.s=.d)
+ADEPENDS = $(addprefix Build/$(CONFIG)/$(OUTPUTDIR)/, $(ADEPENDFILES))
 CSOURCEFILES = $(wildcard *.c)
 COBJECTFILES = $(CSOURCEFILES:.c=.o)
 COBJECTS = $(addprefix Build/$(CONFIG)/$(OUTPUTDIR)/, $(COBJECTFILES))
@@ -53,10 +55,10 @@ $(ENGINELIB): Build/$(CONFIG)/$(OUTPUTDIR)/.
 	$(MAKE) ROOTDIR=$(CURDIR) CONFIG=$(CONFIG) -C ../../Engine
 
 $(AOBJECTS): Build/$(CONFIG)/$(OUTPUTDIR)/%.o : %.s | Build/$(CONFIG)/$(OUTPUTDIR)/.
-	$(AS) $(ASFLAGS) -o $@ $<
+	$(AS) $(ASFLAGS) --create-dep $(@:.o=.d) -o $@ $<
 
 $(COBJECTS): Build/$(CONFIG)/$(OUTPUTDIR)/%.o : %.c | Build/$(CONFIG)/$(OUTPUTDIR)/.
-	$(CC) $(CFLAGS) --create-dep Build/$(CONFIG)/$(OUTPUTDIR)/$*.d -o $@ $<
+	$(CC) $(CFLAGS) --create-dep $(@:.o=.d) -o $@ $<
 
 Build/.:
 	mkdir Build
@@ -73,4 +75,5 @@ Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT).dsk: Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPU
 	java -jar $(APPLECOMMANDER) -p Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT).dsk startup.system sys < $(LOADER_SYSTEM)
 	java -jar $(APPLECOMMANDER) -as Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT).dsk startup < Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT)
 
+include $(wildcard $(ADEPENDS))
 include $(wildcard $(CDEPENDS))
