@@ -1,3 +1,6 @@
+space = $() $()
+comma = ,
+
 ifndef ROOTDIR
 ROOTDIR = $(CURDIR)
 endif
@@ -7,7 +10,7 @@ ifndef CONFIG
 CONFIG = Size
 endif
 $(info CONFIG set to $(CONFIG))
-ifeq (,$(filter $(CONFIG), Debug Size Speed))
+ifeq ($(filter $(CONFIG),Debug Size Speed),)
 $(error Unknown CONFIG $(CONFIG), set either to Debug, Size or Speed. Omit to default to Size)
 endif
 
@@ -16,14 +19,14 @@ $(info OPTIONS set to $(OPTIONS))
 else
 $(info OPTIONS not set)
 endif
-comma = ,
-ifneq ($(filter FLOAT,$(subst $(comma),$() $(),$(OPTIONS))),)
+ifneq ($(filter FLOAT,$(subst $(comma),$(space),$(OPTIONS))),)
 FLOAT = 1
 endif
 
 OUTPUTDIR = Engine
 OUTPUT = Engine.lib
-ASOURCEFILES = $(subst Source/,,$(wildcard Source/*.s))
+ASOURCEFILESALL = $(subst Source/,,$(wildcard Source/*.s))
+ASOURCEFILES = $(ASOURCEFILESALL)
 AOBJECTFILES = $(ASOURCEFILES:.s=.o)
 AOBJECTS = $(addprefix $(ROOTDIR)/Build/$(CONFIG)/$(OUTPUTDIR)/, $(AOBJECTFILES))
 ADEPENDFILES = $(ASOURCEFILES:.s=.d)
@@ -49,11 +52,11 @@ CFLAGS = -t apple2 -I Include
 ifdef FLOAT
 CFLAGS += -D FLOAT
 endif
-ifeq ($(CONFIG), Debug)
+ifeq ($(CONFIG),Debug)
 CFLAGS += -D _DEBUG -g
-else ifeq ($(CONFIG), Size)
+else ifeq ($(CONFIG),Size)
 CFLAGS += -D NDEBUG -Or
-else ifeq ($(CONFIG), Speed)
+else ifeq ($(CONFIG),Speed)
 CFLAGS += -D NDEBUG -Oris
 endif
 

@@ -2,7 +2,7 @@ ifndef CONFIG
 CONFIG = Speed
 endif
 $(info CONFIG set to $(CONFIG))
-ifeq (,$(filter $(CONFIG), Debug Size Speed))
+ifeq ($(filter $(CONFIG),Debug Size Speed),)
 $(error Unknown CONFIG $(CONFIG), set either to Debug, Size or Speed. Omit to default to Size)
 endif
 
@@ -15,11 +15,11 @@ LD = gcc
 LDFLAGS = 
 CC = gcc -c
 CFLAGS = 
-ifeq ($(CONFIG), Debug)
+ifeq ($(CONFIG),Debug)
 CFLAGS += -D _DEBUG -g
-else ifeq ($(CONFIG), Size)
+else ifeq ($(CONFIG),Size)
 CFLAGS += -D NDEBUG -Os
-else ifeq ($(CONFIG), Speed)
+else ifeq ($(CONFIG),Speed)
 CFLAGS += -D NDEBUG -O3
 endif
 
@@ -32,7 +32,7 @@ clean:
 
 Build/$(CONFIG)/$(OUTPUT): $(CPPOBJECTS)
 	$(LD) $(LDFLAGS) -o $@ $(CPPOBJECTS)
-ifneq ($(CONFIG), Debug)
+ifneq ($(CONFIG),Debug)
 	strip $@
 endif
 

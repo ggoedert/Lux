@@ -2,7 +2,7 @@ ifndef CONFIG
 CONFIG = Size
 endif
 $(info CONFIG set to $(CONFIG))
-ifeq (,$(filter $(CONFIG), Debug Size Speed))
+ifeq ($(filter $(CONFIG),Debug Size Speed),)
 $(error Unknown CONFIG $(CONFIG), set either to Debug, Size or Speed. Omit to default to Size)
 endif
 
@@ -26,11 +26,11 @@ AS = ca65
 ASFLAGS = -t apple2
 CC = cl65 -c
 CFLAGS = -t apple2 -I ../../Engine/Include
-ifeq ($(CONFIG), Debug)
+ifeq ($(CONFIG),Debug)
 CFLAGS += -D _DEBUG -g
-else ifeq ($(CONFIG), Size)
+else ifeq ($(CONFIG),Size)
 CFLAGS += -D NDEBUG -Or
-else ifeq ($(CONFIG), Speed)
+else ifeq ($(CONFIG),Speed)
 CFLAGS += -D NDEBUG -Oris
 endif
 
