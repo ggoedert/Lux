@@ -40,6 +40,13 @@ byte dhgr2hgr[] = {
     0x00, 0x01, 0x02, 0x81, 0x00, 0x81, 0x02, 0x81, 0x82, 0x01, 0x81, 0x83, 0x82, 0x01, 0x02, 0x83
 };
 
+// Compact version of the hgr base table, used to accelerate hgr line address calculation, slightly slower but 8 times smaller then the full table
+static word hgrBase[] = {
+    0x2000, 0x2080, 0x2100, 0x2180, 0x2200, 0x2280, 0x2300, 0x2380,
+    0x2028, 0x20A8, 0x2128, 0x21A8, 0x2228, 0x22A8, 0x2328, 0x23A8,
+    0x2050, 0x20D0, 0x2150, 0x21D0, 0x2250, 0x22D0, 0x2350, 0x23D0
+};
+
 class (Segment,
     byte start, packet;
     byte *data;
@@ -233,8 +240,8 @@ void Screen_SetResolution(byte mode, bool doubleRes, bool mixed) {
 }
 
 void Screen_WaitVBlank() {
-    int y2, yb, x2, packet, i;
-    byte *screenData, *dest;
+    int y2, x2, packet, i;
+    byte *screenData, *dest, *destx2;
 
     if (application.machine == IIe) {          // this optimization only works on the IIe
         while ((PEEK(RDVBLBAR)&0x80)==0x0) {}  // if already inside a vblank, wait for it to end
@@ -260,19 +267,18 @@ void Screen_WaitVBlank() {
     }
 
     for (y2=0; y2<192; ++y2) {
-        yb = y2/8;
         if (lines[y2].count) {
+            dest = (byte *)hgrBase[y2>>3]+(y2&7)*0x400;
             for (i=0; i<lines[y2].count; ++i) {
                 x2 = List_Item(lines+y2, Segment, i).start;
                 packet = List_Item(lines+y2, Segment, i).packet;
                 screenData = List_Item(lines+y2, Segment, i).data;
 
-                dest = (byte *)((y2%8)*0x400+(yb%8)*0x80+(yb/8)*0x28+x2+0x2000);
+                destx2 = dest+x2;
 
-                toaux((word)dest, (word)screenData, packet);
-                memcpy(dest, screenData+packet, packet);
+                toaux((word)destx2, (word)screenData, packet);
+                memcpy(destx2, screenData+packet, packet);
                 free(screenData);
-
             }
             List_Clear(lines+y2);
         }
@@ -282,7 +288,7 @@ void Screen_WaitVBlank() {
 // simple putimage function for this demo
 void PutFragmentDHGR(Sprite *sprite, byte mask, byte x, byte y) {
     byte halfWidth;
-    byte yo, y2, yb, x2, x2e, packet;
+    byte y2, x2, packet;
     byte *dest, *spriteData, *screenData;
     Segment seg;
 
@@ -293,11 +299,8 @@ void PutFragmentDHGR(Sprite *sprite, byte mask, byte x, byte y) {
     spriteData = sprite->data;
 
     x2 = x/7*2;
-    x2e = (x+sprite->width)/7*2;
-    for (yo=0; yo<sprite->height; ++yo) {
-        y2 = y+yo;
-        yb = y2/8;
-        dest = (byte *)((y2%8)*0x400+(yb%8)*0x80+(yb/8)*0x28+x2+0x2000);
+    for (y2=y; y2<(y+sprite->height); ++y2) {
+        dest = (byte *)hgrBase[y2>>3]+(y2&7)*0x400+x2;
 
         //?mask?
         screenData = malloc(packet*2);
