@@ -4,8 +4,7 @@
 #include "LuxTypes.h"
 
 class (Vector2,
-    word x, y;
+    byte x, y;
 );
-class_default_prototypes(Vector2, VOID);
 
 #endif

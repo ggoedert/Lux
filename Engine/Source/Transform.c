@@ -6,7 +6,8 @@ virtual_table_type(Object) virtual_table_instance(Transform_Object) = {
 class_default_implementations(Transform, (VOID), (NONE),
     (
         Component_Constructor(&this->Component, typeof_Transform, &virtual_table_instance(Transform_Object));
-        Vector2_Constructor(&this->position, NONE);
+        this->position.x = 0;
+        this->position.y = 0;
     ),
     (
         Component_Destructor(&this->Component);
