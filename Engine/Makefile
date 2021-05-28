@@ -23,8 +23,8 @@ ifneq ($(filter FLOAT,$(subst $(comma),$(space),$(OPTIONS))),)
 FLOAT = 1
 endif
 
-OUTPUTDIR = Engine
 OUTPUT = Engine.lib
+OUTPUTDIR = Engine
 ASOURCEFILESALL = $(subst Source/,,$(wildcard Source/*.s))
 ASOURCEFILES = $(ASOURCEFILESALL)
 AOBJECTFILES = $(ASOURCEFILES:.s=.o)

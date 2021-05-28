@@ -10,9 +10,9 @@ APPLEWIN = C:\Apple\AppleWin\Applewin.exe -no-printscreen-key
 APPLECOMMANDER = C:\Apple\AppleCommander-win64-1.5.0.jar
 LOADER_SYSTEM = C:\cc65\target\apple2\util\loader.system
 
-DISKLABEL = TWODUFO
-OUTPUTDIR = 2D_UFO
 OUTPUT = 2D_UFO
+OUTPUTDIR = $(OUTPUT)
+OUTPUTLABEL = TWODUFO
 SOURCEDIR = Assets
 ASOURCEFILES = $(subst Assets/,,$(wildcard Assets/*.s))
 AOBJECTFILES = $(ASOURCEFILES:.s=.o)
@@ -74,7 +74,7 @@ Build/$(CONFIG)/$(OUTPUTDIR)/.: | Build/$(CONFIG)/.
 
 Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT).dsk: Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT) | Build/$(CONFIG)/$(OUTPUTDIR)/.
 	bzip2 -c -d ..\Resource\blank.dsk.bz2 > Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT).dsk
-	java -jar $(APPLECOMMANDER) -n Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT).dsk $(DISKLABEL)
+	java -jar $(APPLECOMMANDER) -n Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT).dsk $(OUTPUTLABEL)
 	java -jar $(APPLECOMMANDER) -p Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT).dsk startup.system sys < $(LOADER_SYSTEM)
 	java -jar $(APPLECOMMANDER) -as Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT).dsk startup < Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT)
 

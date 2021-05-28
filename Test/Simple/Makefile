@@ -10,8 +10,9 @@ APPLEWIN = C:\Apple\AppleWin\Applewin.exe -no-printscreen-key
 APPLECOMMANDER = C:\Apple\AppleCommander-win64-1.5.0.jar
 LOADER_SYSTEM = C:\cc65\target\apple2\util\loader.system
 
-OUTPUTDIR = TestSimple
 OUTPUT = TestSimple
+OUTPUTDIR = $(OUTPUT)
+OUTPUTLABEL = $(OUTPUT)
 ASOURCEFILES = $(wildcard *.s)
 AOBJECTFILES = $(ASOURCEFILES:.s=.o)
 AOBJECTS = $(addprefix Build/$(CONFIG)/$(OUTPUTDIR)/, $(AOBJECTFILES))
@@ -72,7 +73,7 @@ Build/$(CONFIG)/$(OUTPUTDIR)/.: | Build/$(CONFIG)/.
 
 Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT).dsk: Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT) | Build/$(CONFIG)/$(OUTPUTDIR)/.
 	bzip2 -c -d ..\..\Resource\blank.dsk.bz2 > Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT).dsk
-	java -jar $(APPLECOMMANDER) -n Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT).dsk $(OUTPUT)
+	java -jar $(APPLECOMMANDER) -n Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT).dsk $(OUTPUTLABEL)
 	java -jar $(APPLECOMMANDER) -p Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT).dsk startup.system sys < $(LOADER_SYSTEM)
 	java -jar $(APPLECOMMANDER) -as Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT).dsk startup < Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT)
 
