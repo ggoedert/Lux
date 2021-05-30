@@ -54,6 +54,11 @@ void loadApplication() {
     Debug_Log("String_GetHashCode8(\"Texture2D\"): $%02x", String_GetHashCode16("Texture2D"));
     Debug_Log("");
     Debug_Log("sizeof(Segment): %u", sizeof(Segment));
+    Debug_Log("sizeof(Resolution): %u", sizeof(Resolution));
+    Debug_Log("sizeof(char): %u", sizeof(char));
+    Debug_Log("sizeof(short): %u", sizeof(short));
+    Debug_Log("sizeof(int): %u", sizeof(int));
+    Debug_Log("sizeof(long): %u", sizeof(long));
 
     Debug_Log("%u bytes free.", _heapmemavail());
     Debug_Log("end.");
