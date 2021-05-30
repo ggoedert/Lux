@@ -30,8 +30,6 @@ class (Node,
 
 List nodeList;
 Node *s, *c, *root;
-byte DRAW;
-bool CLIP;
 
 void Clipper_Init() {
     List_Constructor(&nodeList, sizeof(Node));
@@ -47,8 +45,6 @@ void Clipper_Reset() {
     s = nullptr;
     c = nullptr;
     root = nullptr;
-    DRAW = 1;
-    CLIP = true;
     List_Clear(&nodeList);
 }
 
@@ -174,9 +170,6 @@ void clip(byte mode) {
     Node *crt, *new, *old;
     bool forward;
 
-    if (DRAW || !CLIP || !s || !c)
-        return;
-
     if (mode == 0 || mode == 3)
         pS = true;
     if (mode == 0 || mode == 2)
@@ -243,32 +236,24 @@ void clip(byte mode) {
         old->nextPoly = root;
         root = old;
     }
-
-    CLIP = false;
 }
 
-void add(byte x, byte y, bool newPoly) {
+void add(byte x, byte y, bool source) {
     Node *new;
-    if (!DRAW)
-        return;
 
-    if (!newPoly) {
-        new = create(x, y, 0, 0x0, nullptr, nullptr);
-        if (DRAW == 1) {
-            new->next = s;
-            if (s)
-                s->prev = new;
-            s = new;
-        }
-        else { /* DRAW == 2 */
-            new->next = c;
-            if (c)
-                c->prev = new;
-            c = new;
-        }
+    new = create(x, y, 0, 0x0, nullptr, nullptr);
+    if (source) {
+        new->next = s;
+        if (s)
+            s->prev = new;
+        s = new;
     }
-    else
-        DRAW = DRAW == 1 ? 2 : 0;
+    else {
+        new->next = c;
+        if (c)
+            c->prev = new;
+        c = new;
+    }
 }
 
 void quit() {
@@ -282,35 +267,22 @@ void redisplay() {
     Node *aux, *poly;
     tgi_clear();
 
-    aux = s;
-    if (aux) {
-        tgi_setcolor(DRAW == 1 ? TGI_COLOR_BLACK : TGI_COLOR_WHITE);
-        while (aux->next && aux->next != s) {
+    tgi_setcolor(TGI_COLOR_WHITE);
+    poly = s;
+    while (true) {
+        for (aux = poly; aux->next && aux->next != poly; aux = aux->next)
             tgi_line(aux->x, aux->y, aux->next->x, aux->next->y);
-            aux = aux->next;
-        }
-        if (DRAW != 1)
-            tgi_line(aux->x, aux->y, s->x, s->y);
+        tgi_line(aux->x, aux->y, poly->x, poly->y);
+        if (poly == c)
+            break;
+        poly = c;
     }
 
-    aux = c;
-    if (aux) {
-        tgi_setcolor(DRAW == 2 ? TGI_COLOR_BLACK : TGI_COLOR_WHITE);
-        while (aux->next && aux->next != c) {
+    tgi_setcolor(TGI_COLOR_BLACK);
+    for (poly = root; poly; poly = poly->nextPoly) {
+        for (aux = poly; aux->next; aux = aux->next)
             tgi_line(aux->x, aux->y, aux->next->x, aux->next->y);
-            aux = aux->next;
-        }
-        if (DRAW != 2)
-            tgi_line(aux->x, aux->y, c->x, c->y);
-    }
-
-    if (root) {
-        tgi_setcolor(TGI_COLOR_BLACK);
-        for (poly = root; poly; poly = poly->nextPoly) {
-            for (aux = poly; aux->next; aux = aux->next)
-                tgi_line(aux->x, aux->y, aux->next->x, aux->next->y);
-            tgi_line(aux->x, aux->y, poly->x, poly->y);
-        }
+        tgi_line(aux->x, aux->y, poly->x, poly->y);
     }
 }
 
@@ -342,17 +314,15 @@ int main() {
 
     Clipper_Reset();
 
-    add(10, 10, false);
-    add(50, 10, false);
-    add(50, 50, false);
-    add(10, 50, false);
-    add(0, 0, true);
+    add(10, 10, true);
+    add(50, 10, true);
+    add(50, 50, true);
+    add(10, 50, true);
 
     add(30, 30, false);
     add(250, 30, false);
     add(250, 190, false);
     add(30, 190, false);
-    add(0, 0, true);
 
     clip(3);
 
