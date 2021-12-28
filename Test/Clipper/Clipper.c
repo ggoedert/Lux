@@ -24,7 +24,6 @@
 class (Node,
     byte x, y, alpha, status;
     Node *next, *prev;
-    Node *nextPoly; /* pointer to the next polygon */
     Node *neighbor; /* the coresponding intersection point */
 );
 
@@ -66,7 +65,6 @@ Node *create(byte x, byte y, byte alpha, byte status, Node *next, Node *prev) {
         new->prev->next = new;
     if (next)
         new->next->prev = new;
-    new->nextPoly = nullptr;
     new->neighbor = nullptr;
     return new;
 }
@@ -161,19 +159,13 @@ bool test(Node *point, Node *p) {
     return (bool)(type % 2);
 }
 
-void clip(byte mode) {
+void clip() {
     Node *auxs, *auxc, *is, *ic;
     byte xi, yi, alpha_s, alpha_c;
     bool e;
-    bool pS = false, pC = false;
 
     Node *crt, *new, *old;
     bool forward;
-
-    if (mode == 0 || mode == 3)
-        pS = true;
-    if (mode == 0 || mode == 2)
-        pC = true;
 
     auxs = last(s);
     create(s->x, s->y, 0, 0x0, nullptr, auxs);
@@ -193,9 +185,7 @@ void clip(byte mode) {
                         insert(ic, auxc, next(auxc->next));
                     }
 
-    e = test(s, c);
-    if (pS)
-        e = !e;
+    e = !test(s, c);
     for (auxs = s; auxs->next; auxs = auxs->next)
         if (bitcheck(auxs->status, INTERSECT)) {
             if (e)
@@ -206,8 +196,6 @@ void clip(byte mode) {
         }
 
     e = test(c, s);
-    if (pC)
-        e = !e;
     for (auxc = c; auxc->next; auxc = auxc->next)
         if (bitcheck(auxc->status, INTERSECT)) {
             if (e)
@@ -219,23 +207,20 @@ void clip(byte mode) {
 
     circle(s);
     circle(c);
-    while ((crt = first(s)) != s) {
-        old = nullptr;
-        for (; !bitcheck(crt->status, VISITED); crt = crt->neighbor)
-            for (forward = bitcheck(crt->status, ENTRY);;) {
-                new = create(crt->x, crt->y, 0, 0x0, old, nullptr);
-                old = new;
+    crt = first(s);
+    old = nullptr;
+    for (; !bitcheck(crt->status, VISITED); crt = crt->neighbor)
+        for (forward = bitcheck(crt->status, ENTRY);;) {
+            new = create(crt->x, crt->y, 0, 0x0, old, nullptr);
+            old = new;
+            bitset(crt->status, VISITED);
+            crt = forward ? crt->next : crt->prev;
+            if (bitcheck(crt->status, INTERSECT)) {
                 bitset(crt->status, VISITED);
-                crt = forward ? crt->next : crt->prev;
-                if (bitcheck(crt->status, INTERSECT)) {
-                    bitset(crt->status, VISITED);
-                    break;
-                }
+                break;
             }
-
-        old->nextPoly = root;
-        root = old;
-    }
+        }
+    root = old;
 }
 
 void add(byte x, byte y, bool source) {
@@ -279,22 +264,17 @@ void redisplay() {
     }
 
     tgi_setcolor(TGI_COLOR_BLACK);
-    for (poly = root; poly; poly = poly->nextPoly) {
-        for (aux = poly; aux->next; aux = aux->next)
-            tgi_line(aux->x, aux->y, aux->next->x, aux->next->y);
-        tgi_line(aux->x, aux->y, poly->x, poly->y);
-    }
+    for (aux = root; aux->next; aux = aux->next)
+        tgi_line(aux->x, aux->y, aux->next->x, aux->next->y);
+    tgi_line(aux->x, aux->y, root->x, root->y);
 }
 
 void view_node(Node *p) {
-    if (p)
-        printf("%c%c%c (%03d,%03d) %03d n:%c P:%c\n",
-            bitcheck(p->status, INTERSECT) ? 'I' : ' ',
-            bitcheck(p->status, ENTRY) ? 'E' : ' ',
-            bitcheck(p->status, VISITED) ? 'X' : ' ',
-            p->x, p->y, p->alpha, p->neighbor ? 'Y' : 'N', p->nextPoly ? 'Y' : 'N');
-    else
-        puts("NULL");
+    printf("%c%c%c (%03d,%03d) %03d N:%c\n",
+        bitcheck(p->status, INTERSECT) ? 'I' : ' ',
+        bitcheck(p->status, ENTRY) ? 'E' : ' ',
+        bitcheck(p->status, VISITED) ? 'X' : ' ',
+        p->x, p->y, p->alpha, p->neighbor ? 'Y' : 'N');
 }
 
 void view(Node *p) {
@@ -306,6 +286,75 @@ void view(Node *p) {
             view_node(aux);
             aux = aux->next;
         } while (aux && aux != p);
+}
+
+void calc_result() {
+    //go thoght s find intersection that is not entry set in current
+    //tag first as current
+    //tag state as solid
+    //count <- 1
+    //keep going to next
+    //  if (state is solid) and (count == 3)
+    //    add a square
+    //    count <- 1
+    //  if current is first
+    //    stop
+    //  if intersection
+    //    count <- 1
+    //    current <- neighbor
+    //    state = !state
+
+    Node *current = s;
+    Node *first = nullptr;
+    int count = 0;
+    bool solid = true;
+
+    current = s;
+    do {
+        if (bitcheck(current->status, INTERSECT) && !bitcheck(current->status, ENTRY)) {
+            first = current;
+            count = 1;
+            printf("found first\n");
+        }
+        current = current->next;
+    } while (current && !first); //&& first??
+    printf("end found first\n");
+    
+    //if !current???
+    
+    do {
+        printf("*");
+        if (solid && count == 3) {
+            //add square
+            first = current;
+            count = 1;
+            printf("found other\n");
+            break;
+        }
+        
+        if (bitcheck(current->status, INTERSECT)) {
+            count = 1;
+            current = current->neighbor;
+            solid = !solid;
+            printf("jump\n");
+            break;
+        }
+        
+        current = current->next;
+        if (!current) {
+            if (solid) {
+                printf("*s\n");
+                current = s;
+            }
+            else {
+                printf("*c\n");
+                current = c;
+            }
+            break;
+        }
+    } while (current !=  first);
+    
+    printf("end find\n");
 }
 
 int main() {
@@ -324,7 +373,7 @@ int main() {
     add(250, 190, false);
     add(30, 190, false);
 
-    clip(3);
+    clip();
 
     /**/
     // Load and initialize the driver
@@ -344,6 +393,7 @@ int main() {
     view(c);
     view(root);
 
+    calc_result();
     quit();
     return EXIT_SUCCESS;
 }
