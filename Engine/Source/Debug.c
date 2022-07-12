@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdarg.h>
 #include <string.h>
 
 #include "LuxDebug.h"
@@ -27,7 +28,7 @@ void Debug_SetMode(byte mode) {
 
 void Debug_Log(const char *format, ...) {
     if (debugMode) {
-        va_list args;
+        __va_list args;
         char lineBuffer[80];
         va_start(args, format);
         vsnprintf(lineBuffer, 80, format, args);
