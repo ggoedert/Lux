@@ -28,7 +28,11 @@ void Debug_SetMode(byte mode) {
 
 void Debug_Log(const char *format, ...) {
     if (debugMode) {
+#ifdef __CC65__
         __va_list args;
+#else
+        va_list args;
+#endif
         char lineBuffer[80];
         va_start(args, format);
         vsnprintf(lineBuffer, 80, format, args);
@@ -36,7 +40,12 @@ void Debug_Log(const char *format, ...) {
         if (debugMode&DEBUG_MODE_CONSOLE)
             printf("\n%s", lineBuffer);
         if (debugMode&DEBUG_MODE_FILE) {
+#ifdef __CC65__
             FILE *logFile = fopen("Lux.log", "a");
+#else
+            FILE* logFile;
+            fopen_s(&logFile, "Lux.log", "a");
+#endif
             fprintf(logFile, "%s\n", lineBuffer);
             fclose(logFile);
         }
@@ -45,7 +54,11 @@ void Debug_Log(const char *format, ...) {
                 free(Queue_Peek(logQueue, char *));
                 Queue_Dequeue(logQueue);
             }
+#ifdef __CC65__
             Queue_Enqueue(logQueue, char *, strdup(lineBuffer));
+#else
+            Queue_Enqueue(logQueue, char*, _strdup(lineBuffer));
+#endif
         }
     }
 }

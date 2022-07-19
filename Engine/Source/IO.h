@@ -1,8 +1,10 @@
 #ifndef SCREEN_H
 #define SCREEN_H
 
+#ifdef __CC65__
 #include <peekpoke.h>
 #define FASTPOKE(addr) asm("sta %w", addr)
+#endif
 
 #include "LuxTypes.h"
 

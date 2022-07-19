@@ -9,9 +9,9 @@
     #define Queue_New Collection_New
     #define Queue_Delete Collection_Delete
 #define Queue_SetCapacity Collection_SetCapacity
-#define Queue_Enqueue(...) Collection_Add(__VA_ARGS__)
+#define Queue_Enqueue(this, Type, item) Collection_Add(this, Type, item)
 #define Queue_Peek(this, Type) (*(Type *)List_VoidItem(this, 0))
 #define Queue_Dequeue(this) List_RemoveAt(this, 0)
-#define Queue_Clear(...) Collection_Clear(__VA_ARGS__)
+#define Queue_Clear(this) Collection_Clear(this)
 
 #endif

@@ -54,6 +54,7 @@ class (Segment,
 List lines[192];
 
 void Screen_Init() {
+#ifdef __CC65__
     byte *ptr;
     int index;
 
@@ -80,9 +81,11 @@ void Screen_Init() {
 
     for (index = 0; index<192; ++index)
         List_Constructor(lines+index, sizeof(Segment));
+#endif
 }
 
 void Screen_SetResolutionInternal() {
+#ifdef __CC65__
     switch(Screen_currentResolution.mode) {
         case TEXT:
             FASTPOKE(CLRHIRES);
@@ -143,9 +146,11 @@ void Screen_SetResolutionInternal() {
             break;
     }
     FASTPOKE(TXTPAGE1);
+#endif
 }
 
 void Screen_Clear() {
+#ifdef __CC65__
     byte *ptr;
     int size, y2;
 
@@ -223,6 +228,7 @@ void Screen_Clear() {
 
     for (y2=0; y2<192; ++y2)
         List_Clear(lines+y2);
+#endif
 }
 
 void Screen_SetResolution(byte mode, bool doubleRes, bool mixed) {
@@ -240,6 +246,7 @@ void Screen_SetResolution(byte mode, bool doubleRes, bool mixed) {
 }
 
 void Screen_WaitVBlank() {
+#ifdef __CC65__
     int y2, x2, packet, i;
     byte *screenData, *dest, *destx2;
 
@@ -283,10 +290,12 @@ void Screen_WaitVBlank() {
             List_Clear(lines+y2);
         }
     }
+#endif
 }
 
 // simple putimage function for this demo
 void PutFragmentDHGR(Sprite *sprite, byte mask, byte x, byte y) {
+#ifdef __CC65__
     byte halfWidth;
     byte y2, x2, packet;
     byte *dest, *spriteData, *screenData;
@@ -317,6 +326,7 @@ void PutFragmentDHGR(Sprite *sprite, byte mask, byte x, byte y) {
 
         spriteData += packet*2;
     }
+#endif
 }
 
 void Screen_DrawSprite(Sprite *sprite, byte mask, byte x, byte y) {

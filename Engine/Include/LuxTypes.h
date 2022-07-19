@@ -20,10 +20,10 @@ typedef byte ColUInt;
 #define REM_ENCLOSE_(...) __VA_ARGS__
 #define REM_ENCLOSE(...) REM_ENCLOSE_ __VA_ARGS__
 #define EMPTY REM_ENCLOSE(())
-#define VOID byte
+#define VOID byte _
 #define NONE 0
 #define virtual_table_type(T) const struct T##_vtable
-#define virtual_table_instance(T) ##T##_vtable
+#define virtual_table_instance(T) T##_vtable
 
 #define class(T, ...)        \
     typedef struct T T;      \
@@ -67,8 +67,8 @@ typedef byte ColUInt;
     class_new_prototype(T, __VA_ARGS__);    \
     class_delete_prototype(T)
 
-#define class_new_delete_implementations(T, ...) \
-    class_new_implementation(T, __VA_ARGS__)     \
+#define class_new_delete_implementations(T, AD, A) \
+    class_new_implementation(T, AD, A)     \
     class_delete_implementation(T)
 
 #define class_default_prototypes(T, ...)                     \

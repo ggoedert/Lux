@@ -1,1 +1,6 @@
 Build/
+*.aps
+.vs/
+Debug/
+Release/
+x64/

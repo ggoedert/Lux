@@ -17,14 +17,18 @@ byte Application_isPlaying = false;
 #endif
 
 void Application_Play(char *name, word version, LoadApplication loadApplication) {
+#ifdef __CC65__
     _heapadd((void *)0x300, 0xCF);
+#endif
 
     GetApple2Id((Apple2Id *)&application);
     Application_name = name;
     Application_version = version;
 
+#ifdef __CC65__
     if (application.memory > 48)
         _heapadd((void *)0xD000, 0x1000);
+#endif
     QualitySettings_Init();
     Screen_Init();
     Time_Init();
