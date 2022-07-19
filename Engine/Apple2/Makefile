@@ -25,13 +25,13 @@ endif
 
 OUTPUT = Engine.lib
 OUTPUTDIR = Engine
-ASOURCEFILESALL = $(subst Source/,,$(wildcard Source/*.s))
+ASOURCEFILESALL = $(subst ../Source/,,$(wildcard ../Source/*.s))
 ASOURCEFILES = $(ASOURCEFILESALL)
 AOBJECTFILES = $(ASOURCEFILES:.s=.o)
 AOBJECTS = $(addprefix $(ROOTDIR)/Build/$(CONFIG)/$(OUTPUTDIR)/, $(AOBJECTFILES))
 ADEPENDFILES = $(ASOURCEFILES:.s=.d)
 ADEPENDS = $(addprefix $(ROOTDIR)/Build/$(CONFIG)/$(OUTPUTDIR)/, $(ADEPENDFILES))
-CSOURCEFILESALL = $(subst Source/,,$(wildcard Source/*.c))
+CSOURCEFILESALL = $(subst ../Source/,,$(wildcard ../Source/*.c))
 ifdef FLOAT
 CSOURCEFILESFLOAT = $(CSOURCEFILESALL)
 else
@@ -48,7 +48,7 @@ ARFLAGS = a
 AS = ca65
 ASFLAGS = -t apple2
 CC = cl65 -c
-CFLAGS = -t apple2 -I Include
+CFLAGS = -t apple2 -I ../Include
 ifdef FLOAT
 CFLAGS += -D FLOAT
 endif
@@ -70,10 +70,10 @@ clean:
 $(ROOTDIR)/Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT): $(AOBJECTS) $(COBJECTS)
 	$(AR) $(ARFLAGS) $@ $(AOBJECTS) $(COBJECTS)
 
-$(AOBJECTS): $(ROOTDIR)/Build/$(CONFIG)/$(OUTPUTDIR)/%.o : Source/%.s | $(ROOTDIR)/Build/$(CONFIG)/$(OUTPUTDIR)/.
+$(AOBJECTS): $(ROOTDIR)/Build/$(CONFIG)/$(OUTPUTDIR)/%.o : ../Source/%.s | $(ROOTDIR)/Build/$(CONFIG)/$(OUTPUTDIR)/.
 	$(AS) $(ASFLAGS) --create-dep $(@:.o=.d) -o $@ $<
 
-$(COBJECTS): $(ROOTDIR)/Build/$(CONFIG)/$(OUTPUTDIR)/%.o : Source/%.c | $(ROOTDIR)/Build/$(CONFIG)/$(OUTPUTDIR)/.
+$(COBJECTS): $(ROOTDIR)/Build/$(CONFIG)/$(OUTPUTDIR)/%.o : ../Source/%.c | $(ROOTDIR)/Build/$(CONFIG)/$(OUTPUTDIR)/.
 	$(CC) $(CFLAGS) --create-dep $(@:.o=.d) -o $@ $<
 
 $(ROOTDIR)/Build/.:

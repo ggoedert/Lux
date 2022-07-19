@@ -13,13 +13,13 @@ LOADER_SYSTEM = C:\cc65\target\apple2\util\loader.system
 OUTPUT = 2D_UFO
 OUTPUTDIR = $(OUTPUT)
 OUTPUTLABEL = TWODUFO
-SOURCEDIR = Assets
-ASOURCEFILES = $(subst Assets/,,$(wildcard Assets/*.s))
+SOURCEDIR = ../Assets
+ASOURCEFILES = $(subst ../Assets/,,$(wildcard ../Assets/*.s))
 AOBJECTFILES = $(ASOURCEFILES:.s=.o)
 AOBJECTS = $(addprefix Build/$(CONFIG)/$(OUTPUTDIR)/, $(AOBJECTFILES))
 ADEPENDFILES = $(ASOURCEFILES:.s=.d)
 ADEPENDS = $(addprefix Build/$(CONFIG)/$(OUTPUTDIR)/, $(ADEPENDFILES))
-CSOURCEFILES = $(subst Assets/,,$(wildcard Assets/*.c))
+CSOURCEFILES = $(subst ../Assets/,,$(wildcard ../Assets/*.c))
 COBJECTFILES = $(CSOURCEFILES:.c=.o)
 COBJECTS = $(addprefix Build/$(CONFIG)/$(OUTPUTDIR)/, $(COBJECTFILES))
 CDEPENDFILES = $(CSOURCEFILES:.c=.d)
@@ -31,7 +31,7 @@ LDFLAGS = -m Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT).map -t apple2 -C apple2-hgr.
 AS = ca65
 ASFLAGS = -t apple2
 CC = cl65 -c
-CFLAGS = -t apple2 -I ../Engine/Include
+CFLAGS = -t apple2 -I ../../Engine/Include
 ifeq ($(CONFIG),Debug)
 CFLAGS += -D _DEBUG -g
 else ifeq ($(CONFIG),Size)
@@ -55,7 +55,7 @@ Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT): $(ENGINELIB) $(AOBJECTS) $(COBJECTS)
 
 .PHONY: $(ENGINELIB)
 $(ENGINELIB): Build/$(CONFIG)/$(OUTPUTDIR)/.
-	$(MAKE) ROOTDIR=$(CURDIR) CONFIG=$(CONFIG) -C ../Engine
+	$(MAKE) ROOTDIR=$(CURDIR) CONFIG=$(CONFIG) -C ../../Engine/Apple2
 
 $(AOBJECTS): Build/$(CONFIG)/$(OUTPUTDIR)/%.o : $(SOURCEDIR)/%.s | Build/$(CONFIG)/$(OUTPUTDIR)/.
 	$(AS) $(ASFLAGS) --create-dep $(@:.o=.d) -o $@ $<
@@ -73,7 +73,7 @@ Build/$(CONFIG)/$(OUTPUTDIR)/.: | Build/$(CONFIG)/.
 	mkdir Build\$(CONFIG)\$(OUTPUTDIR)
 
 Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT).dsk: Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT) | Build/$(CONFIG)/$(OUTPUTDIR)/.
-	bzip2 -c -d ..\Resource\blank.dsk.bz2 > Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT).dsk
+	bzip2 -c -d ..\..\Resource\blank.dsk.bz2 > Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT).dsk
 	java -jar $(APPLECOMMANDER) -n Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT).dsk $(OUTPUTLABEL)
 	java -jar $(APPLECOMMANDER) -p Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT).dsk startup.system sys < $(LOADER_SYSTEM)
 	java -jar $(APPLECOMMANDER) -as Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT).dsk startup < Build/$(CONFIG)/$(OUTPUTDIR)/$(OUTPUT)
