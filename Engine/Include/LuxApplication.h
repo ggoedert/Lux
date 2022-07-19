@@ -18,7 +18,7 @@ enum {
     IIeCard     // Apple IIe Card for the Macintosh LC
 };
 
-typedef void (*LoadApplication)(void);
+typedef void (*LoadApplication)();
 
 class (Application,
     byte machine;       // the type of Apple II

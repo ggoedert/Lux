@@ -3,6 +3,6 @@
 
 #include "LuxTypes.h"
 
-typedef void (*Scene_Load)(void);
+typedef void (*Scene_Load)();
 
 #endif

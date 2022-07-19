@@ -8,7 +8,7 @@
 #include "Assets.h"
 #include "MainScene.h"
 
-void loadApplication(void);
+void loadApplication();
 
 //main.c
 void main() {
