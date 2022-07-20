@@ -16,19 +16,16 @@ word Application_version = 0;
 byte Application_isPlaying = false;
 #endif
 
-void Application_Play(char *name, word version, LoadApplication loadApplication) {
 #ifdef __CC65__
-    _heapadd((void *)0x300, 0xCF);
-#endif
+void Application_Play(char* name, word version, LoadApplication loadApplication) {
+    _heapadd((void*)0x300, 0xCF);
 
-    GetApple2Id((Apple2Id *)&application);
+    GetApple2Id((Apple2Id*)&application);
     Application_name = name;
     Application_version = version;
 
-#ifdef __CC65__
     if (application.memory > 48)
-        _heapadd((void *)0xD000, 0x1000);
-#endif
+        _heapadd((void*)0xD000, 0x1000);
     QualitySettings_Init();
     Screen_Init();
     Time_Init();
@@ -38,14 +35,41 @@ void Application_Play(char *name, word version, LoadApplication loadApplication)
     Application_isPlaying = true;
 #endif
 
-    loadApplication();
-    while(Application_isPlaying) {
-        Scene_Run();
-        Time_Run();
-        if (QualitySettings_vSync)
-            Screen_WaitVBlank();
+    if (loadApplication()) {
+        while (Application_isPlaying) {
+            Scene_Run();
+            Time_Run();
+            if (QualitySettings_vSync)
+                Screen_WaitVBlank();
+        }
     }
 }
+#else
+bool Application_Start(char *name, word version, LoadApplication loadApplication) {
+    GetApple2Id((Apple2Id *)&application);
+    Application_name = name;
+    Application_version = version;
+
+    QualitySettings_Init();
+    Screen_Init();
+    Time_Init();
+    Scene_Init();
+
+#ifdef _DEBUG
+    Application_isPlaying = true;
+#endif
+
+    return loadApplication();
+}
+
+bool Application_Step() {
+    Scene_Run();
+    Time_Run();
+    if (QualitySettings_vSync)
+        Screen_WaitVBlank();
+    return Application_isPlaying;
+}
+#endif
 
 #ifdef _DEBUG
 void Application_Stop() {

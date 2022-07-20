@@ -8,36 +8,49 @@
 #include "Assets.h"
 #include "MainScene.h"
 
-void loadApplication();
+bool mainLoad();
 
-//main.c
+#ifdef __CC65__
 void main() {
-    Application_Play("2D UFO", 1, loadApplication);
+    Application_Play("2D UFO", 1, mainLoad);
     Screen_SetResolution(TEXT, false, false);
     Debug_Dequeue();
     Debug_SetMode(DEBUG_MODE_CONSOLE);
 #ifdef __CC65__
     Debug_Log("%u bytes free.", _heapmemavail());
 #endif
-    while(true);
+    while (true);
+}
+#else
+bool mainStart() {
+    return Application_Start("2D UFO", 1, mainLoad);
 }
 
-void loadApplication() {
+bool mainStep() {
+    return Application_Step();
+}
+
+void mainStop() {
+    Debug_Dequeue();
+}
+#endif
+
+bool mainLoad() {
 #ifdef __CC65__
-    int memAvail;
+    int memAvail = _heapmemavail();
+    Debug_SetMode(DEBUG_MODE_QUEUE);
+#else
+    Debug_SetMode(DEBUG_MODE_CONSOLE);
 #endif
     if (application.machine < IIe) {
-        printf("\nApple IIe not detected!");
-        while(true);
+        Debug_Log("Apple IIe not detected!");
+        return false;
     }
-#ifdef __CC65__
-    memAvail = _heapmemavail();
-#endif
-    Debug_SetMode(DEBUG_MODE_QUEUE);
 #ifdef __CC65__
     Debug_Log("%u bytes free.", memAvail);
 #endif
     Camera_backgroundColor = green;
     Screen_SetResolution(HGR, true, false);
     SceneManager_LoadScene(MainScene_Load);
+    return true;
 }

@@ -12,4 +12,8 @@ void Debug_SetMode(byte mode);
 void Debug_Log(const char *format, ...);
 void Debug_Dequeue();
 
+#ifndef __CC65__
+void (*System_PrintDebug)(char* lineBuffer);
+#endif
+
 #endif

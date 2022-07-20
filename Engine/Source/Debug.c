@@ -38,16 +38,23 @@ void Debug_Log(const char *format, ...) {
         vsnprintf(lineBuffer, 80, format, args);
         va_end(args);
         if (debugMode&DEBUG_MODE_CONSOLE)
+#ifdef __CC65__
             printf("\n%s", lineBuffer);
+#else
+            System_PrintDebug(lineBuffer);
+#endif
         if (debugMode&DEBUG_MODE_FILE) {
 #ifdef __CC65__
             FILE *logFile = fopen("Lux.log", "a");
-#else
-            FILE* logFile;
-            fopen_s(&logFile, "Lux.log", "a");
-#endif
             fprintf(logFile, "%s\n", lineBuffer);
             fclose(logFile);
+#else
+            FILE *logFile;
+            if (fopen_s(&logFile, "Lux.log", "a") == 0) {
+                fprintf(logFile, "%s\n", lineBuffer);
+                fclose(logFile);
+            }
+#endif
         }
         if (debugMode&DEBUG_MODE_QUEUE) {
             if (logQueue->count > 23) {
@@ -68,7 +75,11 @@ void Debug_Dequeue() {
         while (logQueue->count) {
             char *line = Queue_Peek(logQueue, char *);
             Queue_Dequeue(logQueue);
+#ifdef __CC65__
             printf("\n%s", line);
+#else
+            System_PrintDebug(line);
+#endif
             free(line);
         }
     }

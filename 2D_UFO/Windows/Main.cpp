@@ -65,6 +65,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
     LoadStringW(hInst, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
     LoadStringW(hInst, IDC_LUXMOCK, szWindowClass, MAX_LOADSTRING);
 
+    bool gameInitialized;
     g_game = std::make_unique<Game>();
 
     // Register class and create window
@@ -108,22 +109,30 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 
         GetClientRect(hwnd, &rc);
 
-        g_game->Initialize(hwnd, rc.right - rc.left, rc.bottom - rc.top);
+        gameInitialized = g_game->Initialize(hwnd, rc.right - rc.left, rc.bottom - rc.top);
     }
 
     // Main message loop
     MSG msg = {};
-    while (WM_QUIT != msg.message)
+    if (gameInitialized)
     {
-        if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+        while (WM_QUIT != msg.message)
         {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
+            if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+            {
+                TranslateMessage(&msg);
+                DispatchMessage(&msg);
+            }
+            else
+            {
+                g_game->Tick();
+            }
         }
-        else
-        {
-            g_game->Tick();
-        }
+    }
+    else
+    {
+        msg.wParam = 0;
+        MessageBox(NULL, L"Unable to Initialize Game", L"Error", MB_ICONEXCLAMATION | MB_OK);
     }
 
     g_game.reset();

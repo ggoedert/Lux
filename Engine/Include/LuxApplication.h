@@ -18,14 +18,19 @@ enum {
     IIeCard     // Apple IIe Card for the Macintosh LC
 };
 
-typedef void (*LoadApplication)();
+typedef bool (*LoadApplication)();
 
 class (Application,
     byte machine;       // the type of Apple II
     byte romlevel;      // which revision of the machine
     byte memory;        // how much memory (up to 128K)
 );
-void Application_Play(char *name, word version, LoadApplication loadApplication);
+#ifdef __CC65__
+void Application_Play(char* name, word version, LoadApplication loadApplication); 
+#else
+bool Application_Start(char *name, word version, LoadApplication loadApplication);
+bool Application_Step();
+#endif
 #ifdef _DEBUG
 void Application_Stop();
 #endif

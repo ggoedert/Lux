@@ -11,6 +11,21 @@ using namespace DirectX;
 
 using Microsoft::WRL::ComPtr;
 
+extern "C" {
+    extern void (*System_PrintDebug)(char* lineBuffer);
+    extern bool mainStart();
+    extern bool mainStep();
+    extern void mainStop();
+}
+
+void Game_PrintDebug(char* lineBuffer)
+{
+    static wchar_t debugStringBuffer[1024];
+    mbstowcs_s(nullptr, debugStringBuffer, 1024, lineBuffer, _TRUNCATE);
+    OutputDebugString(debugStringBuffer);
+    OutputDebugString(L"\n");
+}
+
 Game::Game() noexcept(false)
 {
     m_deviceResources = std::make_unique<DX::DeviceResources>();
@@ -29,7 +44,7 @@ Game::~Game()
 }
 
 // Initialize the Direct3D resources required to run.
-void Game::Initialize(HWND window, int width, int height)
+bool Game::Initialize(HWND window, int width, int height)
 {
     m_deviceResources->SetWindow(window, width, height);
 
@@ -45,6 +60,10 @@ void Game::Initialize(HWND window, int width, int height)
     m_timer.SetFixedTimeStep(true);
     m_timer.SetTargetElapsedSeconds(1.0 / 60);
     */
+
+    // game start
+    System_PrintDebug = Game_PrintDebug;
+    return mainStart();
 }
 
 #pragma region Frame Update
@@ -68,6 +87,9 @@ void Game::Update(DX::StepTimer const& timer)
 
     // TODO: Add your game logic here.
     elapsedTime;
+    
+    // game step
+    mainStep();
 
     PIXEndEvent();
 }
