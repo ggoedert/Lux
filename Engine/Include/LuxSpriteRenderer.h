@@ -8,7 +8,7 @@ derived_class (SpriteRenderer, Renderer,
     Sprite *sprite;
     byte mask;
 );
-class_default_prototypes(SpriteRenderer, Sprite *sprite, byte mask);
+component_default_prototypes(SpriteRenderer, Sprite *sprite, byte mask);
 void SpriteRenderer_Render(SpriteRenderer *this, Transform *transform);
 
 #endif

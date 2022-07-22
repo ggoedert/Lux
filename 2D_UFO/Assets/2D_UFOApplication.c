@@ -31,6 +31,7 @@ bool mainStep() {
 }
 
 void mainStop() {
+    MainScene_Unload();
     Debug_Dequeue();
 }
 #endif

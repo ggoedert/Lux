@@ -37,6 +37,8 @@ Game::Game() noexcept(false)
 
 Game::~Game()
 {
+    mainStop();
+
     if (m_deviceResources)
     {
         m_deviceResources->WaitForGpu();
@@ -89,7 +91,8 @@ void Game::Update(DX::StepTimer const& timer)
     elapsedTime;
     
     // game step
-    mainStep();
+    if (!mainStep())
+        PostQuitMessage(0);
 
     PIXEndEvent();
 }

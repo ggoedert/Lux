@@ -16,7 +16,7 @@ derived_virtual_class (Renderer, Component,
     )
 );
 typedef void (*Renderer_Render_Type)(Renderer *this, Transform *transform);
-class_constructor_destructor_prototypes(Renderer, virtual_table_type(Object) *object_vtable, virtual_table_type(Renderer) *renderer_vtable);
+component_constructor_destructor_prototypes(Renderer, virtual_table_type(Component) *component_vtable, virtual_table_type(Renderer) *renderer_vtable);
 
 #define sortingLayer_Default 127
 

@@ -3,15 +3,9 @@
 
 #include "LuxTypes.h"
 
-virtual_class (Object,
-    (
-        byte type;
-    ),
-    (
-        void (*Delete)(Object *this);
-    )
+class (Object,
+    byte type;
 );
-typedef void (*Object_Delete_Type)(Object *this);
-class_default_prototypes(Object, byte type, virtual_table_type(Object) *vtable);
+class_constructor_prototype(Object, byte type);
 
 #endif

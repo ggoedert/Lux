@@ -8,7 +8,7 @@
 
 class_default_implementations(GameObject, (VOID), (NONE),
     (
-        Transform *transform = Transform_New(NONE);
+        Transform *transform = Transform_New(this, NONE);
         List_Constructor(&this->components, sizeof(Component *));
         List_Add(&this->components, Transform *, transform); // first component is always the transform
         Scene_RegisterGameObject(this);
@@ -20,7 +20,7 @@ class_default_implementations(GameObject, (VOID), (NONE),
         i=this->components.count;
         while (i--) {
             component = List_Item(&this->components, Component *, i);
-            ((Object *)component)->vtable->Delete(((Object *)component));
+            component->vtable->Delete(this, component);
         }
         List_Destructor(&this->components);
     )

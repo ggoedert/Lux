@@ -25,8 +25,10 @@ typedef byte ColUInt;
 #define virtual_table_type(T) const struct T##_vtable
 #define virtual_table_instance(T) T##_vtable
 
+#define class_prototype(T) typedef struct T T
+
 #define class(T, ...)        \
-    typedef struct T T;      \
+    class_prototype(T);      \
     struct T { __VA_ARGS__ }
 
 #define derived_class(T, B, ...)  \

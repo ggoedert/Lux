@@ -1,10 +1,10 @@
 #include "LuxBehaviour.h"
 
-class_default_implementations(Behaviour, (byte type, virtual_table_type(Object) *vtable), (type, vtable),
+component_default_implementations(Behaviour, (byte type, virtual_table_type(Component) *vtable), (type, vtable),
     (
-        Component_Constructor(&this->Component, type, vtable);
+        Component_Constructor(gameObject, &this->Component, type, vtable);
     ),
     (
-        Component_Destructor(&this->Component);
+        EMPTY
     )
 )

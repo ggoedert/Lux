@@ -13,7 +13,7 @@ void Scene_Init() {
     List_Constructor(&gameObjectList, sizeof(GameObject *));
 }
 
-#ifdef _DEBUG
+#ifndef __CC65__
 void Scene_Finalize() {
     Scene_Unload();
     List_Destructor(&gameObjectList);

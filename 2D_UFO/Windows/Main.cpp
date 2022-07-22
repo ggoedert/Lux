@@ -47,6 +47,11 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
+#ifdef _DEBUG
+    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+    _CrtSetBreakAlloc(-1);  // \todo @review@ sometimes we already to late to do this, we can force _crtBreakAlloc var in watch window at dbgheap.c:392
+#endif
+
     if (!XMVerifyCPUSupport())
         return 1;
 

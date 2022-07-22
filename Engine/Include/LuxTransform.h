@@ -9,6 +9,6 @@
 derived_class (Transform, Component,
     Vector2 position;
 );
-class_default_prototypes(Transform, VOID);
+component_default_prototypes(Transform, VOID);
 
 #endif

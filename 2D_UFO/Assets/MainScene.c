@@ -6,10 +6,25 @@
 #include "MainScene.h"
 #include "PlayerControllerBehaviour.h"
 
+#ifndef __CC65__
+Sprite *UFOSprite;
+#endif
+
 void MainScene_Load() {
     GameObject *Player;
+#ifdef __CC65__
+    Sprite *UFOSprite;
+#endif
     Debug_Log("MainScene_Load - $%04x", MainScene_Load);
     Player = GameObject_New(NONE);
-    List_Add(&Player->components, SpriteRenderer *, SpriteRenderer_New(Sprite_New(ResourceUFO), -1));
+    UFOSprite = Sprite_New(ResourceUFO);
+    List_Add(&Player->components, SpriteRenderer *, SpriteRenderer_New(Player, UFOSprite, -1));
     List_Add(&Player->components, PlayerControllerBehaviour *, PlayerControllerBehaviour_New(Player));
 }
+
+#ifndef __CC65__
+void MainScene_Unload() {
+    Scene_Finalize();
+    Sprite_Delete(UFOSprite);
+}
+#endif

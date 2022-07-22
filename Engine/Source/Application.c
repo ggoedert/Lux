@@ -73,7 +73,6 @@ bool Application_Step() {
 
 #ifdef _DEBUG
 void Application_Stop() {
-    Scene_Finalize();
     Application_isPlaying = false;
 }
 #endif
