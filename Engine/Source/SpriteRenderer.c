@@ -8,14 +8,11 @@ virtual_table_type(Component) virtual_table_instance(SpriteRenderer_Component) =
 virtual_table_type(Renderer) virtual_table_instance(SpriteRenderer_Renderer) = {
     (Renderer_Render_Type)SpriteRenderer_Render
 };
-component_default_implementations(SpriteRenderer, (Sprite *sprite, byte mask), (sprite, mask),
+component_no_destructor_implementations(SpriteRenderer, (Sprite *sprite, byte mask), (sprite, mask),
     (
         Renderer_Constructor(gameObject, &this->Renderer, &virtual_table_instance(SpriteRenderer_Component), &virtual_table_instance(SpriteRenderer_Renderer));
         this->sprite = sprite;
         this->mask = mask;
-    ),
-    (
-        Renderer_Destructor(gameObject, &this->Renderer);
     )
 )
 

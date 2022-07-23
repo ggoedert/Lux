@@ -61,8 +61,8 @@ typedef byte ColUInt;
     class_constructor_prototype(T, __VA_ARGS__);        \
     class_destructor_prototype(T)
 
-#define class_constructor_destructor_implementations(T, A, CI, DI) \
-    class_constructor_implementation(T, A, REM_ENCLOSE(CI))        \
+#define class_constructor_destructor_implementations(T, AD, CI, DI) \
+    class_constructor_implementation(T, AD, REM_ENCLOSE(CI))        \
     class_destructor_implementation(T, REM_ENCLOSE(DI))
 
 #define class_new_delete_prototypes(T, ...) \

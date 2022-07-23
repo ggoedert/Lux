@@ -13,5 +13,4 @@ void CustomBehaviour_Destructor(GameObject *gameObject, CustomBehaviour *this) {
     CustomBehaviour_OnDestroy_Type CustomBehaviour_OnDestroy = this->vtable->OnDestroy;
     if (CustomBehaviour_OnDestroy)
         CustomBehaviour_OnDestroy(gameObject, this);
-    Behaviour_Destructor(gameObject, &this->Behaviour);
 }
