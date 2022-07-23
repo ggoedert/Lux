@@ -6,7 +6,7 @@
 
 #define typeof_CustomBehaviour 0x26 // String_GetHashCode8("CustomBehaviour")
 
-derived_virtual_class (CustomBehaviour, Behaviour,
+derived_virtual_class(CustomBehaviour, Behaviour,
     (
         EMPTY
     ),

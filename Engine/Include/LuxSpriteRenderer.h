@@ -4,7 +4,7 @@
 #include "LuxRenderer.h"
 #include "LuxSprite.h"
 
-derived_class (SpriteRenderer, Renderer,
+derived_class(SpriteRenderer, Renderer,
     Sprite *sprite;
     byte mask;
 );

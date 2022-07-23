@@ -38,15 +38,15 @@
     component_new_delete_implementations(T, AD, A)
 
 class_prototype(GameObject);
-derived_virtual_class (Component, Object,
+derived_virtual_class(Component, Object,
     (
         EMPTY
     ),
     (
-        void (*Delete)(GameObject* gameObject, Component* this);
+        void (*Delete)(GameObject *gameObject, Component *this);
     )
 );
-typedef void (*Component_Delete_Type)(GameObject* gameObject, Component* this);
-component_constructor_prototype(Component, byte type, virtual_table_type(Component)* vtable);
+typedef void (*Component_Delete_Type)(GameObject *gameObject, Component *this);
+component_constructor_prototype(Component, byte type, virtual_table_type(Component) *vtable);
 
 #endif

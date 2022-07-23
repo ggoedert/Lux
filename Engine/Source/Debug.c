@@ -64,7 +64,7 @@ void Debug_Log(const char *format, ...) {
 #ifdef __CC65__
             Queue_Enqueue(logQueue, char *, strdup(lineBuffer));
 #else
-            Queue_Enqueue(logQueue, char*, _strdup(lineBuffer));
+            Queue_Enqueue(logQueue, char *, _strdup(lineBuffer));
 #endif
         }
     }

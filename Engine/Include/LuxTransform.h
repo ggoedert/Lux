@@ -6,7 +6,7 @@
 
 #define typeof_Transform 0xbf // String_GetHashCode8("Transform")
 
-derived_class (Transform, Component,
+derived_class(Transform, Component,
     Vector2 position;
 );
 component_default_prototypes(Transform, VOID);

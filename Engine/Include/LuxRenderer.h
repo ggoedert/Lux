@@ -6,7 +6,7 @@
 
 #define typeof_Renderer 0x3a // String_GetHashCode8("Renderer")
 
-derived_virtual_class (Renderer, Component,
+derived_virtual_class(Renderer, Component,
     (
         bool enabled;
         byte sortingLayer;

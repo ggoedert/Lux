@@ -86,64 +86,64 @@ void Screen_Init() {
 
 void Screen_SetResolutionInternal() {
 #ifdef __CC65__
-    switch(Screen_currentResolution.mode) {
-        case TEXT:
-            FASTPOKE(CLRHIRES);
-            FASTPOKE(SETTEXT);
-            if (application.machine >= IIe) {
-                FASTPOKE(SETIOUDIS);
+    switch (Screen_currentResolution.mode) {
+    case TEXT:
+        FASTPOKE(CLRHIRES);
+        FASTPOKE(SETTEXT);
+        if (application.machine >= IIe) {
+            FASTPOKE(SETIOUDIS);
+            FASTPOKE(CLRDHIRES);
+            if (Screen_currentResolution.doubleRes) {
+                FASTPOKE(SET80COL);
+                FASTPOKE(SET80VID);
+            }
+            else {
+                FASTPOKE(CLR80COL);
+                FASTPOKE(CLR80VID);
+            }
+        }
+        FASTPOKE(CLRMIXED);
+        break;
+    case GR:
+        FASTPOKE(CLRHIRES);
+        FASTPOKE(CLRTEXT);
+        FASTPOKE(CLR80COL);
+        if (application.machine >= IIe) {
+            FASTPOKE(SETIOUDIS);
+            if (Screen_currentResolution.doubleRes) {
+                FASTPOKE(SETDHIRES);
+                FASTPOKE(SET80VID);
+            }
+            else {
                 FASTPOKE(CLRDHIRES);
-                if (Screen_currentResolution.doubleRes) {
-                    FASTPOKE(SET80COL);
-                    FASTPOKE(SET80VID);
-                }
-                else {
-                    FASTPOKE(CLR80COL);
-                    FASTPOKE(CLR80VID);
-                }
+                FASTPOKE(CLR80VID);
             }
+        }
+        if (!Screen_currentResolution.mixed)
             FASTPOKE(CLRMIXED);
-            break;
-        case GR:
-            FASTPOKE(CLRHIRES);
-            FASTPOKE(CLRTEXT);
-            FASTPOKE(CLR80COL);
-            if (application.machine >= IIe) {
-                FASTPOKE(SETIOUDIS);
-                if (Screen_currentResolution.doubleRes) {
-                    FASTPOKE(SETDHIRES);
-                    FASTPOKE(SET80VID);
-                }
-                else {
-                    FASTPOKE(CLRDHIRES);
-                    FASTPOKE(CLR80VID);
-                }
+        else
+            FASTPOKE(SETMIXED);
+        break;
+    case HGR:
+        FASTPOKE(SETHIRES);
+        FASTPOKE(CLRTEXT);
+        FASTPOKE(CLR80COL);
+        if (application.machine >= IIe) {
+            FASTPOKE(SETIOUDIS);
+            if (Screen_currentResolution.doubleRes) {
+                FASTPOKE(SETDHIRES);
+                FASTPOKE(SET80VID);
             }
-            if (!Screen_currentResolution.mixed)
-                FASTPOKE(CLRMIXED);
-            else
-                FASTPOKE(SETMIXED);
-            break;
-        case HGR:
-            FASTPOKE(SETHIRES);
-            FASTPOKE(CLRTEXT);
-            FASTPOKE(CLR80COL);
-            if (application.machine >= IIe) {
-                FASTPOKE(SETIOUDIS);
-                if (Screen_currentResolution.doubleRes) {
-                    FASTPOKE(SETDHIRES);
-                    FASTPOKE(SET80VID);
-                }
-                else {
-                    FASTPOKE(CLRDHIRES);
-                    FASTPOKE(CLR80VID);
-                }
+            else {
+                FASTPOKE(CLRDHIRES);
+                FASTPOKE(CLR80VID);
             }
-            if (!Screen_currentResolution.mixed)
-                FASTPOKE(CLRMIXED);
-            else
-                FASTPOKE(SETMIXED);
-            break;
+        }
+        if (!Screen_currentResolution.mixed)
+            FASTPOKE(CLRMIXED);
+        else
+            FASTPOKE(SETMIXED);
+        break;
     }
     FASTPOKE(TXTPAGE1);
 #endif
@@ -174,7 +174,7 @@ void Screen_Clear() {
             byte b;
             a = p|((ci&0x1)<<6)|(ci<<4)|(ci<<2)|ci;
             b = p|(ci<<5)|(ci<<3)|(ci<<1)|(ci>>1);
-            
+
             if (a==b)
                 memset((void *)0x2000, a, 0x2000);
             else {
@@ -194,7 +194,7 @@ void Screen_Clear() {
             b = ((Camera_backgroundColor&0x3)<<5)|(Camera_backgroundColor<<1)|(Camera_backgroundColor>>3);
             c = ((Camera_backgroundColor&0x1)<<6)|(Camera_backgroundColor<<2)|(Camera_backgroundColor>>2);
             d = (Camera_backgroundColor<<3)|(Camera_backgroundColor>>1);
-            
+
             if ((a==b) && (a==c) && (a==d)) {
                 memset((void *)0x2000, a, 0x2000);
                 toaux(0x2000, 0x2000, 0x2000);
@@ -209,7 +209,7 @@ void Screen_Clear() {
                     ptr += size;
                 } while (ptr<(byte *)0x4000);
                 toaux(0x2000, 0x2000, 0x2000);
-                
+
                 if ((a!=b) || (c!=d)) {
                     ptr = (byte *)0x2000;
                     *ptr++ = b;

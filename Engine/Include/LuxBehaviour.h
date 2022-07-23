@@ -3,7 +3,7 @@
 
 #include "LuxComponent.h"
 
-derived_class (Behaviour, Component,
+derived_class(Behaviour, Component,
     EMPTY
 );
 component_default_prototypes(Behaviour, byte type, virtual_table_type(Component) *vtable);
