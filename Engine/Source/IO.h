@@ -8,6 +8,17 @@
 
 #include "LuxTypes.h"
 
+#ifndef IO_EXTERNAL
+#define IO_EXTERNAL extern
+#endif
+
+#ifdef __CC65__
+#define MEMORY(a) a
+#else
+IO_EXTERNAL byte *memoryMain, *memoryAux;
+#define MEMORY(a) (memoryMain+(int)a)
+#endif
+
 #define CLR80COL  0xC000    // disable 80-column store
 #define SET80COL  0xC001    // enable 80-column store
 #define CLR80VID  0xC00C    // disable 80-column display mode
@@ -33,7 +44,12 @@
 #define AUXMOVE   0xC311    // C=0 Aux->Main, C=1 Main->Aux 
 #define MOVE      0xFE2C    // Main<->Main, *MUST* set Y=0 prior! 
 
+#ifdef __CC65__
 void toaux(word dest, word src, word count);
 void fromaux(word dest, word src, word count);
+#else
+void toaux(word dest, byte *src, word count);
+void fromaux(byte *dest, word src, word count);
+#endif
 
 #endif

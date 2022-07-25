@@ -16,9 +16,7 @@ void main() {
     Screen_SetResolution(TEXT, false, false);
     Debug_Dequeue();
     Debug_SetMode(DEBUG_MODE_CONSOLE);
-#ifdef __CC65__
     Debug_Log("%u bytes free.", _heapmemavail());
-#endif
     while (true);
 }
 #else
@@ -32,6 +30,7 @@ bool mainStep() {
 
 void mainStop() {
     MainScene_Unload();
+    Screen_Finalize();
     Debug_Dequeue();
 }
 #endif

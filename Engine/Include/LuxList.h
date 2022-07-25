@@ -16,6 +16,7 @@ void List_VoidRemove(List *this, void *item);
 void List_RemoveAt(List *this, ColUInt index);
 void *List_VoidItem(List *this, ColUInt index);
 #define List_Item(this, Type, index) (*(Type *)List_VoidItem(this, index))
+#define List_ItemPtr(this, Type, index) ((Type *)List_VoidItem(this, index))
 #define List_Clear(this) Collection_Clear(this)
 
 #endif

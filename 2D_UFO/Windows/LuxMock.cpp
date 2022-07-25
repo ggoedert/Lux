@@ -12,6 +12,8 @@ using namespace DirectX;
 using Microsoft::WRL::ComPtr;
 
 extern "C" {
+    extern byte *memoryMain;
+    extern byte *memoryAux;
     extern void (*System_PrintDebug)(char* lineBuffer);
     extern bool mainStart();
     extern bool mainStep();
@@ -38,6 +40,8 @@ Game::Game() noexcept(false)
 Game::~Game()
 {
     mainStop();
+    free(memoryMain);
+    free(memoryAux);
 
     if (m_deviceResources)
     {

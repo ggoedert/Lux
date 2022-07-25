@@ -54,9 +54,9 @@ class (Segment,
 List lines[192];
 
 void Screen_Init() {
+    int index;
 #ifdef __CC65__
     byte *ptr;
-    int index;
 
     if (application.machine < IIe)
         Screen_resolutions_Length = 5;
@@ -64,25 +64,43 @@ void Screen_Init() {
         Screen_resolutions_Length = 10;
     Screen_currentResolution = Screen_resolutions[0];
     for (ptr=(byte *)0x0400; ptr<(byte *)0x0800; ptr+=0x80)
-        memset(ptr, 0xA0, 0x78);
-    memset((void *)0x2000, 0x00, 0x2000);
+        memset(MEMORY(ptr), 0xA0, 0x78);
+    memset((void *)MEMORY(0x2000), 0x00, 0x2000);
     if (application.machine >= IIe) {
         FASTPOKE(SET80COL);
         FASTPOKE(TXTPAGE2);
         for (ptr=(byte *)0x0400; ptr<(byte *)0x0800; ptr+=0x80)
-            memset(ptr, 0xA0, 0x78);
+            memset(MEMORY(ptr), 0xA0, 0x78);
         FASTPOKE(TXTPAGE1);
         FASTPOKE(CLR80COL);
-        toaux(0x2000, 0x2000, 0x2000);
+        toaux(0x2000, MEMORY(0x2000), 0x2000);
     }
     if (application.machine != IIe) // this is not needed on the IIe
         VaporlockSetup();
     gotoy(-1);
+#else
+    Screen_resolutions_Length = 10;
+    memoryMain = calloc(0xFFFF, sizeof(byte));
+    memoryAux = calloc(0xFFFF, sizeof(byte));
+#endif
 
     for (index = 0; index<192; ++index)
         List_Constructor(lines+index, sizeof(Segment));
-#endif
 }
+
+#ifndef __CC65__
+void Screen_Finalize() {
+    int i, y2;
+    for (y2=0; y2<192; ++y2) {
+        if (lines[y2].count) {
+            for (i=0; i<lines[y2].count; ++i) {
+                free(List_ItemPtr(lines+y2, Segment, i)->data);
+            }
+        }
+        List_Destructor(lines+y2);
+    }
+}
+#endif
 
 void Screen_SetResolutionInternal() {
 #ifdef __CC65__
@@ -150,22 +168,23 @@ void Screen_SetResolutionInternal() {
 }
 
 void Screen_Clear() {
-#ifdef __CC65__
     byte *ptr;
-    int size, y2;
+    int size, y2, i;
 
+#ifdef __CC65__
     if ((Screen_currentResolution.mode != HGR) || Screen_currentResolution.mixed) {
         for (ptr=(byte *)0x0400; ptr<(byte *)0x0800; ptr+=0x80)
-            memset(ptr, 0xA0, 0x78);
+            memset(MEMORY(ptr), 0xA0, 0x78);
         if ((application.machine >= IIe) && (Screen_currentResolution.doubleRes)) {
             FASTPOKE(SET80COL);
             FASTPOKE(TXTPAGE2);
             for (ptr=(byte *)0x0400; ptr<(byte *)0x0800; ptr+=0x80)
-                memset(ptr, 0xA0, 0x78);
+                memset(MEMORY(ptr), 0xA0, 0x78);
             FASTPOKE(TXTPAGE1);
             FASTPOKE(CLR80COL);
         }
     }
+#endif
     if (Screen_currentResolution.mode == HGR) {
         if ((application.machine < IIe) || (!Screen_currentResolution.doubleRes)) {
             byte a = dhgr2hgr[Camera_backgroundColor];
@@ -176,16 +195,16 @@ void Screen_Clear() {
             b = p|(ci<<5)|(ci<<3)|(ci<<1)|(ci>>1);
 
             if (a==b)
-                memset((void *)0x2000, a, 0x2000);
+                memset((void *)MEMORY(0x2000), a, 0x2000);
             else {
-                ptr = (byte *)0x2000;
+                ptr = (byte *)MEMORY(0x2000);
                 *ptr++ = a;
                 *ptr++ = b;
                 do {
-                    size = ptr-(byte *)0x2000;
-                    memcpy(ptr, (byte *)0x2000, size);
+                    size = ptr - (byte *)MEMORY(0x2000);
+                    memcpy(ptr, (byte *)MEMORY(0x2000), size);
                     ptr += size;
-                } while (ptr<(byte *)0x4000);
+                } while (ptr<(byte *)MEMORY(0x4000));
             }
         }
         else {
@@ -196,39 +215,46 @@ void Screen_Clear() {
             d = (Camera_backgroundColor<<3)|(Camera_backgroundColor>>1);
 
             if ((a==b) && (a==c) && (a==d)) {
-                memset((void *)0x2000, a, 0x2000);
-                toaux(0x2000, 0x2000, 0x2000);
+                memset((void *)MEMORY(0x2000), a, 0x2000);
+                toaux(0x2000, MEMORY(0x2000), 0x2000);
             }
             else {
-                ptr = (byte *)0x2000;
+                ptr = (byte *)MEMORY(0x2000);
                 *ptr++ = a;
                 *ptr++ = c;
                 do {
-                    size = ptr-(byte *)0x2000;
-                    memcpy(ptr, (byte *)0x2000, size);
+                    size = ptr-(byte *)MEMORY(0x2000);
+                    memcpy(ptr, (byte *)MEMORY(0x2000), size);
                     ptr += size;
-                } while (ptr<(byte *)0x4000);
-                toaux(0x2000, 0x2000, 0x2000);
+                } while (ptr<(byte *)MEMORY(0x4000));
+                toaux(0x2000, MEMORY(0x2000), 0x2000);
 
                 if ((a!=b) || (c!=d)) {
-                    ptr = (byte *)0x2000;
+                    ptr = (byte *)MEMORY(0x2000);
                     *ptr++ = b;
                     *ptr++ = d;
                     do {
-                        size = ptr-(byte *)0x2000;
-                        memcpy(ptr, (byte *)0x2000, size);
+                        size = ptr-(byte *)MEMORY(0x2000);
+                        memcpy(ptr, (byte *)MEMORY(0x2000), size);
                         ptr += size;
-                    } while (ptr<(byte *)0x4000);
+                    } while (ptr<(byte *)MEMORY(0x4000));
                 }
             }
         }
     }
+#ifdef __CC65__
     if (application.machine != IIe) // this is not needed on the IIe
         VaporlockSetup();
-
-    for (y2=0; y2<192; ++y2)
-        List_Clear(lines+y2);
 #endif
+
+    for (y2=0; y2<192; ++y2) {
+        if (lines[y2].count) {
+            for (i=0; i<lines[y2].count; ++i) {
+                free(List_ItemPtr(lines+y2, Segment, i)->data);
+            }
+        }
+        List_Clear(lines+y2);
+    }
 }
 
 void Screen_SetResolution(byte mode, bool doubleRes, bool mixed) {
@@ -246,10 +272,10 @@ void Screen_SetResolution(byte mode, bool doubleRes, bool mixed) {
 }
 
 void Screen_WaitVBlank() {
-#ifdef __CC65__
     int y2, x2, packet, i;
     byte *screenData, *dest, *destx2;
 
+#ifdef __CC65__
     if (application.machine == IIe) {          // this optimization only works on the IIe
         while ((PEEK(RDVBLBAR)&0x80)==0x0) {}  // if already inside a vblank, wait for it to end
         while ((PEEK(RDVBLBAR)&0x80)!=0x0) {}  // wait for a new vblank to start
@@ -272,30 +298,29 @@ void Screen_WaitVBlank() {
         if (setupScreen)
             Screen_SetResolutionInternal();
     }
+#endif
 
     for (y2=0; y2<192; ++y2) {
         if (lines[y2].count) {
             dest = (byte *)hgrBase[y2>>3]+(y2&7)*0x400;
             for (i=0; i<lines[y2].count; ++i) {
-                x2 = List_Item(lines+y2, Segment, i).start;
-                packet = List_Item(lines+y2, Segment, i).packet;
-                screenData = List_Item(lines+y2, Segment, i).data;
+                x2 = List_ItemPtr(lines+y2, Segment, i)->start;
+                packet = List_ItemPtr(lines+y2, Segment, i)->packet;
+                screenData = List_ItemPtr(lines+y2, Segment, i)->data;
 
                 destx2 = dest+x2;
 
-                toaux((word)destx2, (word)screenData, packet);
-                memcpy(destx2, screenData+packet, packet);
+                toaux((word)destx2, screenData, packet);
+                memcpy(MEMORY(destx2), screenData+packet, packet);
                 free(screenData);
             }
             List_Clear(lines+y2);
         }
     }
-#endif
 }
 
 // simple putimage function for this demo
 void PutFragmentDHGR(Sprite *sprite, byte mask, byte x, byte y) {
-#ifdef __CC65__
     byte halfWidth;
     byte y2, x2, packet;
     byte *dest, *spriteData, *screenData;
@@ -313,20 +338,19 @@ void PutFragmentDHGR(Sprite *sprite, byte mask, byte x, byte y) {
 
         //?mask?
         screenData = malloc(packet*2);
-        fromaux((word)screenData, (word)dest, packet);
-        memcpy(screenData+packet, dest, packet);
+        fromaux(screenData, (word)dest, packet);
+        memcpy(screenData+packet, MEMORY(dest), packet);
         seg.start = x2;
         seg.packet = packet;
         seg.data = screenData;
         List_Add(lines+y2, Segment, seg);
         //
 
-        toaux((word)dest, (word)spriteData, packet);
-        memcpy(dest, spriteData+packet, packet);
+        toaux((word)dest, spriteData, packet);
+        memcpy(MEMORY(dest), spriteData+packet, packet);
 
         spriteData += packet*2;
     }
-#endif
 }
 
 void Screen_DrawSprite(Sprite *sprite, byte mask, byte x, byte y) {
