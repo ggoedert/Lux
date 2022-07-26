@@ -29,10 +29,11 @@ class (Application,
 void Application_Play(char *name, word version, LoadApplication loadApplication);
 #else
 bool Application_Start(char *name, word version, LoadApplication loadApplication);
+void Application_Stop();
 bool Application_Step();
 #endif
 #ifdef _DEBUG
-void Application_Stop();
+void Application_Quit();
 #endif
 extern Application application;
 extern char *Application_name;         // application name

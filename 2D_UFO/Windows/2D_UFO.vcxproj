@@ -188,6 +188,7 @@
     <ClInclude Include="..\Assets\PlayerControllerBehaviour.h" />
     <ClInclude Include="..\Assets\ResourceUFO.h" />
     <ClInclude Include="d3dx12.h" />
+    <ClInclude Include="DDS.h" />
     <ClInclude Include="DeviceResources.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="LuxMock.h" />

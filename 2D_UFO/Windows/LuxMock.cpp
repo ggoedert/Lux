@@ -1,3 +1,8 @@
+#define HGR_WIDTH  140
+#define HGR_HEIGHT 192
+
+#define SCREEN_TEX_PITCH ((256 * 8 * 4 + 7) / 8)
+
 //
 // LuxMock.cpp
 //
@@ -123,83 +128,15 @@ void Game::Render()
     ID3D12DescriptorHeap* heaps[] = { m_resourceDescriptors->Heap(), m_states->Heap() };
     commandList->SetDescriptorHeaps(static_cast<UINT>(std::size(heaps)), heaps);
 
-#if 0
-    m_spriteBatch->Begin(commandList);
-
-    m_spriteBatch->Draw(m_resourceDescriptors->GetGpuHandle(Descriptors::Cat),
-        GetTextureSize(m_texture.Get()),
-        m_screenPos, nullptr, Colors::White, 0.f, m_origin);
-
-    m_spriteBatch->End();
-#endif
-
-#if 0
-    float time = float(m_timer.GetTotalSeconds());
-
-    m_spriteBatch->Begin(commandList);
-
-    m_spriteBatch->Draw(m_resourceDescriptors->GetGpuHandle(Descriptors::Cat),
-        GetTextureSize(m_texture.Get()),
-        m_screenPos, nullptr, Colors::White, cosf(time) * 4.f, m_origin);
-
-    m_spriteBatch->End();
-#endif
-
-#if 0
-    float time = float(m_timer.GetTotalSeconds());
-
-    m_spriteBatch->Begin(commandList);
-
-    m_spriteBatch->Draw(m_resourceDescriptors->GetGpuHandle(Descriptors::Cat),
-        GetTextureSize(m_texture.Get()),
-        m_screenPos, nullptr, Colors::White, 0.f, m_origin, cosf(time) + 2.f);
-
-    m_spriteBatch->End();
-#endif
-
-#if 0
-    m_spriteBatch->Begin(commandList);
-
-    m_spriteBatch->Draw(m_resourceDescriptors->GetGpuHandle(Descriptors::Cat),
-        GetTextureSize(m_texture.Get()),
-        m_screenPos, nullptr, Colors::Green, 0.f, m_origin);
-
-    m_spriteBatch->End();
-#endif
-
-#if 0
-    m_spriteBatch->Begin(commandList);
-
-    m_spriteBatch->Draw(m_resourceDescriptors->GetGpuHandle(Descriptors::Cat),
-        GetTextureSize(m_texture.Get()),
-        m_screenPos, &m_tileRect, Colors::White, 0.f, m_origin);
-
-    m_spriteBatch->End();
-#endif
-
-#if 0
-    m_spriteBatch->Begin(commandList);
-
-    m_spriteBatch->Draw(m_resourceDescriptors->GetGpuHandle(Descriptors::Cat),
-        GetTextureSize(m_texture.Get()),
-        m_stretchRect, nullptr, Colors::White);
-
-    m_spriteBatch->End();
-#endif
-
-/*#if 1
+#if 1
     m_spriteBatch->Begin(commandList);
 
     m_spriteBatch->Draw(m_resourceDescriptors->GetGpuHandle(Descriptors::Background),
         GetTextureSize(m_background.Get()),
         m_fullscreenRect);
 
-    m_spriteBatch->Draw(m_resourceDescriptors->GetGpuHandle(Descriptors::Cat),
-        GetTextureSize(m_texture.Get()),
-        m_screenPos, nullptr, Colors::White, 0.f, m_origin);
-
     m_spriteBatch->End();
-#endif*/
+#endif
 
     PIXEndEvent(commandList);
 
@@ -321,25 +258,52 @@ void Game::CreateDeviceDependentResources()
 
     resourceUpload.Begin();
 
-/*#if 0
+#if 0
     DX::ThrowIfFailed(
-        CreateWICTextureFromFile(device, resourceUpload, L"cat.png",
-            m_texture.ReleaseAndGetAddressOf(), false));
+        CreateWICTextureFromFile(device, resourceUpload, L"C:\\Projects\\LuxMock\\sunset.jpg",
+        m_background.ReleaseAndGetAddressOf(), false));
 #else
+    *((DWORD *)m_ddsLuxScreen) = DDS_MAGIC;
+    DDS_HEADER *header = (DDS_HEADER *)(m_ddsLuxScreen+sizeof(DWORD));
+
+    memset(header, 0, sizeof(DDS_HEADER));
+    header->size              = sizeof(DDS_HEADER);
+    header->flags             = DDS_HEADER_FLAGS_TEXTURE | DDS_HEADER_FLAGS_PITCH | DDS_HEADER_FLAGS_MIPMAP;
+    header->height            = 256;
+    header->width             = 256;
+    header->pitchOrLinearSize = SCREEN_TEX_PITCH;
+    header->mipMapCount       = 1;
+    header->ddspf             = DDSPF_A8B8G8R8;
+    header->caps              = DDS_SURFACE_FLAGS_TEXTURE;
+
+    byte *tex = m_ddsLuxScreen+DDS_PREFIX;
+    for (int y=0; y<256; y++) {
+        for (int x=0; x<256; x++) {
+            tex[y*SCREEN_TEX_PITCH+x*4+0] = 64;
+            tex[y*SCREEN_TEX_PITCH+x*4+1] = 64;
+            tex[y*SCREEN_TEX_PITCH+x*4+2] = 64;
+            tex[y*SCREEN_TEX_PITCH+x*4+3] = 255;
+        }
+    }
+
+    m_ddsLuxAppleScreen = tex+((256-HGR_HEIGHT)/2)*SCREEN_TEX_PITCH+((256-HGR_WIDTH)/2)*4;
+    for (int y=0; y<HGR_HEIGHT; y++) {
+        for (int x=0; x<HGR_WIDTH; x++) {
+            /*m_ddsLuxAppleScreen[y*SCREEN_TEX_PITCH+x*4+0] = rand()%256;
+            m_ddsLuxAppleScreen[y*SCREEN_TEX_PITCH+x*4+1] = rand()%256;
+            m_ddsLuxAppleScreen[y*SCREEN_TEX_PITCH+x*4+2] = rand()%256;*/
+            m_ddsLuxAppleScreen[y*SCREEN_TEX_PITCH+x*4+0] = 0;
+            m_ddsLuxAppleScreen[y*SCREEN_TEX_PITCH+x*4+1] = 0;
+            m_ddsLuxAppleScreen[y*SCREEN_TEX_PITCH+x*4+2] = 0;
+        }
+    }
+
     DX::ThrowIfFailed(
-        CreateDDSTextureFromFile(device, resourceUpload, L"cat.dds",
-            m_texture.ReleaseAndGetAddressOf()));
+        CreateDDSTextureFromMemory(device, resourceUpload, m_ddsLuxScreen, sizeof(m_ddsLuxScreen), m_background.ReleaseAndGetAddressOf(), true));
 #endif
 
-    CreateShaderResourceView(device, m_texture.Get(),
-        m_resourceDescriptors->GetCpuHandle(Descriptors::Cat));
-
-    DX::ThrowIfFailed(
-        CreateWICTextureFromFile(device, resourceUpload, L"sunset.jpg",
-            m_background.ReleaseAndGetAddressOf(), false));
-
     CreateShaderResourceView(device, m_background.Get(),
-        m_resourceDescriptors->GetCpuHandle(Descriptors::Background));*/
+        m_resourceDescriptors->GetCpuHandle(Descriptors::Background));
 
     RenderTargetState rtState(m_deviceResources->GetBackBufferFormat(),
         m_deviceResources->GetDepthBufferFormat());
@@ -359,22 +323,7 @@ void Game::CreateDeviceDependentResources()
         nullptr, nullptr, nullptr, &sampler);
 #endif
 
-/*    m_spriteBatch = std::make_unique<SpriteBatch>(device, resourceUpload, pd);
-
-    XMUINT2 catSize = GetTextureSize(m_texture.Get());
-
-#if 0
-    m_origin.x = float(catSize.x / 2);
-    m_origin.y = float(catSize.y / 2);
-#else
-    m_origin.x = float(catSize.x * 2);
-    m_origin.y = float(catSize.y * 2);
-
-    m_tileRect.left = catSize.x * 2;
-    m_tileRect.right = catSize.x * 6;
-    m_tileRect.top = catSize.y * 2;
-    m_tileRect.bottom = catSize.y * 6;
-#endif*/
+    m_spriteBatch = std::make_unique<SpriteBatch>(device, resourceUpload, pd);
 
     auto uploadResourcesFinished = resourceUpload.End(
         m_deviceResources->GetCommandQueue());
@@ -387,7 +336,7 @@ void Game::CreateWindowSizeDependentResources()
 {
     // TODO: Initialize windows-size dependent objects here.
     auto viewport = m_deviceResources->GetScreenViewport();
-    //m_spriteBatch->SetViewport(viewport);
+    m_spriteBatch->SetViewport(viewport);
 
     auto size = m_deviceResources->GetOutputSize();
     m_screenPos.x = float(size.right) / 2.f;
@@ -404,9 +353,8 @@ void Game::CreateWindowSizeDependentResources()
 void Game::OnDeviceLost()
 {
     // TODO: Add Direct3D resource cleanup here.
-    //m_spriteBatch.reset();
+    m_spriteBatch.reset();
     m_background.Reset();
-    //m_texture.Reset();
     m_resourceDescriptors.reset();
     m_states.reset();
 

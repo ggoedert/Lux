@@ -62,6 +62,12 @@ bool Application_Start(char *name, word version, LoadApplication loadApplication
     return loadApplication();
 }
 
+#ifndef __CC65__
+void Application_Stop() {
+    Screen_Finalize();
+}
+#endif
+
 bool Application_Step() {
     Scene_Run();
     Time_Run();
@@ -72,7 +78,7 @@ bool Application_Step() {
 #endif
 
 #ifdef _DEBUG
-void Application_Stop() {
+void Application_Quit() {
     Application_isPlaying = false;
 }
 #endif

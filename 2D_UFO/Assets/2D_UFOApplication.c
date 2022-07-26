@@ -30,7 +30,7 @@ bool mainStep() {
 
 void mainStop() {
     MainScene_Unload();
-    Screen_Finalize();
+    Application_Stop();
     Debug_Dequeue();
 }
 #endif

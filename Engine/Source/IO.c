@@ -1,3 +1,7 @@
+#ifndef __CC65__
+#include <string.h>
+#endif
+
 #define IO_EXTERNAL
 #include "IO.h"
 

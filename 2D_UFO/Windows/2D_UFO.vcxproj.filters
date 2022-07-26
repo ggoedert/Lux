@@ -54,6 +54,9 @@
     <ClInclude Include="..\Assets\ResourceUFO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DDS.h">
+      <Filter>Header Files\Windows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceResources.cpp">

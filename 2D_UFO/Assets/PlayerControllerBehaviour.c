@@ -82,7 +82,7 @@ void PlayerControllerBehaviour_Update(GameObject *gameObject, PlayerControllerBe
         Debug_Log("PlayerControllerBehaviour_Update %d", secs);
         this->lastSecs = secs;
 #ifdef _DEBUG
-        Application_Stop(); //run only once
+        //Application_Quit(); //run only once
 #endif
     }
 }
