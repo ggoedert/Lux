@@ -98,7 +98,7 @@ void Game::Update(DX::StepTimer const& timer)
 
     // TODO: Add your game logic here.
     elapsedTime;
-    
+
     // game step
     if (!mainStep())
         PostQuitMessage(0);
@@ -119,7 +119,16 @@ void Game::Render()
 
     // Prepare the command list to render a new frame.
     m_deviceResources->Prepare();
+
+    auto device = m_deviceResources->GetD3DDevice();
+
+    // Clear back buffers
+    ResourceUploadBatch resourceUpload(device);
+    resourceUpload.Begin();
     Clear();
+    auto uploadResourcesFinished = resourceUpload.End(
+        m_deviceResources->GetCommandQueue());
+    uploadResourcesFinished.wait();
 
     auto commandList = m_deviceResources->GetCommandList();
     PIXBeginEvent(commandList, PIX_COLOR_DEFAULT, L"Render");
@@ -127,6 +136,23 @@ void Game::Render()
     // TODO: Add your rendering code here.
     ID3D12DescriptorHeap* heaps[] = { m_resourceDescriptors->Heap(), m_states->Heap() };
     commandList->SetDescriptorHeaps(static_cast<UINT>(std::size(heaps)), heaps);
+
+    // Updated background
+    for (int y=0; y<HGR_HEIGHT; y++) {
+        for (int x=0; x<HGR_WIDTH; x++) {
+            m_ddsLuxAppleScreen[y*SCREEN_TEX_PITCH+x*4+0] = rand()%256;
+            m_ddsLuxAppleScreen[y*SCREEN_TEX_PITCH+x*4+1] = rand()%256;
+            m_ddsLuxAppleScreen[y*SCREEN_TEX_PITCH+x*4+2] = rand()%256;
+        }
+    }
+    resourceUpload.Begin();
+    DX::ThrowIfFailed(
+        CreateDDSTextureFromMemory(device, resourceUpload, m_ddsLuxScreen, sizeof(m_ddsLuxScreen), m_background.ReleaseAndGetAddressOf(), true));
+    CreateShaderResourceView(device, m_background.Get(),
+                             m_resourceDescriptors->GetCpuHandle(Descriptors::Background));
+    uploadResourcesFinished = resourceUpload.End(
+        m_deviceResources->GetCommandQueue());
+    uploadResourcesFinished.wait();
 
 #if 1
     m_spriteBatch->Begin(commandList);
@@ -258,11 +284,7 @@ void Game::CreateDeviceDependentResources()
 
     resourceUpload.Begin();
 
-#if 0
-    DX::ThrowIfFailed(
-        CreateWICTextureFromFile(device, resourceUpload, L"C:\\Projects\\LuxMock\\sunset.jpg",
-        m_background.ReleaseAndGetAddressOf(), false));
-#else
+    // Init background
     *((DWORD *)m_ddsLuxScreen) = DDS_MAGIC;
     DDS_HEADER *header = (DDS_HEADER *)(m_ddsLuxScreen+sizeof(DWORD));
 
@@ -289,9 +311,6 @@ void Game::CreateDeviceDependentResources()
     m_ddsLuxAppleScreen = tex+((256-HGR_HEIGHT)/2)*SCREEN_TEX_PITCH+((256-HGR_WIDTH)/2)*4;
     for (int y=0; y<HGR_HEIGHT; y++) {
         for (int x=0; x<HGR_WIDTH; x++) {
-            /*m_ddsLuxAppleScreen[y*SCREEN_TEX_PITCH+x*4+0] = rand()%256;
-            m_ddsLuxAppleScreen[y*SCREEN_TEX_PITCH+x*4+1] = rand()%256;
-            m_ddsLuxAppleScreen[y*SCREEN_TEX_PITCH+x*4+2] = rand()%256;*/
             m_ddsLuxAppleScreen[y*SCREEN_TEX_PITCH+x*4+0] = 0;
             m_ddsLuxAppleScreen[y*SCREEN_TEX_PITCH+x*4+1] = 0;
             m_ddsLuxAppleScreen[y*SCREEN_TEX_PITCH+x*4+2] = 0;
@@ -300,7 +319,6 @@ void Game::CreateDeviceDependentResources()
 
     DX::ThrowIfFailed(
         CreateDDSTextureFromMemory(device, resourceUpload, m_ddsLuxScreen, sizeof(m_ddsLuxScreen), m_background.ReleaseAndGetAddressOf(), true));
-#endif
 
     CreateShaderResourceView(device, m_background.Get(),
         m_resourceDescriptors->GetCpuHandle(Descriptors::Background));
