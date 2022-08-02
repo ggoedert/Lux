@@ -58,6 +58,8 @@ private:
     void CreateDeviceDependentResources();
     void CreateWindowSizeDependentResources();
 
+    byte GetPixel(byte x, byte y);
+
     // Device resources.
     std::unique_ptr<DX::DeviceResources>        m_deviceResources;
 

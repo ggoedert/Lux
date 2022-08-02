@@ -24,8 +24,8 @@ bool mainStart() {
     return Application_Start("2D UFO", 1, mainLoad);
 }
 
-bool mainStep() {
-    return Application_Step();
+bool mainStep(void (*preVBlank)()) {
+    return Application_Step(preVBlank);
 }
 
 void mainStop() {

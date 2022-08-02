@@ -62,18 +62,17 @@ bool Application_Start(char *name, word version, LoadApplication loadApplication
     return loadApplication();
 }
 
-#ifndef __CC65__
-void Application_Stop() {
-    Screen_Finalize();
-}
-#endif
-
-bool Application_Step() {
+bool Application_Step(void (*preVBlank)()) {
     Scene_Run();
     Time_Run();
+    preVBlank();
     if (QualitySettings_vSync)
         Screen_WaitVBlank();
     return Application_isPlaying;
+}
+
+void Application_Stop() {
+    Screen_Finalize();
 }
 #endif
 
