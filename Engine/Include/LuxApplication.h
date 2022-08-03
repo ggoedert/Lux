@@ -19,6 +19,7 @@ enum {
 };
 
 typedef bool (*LoadApplication)();
+typedef void (*PreVBlank)();
 
 class (Application,
     byte machine;       // the type of Apple II
@@ -29,7 +30,7 @@ class (Application,
 void Application_Play(char *name, word version, LoadApplication loadApplication);
 #else
 bool Application_Start(char *name, word version, LoadApplication loadApplication);
-bool Application_Step(void (*preVBlank)());
+bool Application_Step(PreVBlank preVBlank);
 void Application_Stop();
 #endif
 #ifdef _DEBUG

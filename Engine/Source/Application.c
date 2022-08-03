@@ -62,7 +62,7 @@ bool Application_Start(char *name, word version, LoadApplication loadApplication
     return loadApplication();
 }
 
-bool Application_Step(void (*preVBlank)()) {
+bool Application_Step(PreVBlank preVBlank) {
     Scene_Run();
     Time_Run();
     preVBlank();

@@ -3,6 +3,6 @@
 
 #include "LuxScene.h"
 
-void SceneManager_LoadScene(Scene_Load scene_Loader);
+void SceneManager_LoadScene(Scene_Load scene_Load);
 
 #endif

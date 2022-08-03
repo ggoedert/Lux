@@ -83,11 +83,12 @@ using namespace DirectX;
 using Microsoft::WRL::ComPtr;
 
 extern "C" {
+    typedef void (*PreVBlank)();
     extern byte *memoryMain;
     extern byte *memoryAux;
     extern void (*System_PrintDebug)(char* lineBuffer);
     extern bool mainStart();
-    extern bool mainStep(void (*preVBlank)());
+    extern bool mainStep(PreVBlank preVBlank);
     extern void mainStop();
 }
 

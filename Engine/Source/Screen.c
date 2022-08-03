@@ -201,7 +201,7 @@ void Screen_Clear() {
                 *ptr++ = a;
                 *ptr++ = b;
                 do {
-                    size = ptr - (byte *)MEMORY(0x2000);
+                    size = ptr-(byte *)MEMORY(0x2000);
                     memcpy(ptr, (byte *)MEMORY(0x2000), size);
                     ptr += size;
                 } while (ptr<(byte *)MEMORY(0x4000));
